@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Mırtı TV</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{background:#0a0f18;color:#e8e6df;font-family:Inter,Segoe UI,sans-serif;overflow:hidden}
+header{height:64px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #1e2a44}
+.logo-area{display:flex;align-items:center;gap:12px;font-weight:800;font-size:22px}.logo-area img{height:42px;border-radius:8px}
+.search-area{display:flex;gap:10px}#search{background:#111d33;border:1px solid #233454;color:#fff;padding:10px 14px;border-radius:12px;width:200px;outline:none}
+#settingsBtn{background:#d4b78f;color:#111;border:none;padding:10px 16px;border-radius:12px;font-weight:700;cursor:pointer}
+#main{display:flex;height:calc(100vh - 64px)}#sidebar{width:300px;background:#0d1525;border-right:1px solid #1c2b4a;padding:14px;display:flex;flex-direction:column;gap:14px;overflow:auto}
+#sidebar nav button{width:100%;text-align:left;background:transparent;border:none;color:#aab7d1;padding:11px 12px;border-radius:10px;cursor:pointer;font-size:14px;display:flex;justify-content:space-between}
+#sidebar nav button.active,#sidebar nav button:hover{background:#1a2844;color:#fff}
+#groupList{display:flex;flex-wrap:wrap;gap:6px}#groupList span{background:#13203a;border:1px solid #22365e;padding:6px 10px;border-radius:20px;font-size:12px;cursor:pointer}
+#groupList span.active{background:#d4b78f;color:#111}
+#epgInfo{background:#111d33;border-radius:12px;padding:10px;font-size:13px}
+#content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#playerWrap{position:relative;background:#000;aspect-ratio:16/9;max-height:46vh;display:flex;align-items:center;justify-content:center}
+#video{width:100%;height:100%;background:#000;display:none}
+#idleScreen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:radial-gradient(600px at 50% 10%, #1e2f54, #080c14);text-align:center}
+#idleScreen img{width:200px;border-radius:18px}
+#nowPlaying{position:absolute;left:16px;bottom:16px;background:rgba(0,0,0,.7);padding:10px 14px;border-radius:12px;display:none}
+#grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;padding:16px;overflow:auto}
+.card{background:#121e33;border:1px solid #1e2e51;border-radius:14px;overflow:hidden;cursor:pointer}.card:hover{border-color:#d4b78f}
+.card .poster{aspect-ratio:2/3;background:#0d1525;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.card .poster img{width:100%;height:100%;object-fit:cover}.card.live .poster{aspect-ratio:16/10}
+.card .meta{padding:8px}.card .meta h4{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card .meta p{font-size:11px;color:#9bb0d0}
+.badge{position:absolute;top:6px;left:6px;background:#e11d48;color:#fff;font-size:10px;padding:3px 7px;border-radius:20px}
+.favBtn{position:absolute;top:6px;right:6px;background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:50%;width:26px;height:26px;cursor:pointer}
+.hidden{display:none!important}#settingsModal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:flex;align-items:center;justify-content:center;z-index:99}
+.modal{background:#101b30;border:1px solid #22365e;width:520px;max-width:92vw;border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:10px}
+.modal input{background:#0a1222;border:1px solid #22365e;color:#fff;padding:10px 12px;border-radius:10px;width:100%}
+.modal label{font-size:13px;color:#aab7d1}.modal .row{display:flex;gap:10px}
+#loadBtn{background:#d4b78f;color:#111;border:none;padding:11px 16px;border-radius:10px;font-weight:800;cursor:pointer;flex:1}
+#closeSettings{background:transparent;border:1px solid #33486f;color:#fff;padding:11px 16px;border-radius:10px;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="app">
+<header><div class="logo-area"><span>🎩 Mırtı TV</span></div><div class="search-area"><input id="search" placeholder="Ara..."><button id="settingsBtn">Kaynaklar</button></div></header>
+<div id="main">
+<aside id="sidebar">
+<nav>
+<button data-tab="live" class="active">📺 Canlı <span id="count-live"></span></button>
+<button data-tab="movie">🎬 Filmler <span id="count-movie"></span></button>
+<button data-tab="series">🎞️ Diziler <span id="count-series"></span></button>
+<button data-tab="radio">📻 Radyo <span id="count-radio"></span></button>
+<button data-tab="fav">⭐ Favoriler</button>
+</nav>
+<div id="groupList"></div>
+<div id="epgInfo"><h4>EPG</h4><div id="epgCurrent">Kanal seç</div></div>
+</aside>
+<section id="content">
+<div id="playerWrap"><video id="video" controls playsinline></video><div id="idleScreen"><h1 style="font-size:42px">🎩 Mırtı TV</h1><p>Bir kanal seç, keyfine bak baba</p><small style="color:#9bb0d0">M3U + EPG destekli • Posterli Netflix tasarımı</small></div><div id="nowPlaying"></div></div>
+<div id="grid"></div>
+</section>
+</div>
+<div id="settingsModal"><div class="modal">
+<h2>Kaynakları Yönet</h2>
+<label>M3U URL (playlist.m3u)</label><input id="m3uUrl" placeholder="https://.../playlist.m3u">
+<label>M3U Dosyası Yükle</label><input type="file" id="m3uFile" accept=".m3u,.m3u8,.txt">
+<label>EPG URL (epg.xml / epg.xml.gz)</label><input id="epgUrl" placeholder="https://.../epg.xml">
+<label>EPG Dosyası</label><input type="file" id="epgFile" accept=".xml,.gz">
+<div class="row"><button id="loadBtn">Yükle ve Başlat</button><button id="closeSettings">Kapat</button></div>
+<small style="color:#9bb0d0">İpucu: NOW TV linki |Referer=https://www.nowtv.com.tr/ ile biterse geç açılma düzelir. Film/Dizi grupları otomatik ayrılır.</small>
+<div id="loadStatus"></div>
+</div></div>
+</div>
+<script>
+const $=s=>document.querySelector(s);let channels=[],epg={},currentGroup=null,currentTab='live',hls=null,favs=JSON.parse(localStorage.getItem('mirti_fav')||'[]');
+function isMovieGroup(g){return /film|movie|sinema|vod|cinema/i.test(g);}function isSeriesGroup(g){return /dizi|series|serial|sezon/i.test(g);}function isRadioGroup(g){return /radyo|radio|türkü|turku/i.test(g);}
+function parseM3U(text){const lines=text.split('\n');let list=[];let cur=null;for(let l of lines){l=l.trim();if(!l)continue;if(l.startsWith('#EXTINF')){cur={};const lo=l.match(/tvg-logo="([^"]+)"/);if(lo)cur.logo=lo[1];const id=l.match(/tvg-id="([^"]+)"/);if(id)cur.tvgId=id[1];const gr=l.match(/group-title="([^"]+)"/);cur.group=gr?gr[1]:'Genel';const comma=l.lastIndexOf(',');cur.title=comma>-1?l.slice(comma+1).trim():`Kanal ${list.length+1}`;}else if(cur&&!l.startsWith('#')){let url=l;if(url.includes('|'))url=url.split('|')[0];cur.url=url.trim();const g=cur.group||'';if(isRadioGroup(g))cur.type='radio';else if(isMovieGroup(g)||url.toLowerCase().match(/\.mp4|\.mkv/))cur.type='movie';else if(isSeriesGroup(g))cur.type='series';else cur.type='live';if(isMovieGroup(g))cur.type='movie';if(isSeriesGroup(g))cur.type='series';if(isRadioGroup(g))cur.type='radio';list.push(cur);cur=null;}}return list;}
+function parseEPG(xmlText){try{const p=new DOMParser();const doc=p.parseFromString(xmlText,'text/xml');const map={};doc.querySelectorAll('programme').forEach(pr=>{const ch=pr.getAttribute('channel');const title=pr.querySelector('title')?.textContent||'';const desc=pr.querySelector('desc')?.textContent||'';if(!map[ch])map[ch]=[];map[ch].push({title,desc,start:pr.getAttribute('start')});});return map;}catch(e){return {};}}
+function getNowEPG(ch){const keys=[ch.tvgId,ch.title].filter(Boolean);for(let k of keys){if(epg[k]&&epg[k].length)return epg[k][0];}const low=ch.title.toLowerCase();for(let ek of Object.keys(epg)){if(ek.toLowerCase().includes(low)||low.includes(ek.toLowerCase()))return epg[ek][0];}return null;}
+function renderGroups(){const groups=[...new Set(channels.filter(c=>c.type===currentTab||(currentTab==='fav'&&favs.includes(c.url))).map(c=>c.group))];const gl=$('#groupList');gl.innerHTML='';const all=document.createElement('span');all.textContent='Tümü';if(!currentGroup)all.classList.add('active');all.onclick=()=>{currentGroup=null;renderGrid();renderGroups();};gl.appendChild(all);groups.forEach(g=>{const s=document.createElement('span');s.textContent=g;if(g===currentGroup)s.classList.add('active');s.onclick=()=>{currentGroup=currentGroup===g?null:g;renderGrid();renderGroups();};gl.appendChild(s);});}
+function renderGrid(){const grid=$('#grid');const q=$('#search').value.toLowerCase();let list=channels.filter(c=>{if(currentTab==='fav')return favs.includes(c.url);return c.type===currentTab;});if(currentGroup)list=list.filter(c=>c.group===currentGroup);if(q)list=list.filter(c=>c.title.toLowerCase().includes(q)||(c.group||'').toLowerCase().includes(q));grid.innerHTML='';list.forEach(ch=>{const card=document.createElement('div');card.className='card '+ch.type;const poster=document.createElement('div');poster.className='poster';if(ch.logo){const img=document.createElement('img');img.src=ch.logo;poster.appendChild(img);}else{poster.innerHTML=`<div style="font-size:32px">${ch.type==='movie'?'🎬':ch.type==='series'?'🎞️':ch.type==='radio'?'📻':'📺'}</div>`;}if(ch.type==='live'){const b=document.createElement('div');b.className='badge';b.textContent='CANLI';poster.appendChild(b);}const fav=document.createElement('button');fav.className='favBtn';fav.textContent=favs.includes(ch.url)?'★':'☆';fav.onclick=e=>{e.stopPropagation();if(favs.includes(ch.url))favs=favs.filter(u=>u!==ch.url);else favs.push(ch.url);localStorage.setItem('mirti_fav',JSON.stringify(favs));fav.textContent=favs.includes(ch.url)?'★':'☆';};poster.appendChild(fav);const meta=document.createElement('div');meta.className='meta';const en=getNowEPG(ch);meta.innerHTML=`<h4>${ch.title}</h4><p>${en?en.title:ch.group||''}</p>`;card.appendChild(poster);card.appendChild(meta);card.onclick=()=>playChannel(ch);grid.appendChild(card);});$('#count-live').textContent=`(${channels.filter(c=>c.type==='live').length})`;$('#count-movie').textContent=`(${channels.filter(c=>c.type==='movie').length})`;$('#count-series').textContent=`(${channels.filter(c=>c.type==='series').length})`;$('#count-radio').textContent=`(${channels.filter(c=>c.type==='radio').length})`;}
+function playChannel(ch){const video=$('#video');const idle=$('#idleScreen');const np=$('#nowPlaying');idle.style.display='none';video.style.display='block';np.style.display='block';np.innerHTML=`<b>${ch.title}</b> • ${ch.group||''}`;const en=getNowEPG(ch);if(en)$('#epgCurrent').innerHTML=`<b>${ch.title}</b><br>${en.title}<br><small>${en.desc||''}</small>`;if(hls){hls.destroy();hls=null;}let url=ch.url;if(url.includes('.m3u8')){if(Hls.isSupported()){hls=new Hls();hls.loadSource(url);hls.attachMedia(video);hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play());}else{video.src=url;video.play();}}else{video.src=url;video.play();}}
+$('#settingsBtn').onclick=()=>$('#settingsModal').classList.remove('hidden');$('#closeSettings').onclick=()=>$('#settingsModal').classList.add('hidden');
+$('#loadBtn').onclick=async()=>{const m3uUrl=$('#m3uUrl').value.trim();const epgUrl=$('#epgUrl').value.trim();const st=$('#loadStatus');st.textContent='Yükleniyor...';try{if(m3uUrl){const r=await fetch(m3uUrl);const txt=await r.text();channels=parseM3U(txt);localStorage.setItem('mirti_m3u',txt);localStorage.setItem('mirti_m3u_url',m3uUrl);}if(epgUrl){const r=await fetch(epgUrl);const txt=await r.text();epg=parseEPG(txt);localStorage.setItem('mirti_epg_url',epgUrl);}renderGroups();renderGrid();st.textContent=`${channels.length} kanal yüklendi`;$('#settingsModal').classList.add('hidden');}catch(e){st.textContent='Hata '+e.message;}};
+$('#m3uFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;const txt=await f.text();channels=parseM3U(txt);localStorage.setItem('mirti_m3u',txt);renderGroups();renderGrid();$('#loadStatus').textContent=`${channels.length} kanal`;});
+$('#epgFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;let txt;if(f.name.endsWith('.gz')){const buf=await f.arrayBuffer();const ds=new DecompressionStream('gzip');txt=await new Response(new Blob([buf]).stream().pipeThrough(ds)).text();}else txt=await f.text();epg=parseEPG(txt);renderGroups();renderGrid();});
+document.querySelectorAll('#sidebar nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#sidebar nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentTab=b.dataset.tab;currentGroup=null;renderGroups();renderGrid();}));
+$('#search').addEventListener('input',renderGrid);
+(function(){const saved=localStorage.getItem('mirti_m3u');if(saved){channels=parseM3U(saved);renderGroups();renderGrid();}const mu=localStorage.getItem('mirti_m3u_url');if(mu)$('#m3uUrl').value=mu;const eu=localStorage.getItem('mirti_epg_url');if(eu)$('#epgUrl').value=eu;if(!saved)$('#settingsModal').classList.remove('hidden');else $('#settingsModal').classList.add('hidden');})();
+</script>
+</body>
+</html>
