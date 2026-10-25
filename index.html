@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v44 Logo Fallback</title>
+<title>Mırtı TV v45 Gerçek Hız</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -61,29 +61,35 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 </style>
 </head>
 <body>
-<header><div class="logo"><img id="headerLogo" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:5px"><span id="netSpeed" style="font-size:8px;background:#101c33;border:1px solid #1e2f52;padding:4px 9px;border-radius:10px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: 41.7 Mbps</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 10px;border-radius:5px;font-weight:800;font-size:11px">AYAR</button></div></header>
+<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:5px"><span id="netSpeed" style="font-size:8px;background:#101c33;border:1px solid #1e2f52;padding:4px 9px;border-radius:10px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 10px;border-radius:5px;font-weight:800;font-size:11px">AYAR</button></div></header>
 <div class="top"><button data-tab="live" class="on" id="bLive">Canlı</button><button data-tab="movie" id="bMovie">Film</button><button data-tab="series" id="bSeries">Dizi</button><button data-tab="radio" id="bRadio">Radyo</button><button data-tab="fav" id="bFav">Fav</button><input id="search" placeholder="Ara" style="margin-left:auto;width:60px;background:#0a1222;border:1px solid #1e2f52;color:#fff;padding:2px 5px;border-radius:10px;font-size:8px"></div>
-<div id="playerCol"><div id="player"><video id="video" controls playsinline style="width:100%;height:100%;display:none"></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Ulusal gruptan açılıyor...</span></div></div>
+<div id="playerCol"><div id="player"><video id="video" controls playsinline style="width:100%;height:100%;display:none"></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
 <div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
 <div id="list"><div id="grid" class="live"></div></div>
 
 <div id="speedModal" class="hidden"><div class="speedBox">
 <b style="letter-spacing:2px;font-size:14px">SPEEDTEST</b>
-<div style="font-size:11px;color:#00a8b5">DOWNLOAD Mbps</div>
+<div style="font-size:11px;color:#00a8b5">DOWNLOAD Mbps - GERÇEK ÖLÇÜM</div>
 <div style="width:260px;height:120px"><svg viewBox="0 0 200 120"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#e5e5e5" stroke-width="12" stroke-linecap="round"/><path id="arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#00d2e0" stroke-width="12" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/><line id="needle" x1="100" y1="100" x2="40" y2="40" stroke="#333" stroke-width="3" stroke-linecap="round"/></svg></div>
-<div id="speedNum" class="speedVal">41.68</div>
+<div id="speedNum" class="speedVal">0.00</div>
 <div style="font-size:10px;color:#00a8b5">Mbps</div>
-<div style="display:flex;gap:20px;font-size:11px;margin-top:6px"><span>Ping ms <b id="pingVal">18</b></span><span>↓ <b id="downVal">41</b></span></div>
-<div style="font-size:10px;color:#666;margin-top:8px">Türk Telekom - Konya</div>
-<div style="display:flex;gap:6px;width:100%;margin-top:10px"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:10px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div>
+<div style="display:flex;gap:20px;font-size:11px;margin-top:6px"><span>Ping ms <b id="pingVal">-</b></span><span>↓ <b id="downVal">-</b></span><span>Size <b id="sizeVal">-</b></span></div>
+<div id="speedInfo" style="font-size:10px;color:#666;margin-top:8px">Ölçüm için BAŞLAT'a bas</div>
+<div style="display:flex;gap:6px;width:100%;margin-top:10px"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:10px;border-radius:8px;font-weight:800">BAŞLAT - GERÇEK ÖLÇ</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div>
 </div></div>
 
-<div id="modal" class="hidden"><div class="box"><b style="font-size:12px">M3U / EPG Yükle</b><input id="m3uIn" placeholder="M3U Linki"><input id="epgIn" placeholder="EPG Linki"><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:5px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:8px;border-radius:5px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:8px;border-radius:5px">KAPAT</button></div><div id="stat" style="font-size:9px;color:#8fb0ff;white-space:pre-wrap;max-height:100px;overflow:auto"></div></div></div>
+<div id="modal" class="hidden"><div class="box"><b style="font-size:12px">M3U / EPG Yükle - Liste gelmiyorsa</b><input id="m3uIn" placeholder="M3U Linki"><input id="epgIn" placeholder="EPG Linki"><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:5px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:8px;border-radius:5px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:8px;border-radius:5px">KAPAT</button></div><div id="stat" style="font-size:9px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
 
 <script>
-var M3U_URL="https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/m%C4%B1rt%C4%B168.m3u";
+var M3U_URLS=[
+"https://cdn.jsdelivr.net/gh/ipmirti68/-p@main/m%C4%B1rt%C4%B168.m3u",
+"https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/m%C4%B1rt%C4%B168.m3u",
+"https://raw.githubusercontent.com/ipmirti68/-p/main/m%C4%B1rt%C4%B168.m3u",
+"https://api.allorigins.win/raw?url=https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/m%C4%B1rt%C4%B168.m3u"
+];
 var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
 var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
+var SPEED_TEST_URL="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
 var channels=[],epg={},curGroup=null,curTab="live",hls=null,groupOrder=[],favs=[],curCh=null;
 try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
 
@@ -226,20 +232,17 @@ function renderGroups(){
     }
     if(!has)continue;
     var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); div.textContent=g+" "+cnt;
-    div.onclick=(function(gg){return function(){curGroup=gg; renderGrid(); renderGroups(); setTimeout(function(){var el=document.querySelector(".gChip.on"); if(el)el.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});},100);};})(g);
+    div.onclick=(function(gg){return function(){curGroup=gg; renderGrid(); renderGroups();};})(g);
     gl.appendChild(div);
   }
-  setTimeout(function(){
-    var el=document.querySelector(".gChip.on");
-    if(el)el.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});
-  },200);
+  setTimeout(function(){var el=document.querySelector(".gChip.on"); if(el)el.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});},200);
 }
 function renderGrid(){
   var grid=$("grid"); if(!grid)return; grid.innerHTML="";
   var list=getFiltered();
   if(list.length==0 && channels.length==0){
     var d=document.createElement("div"); d.style.cssText="color:#ff9a3d;padding:20px;text-align:center;font-size:11px";
-    d.textContent="Liste boş - AYAR'a bas"; grid.appendChild(d); return;
+    d.textContent="Liste boş - AYAR'a bas veya sayfayı yenile"; grid.appendChild(d); return;
   }
   if(list.length==0 && curTab=="fav"){
     var d2=document.createElement("div"); d2.style.cssText="color:#888;padding:20px;text-align:center;font-size:11px";
@@ -317,4 +320,155 @@ function play(ch){
   renderGrid();
 }
 function findUlusalGroup(){
-  for
+  for(var i=0;i<groupOrder.length;i++){
+    var g=groupOrder[i];
+    if(norm(g).indexOf("ulusal")!=-1)return g;
+  }
+  return null;
+}
+function measureSpeed(url){
+  return new Promise(function(resolve,reject){
+    var start=performance.now();
+    fetch(url+"?t="+Date.now()+"&r="+Math.random(),{cache:"no-store"}).then(function(r){
+      if(!r.ok)throw new Error("HTTP "+r.status);
+      return r.blob();
+    }).then(function(blob){
+      var end=performance.now();
+      var durationMs=end-start;
+      var durationSec=durationMs/1000;
+      if(durationSec<0.01)durationSec=0.01;
+      var bytes=blob.size;
+      var bits=bytes*8;
+      var mbps=(bits/1000000)/durationSec;
+      resolve({mbps:mbps, ms:durationMs, bytes:bytes});
+    }).catch(function(e){reject(e);});
+  });
+}
+function doSpeedTest(isAuto){
+  var arc=$("arc"), needle=$("needle"), num=$("speedNum"), pingEl=$("pingVal"), downEl=$("downVal"), sizeEl=$("sizeVal"), infoEl=$("speedInfo");
+  if(!arc)return;
+  num.textContent="..."; pingEl.textContent="..."; downEl.textContent="..."; if(sizeEl)sizeEl.textContent="...";
+  if(infoEl)infoEl.textContent="Gerçek indirme ölçülüyor...";
+  var testUrl=SPEED_TEST_URL;
+  measureSpeed(testUrl).then(function(res){
+    var mbps=res.mbps;
+    var ms=res.ms;
+    var kb=Math.round(res.bytes/1024);
+    pingEl.textContent=Math.round(ms);
+    downEl.textContent=mbps.toFixed(1);
+    if(sizeEl)sizeEl.textContent=kb+" KB";
+    num.textContent=mbps.toFixed(2);
+    if(infoEl)infoEl.textContent="Gerçek ölçüm: "+kb+" KB "+Math.round(ms)+"ms de indi";
+    $("netSpeed").textContent="Net: "+mbps.toFixed(1)+" Mbps";
+    var pct=Math.min(mbps/100*100,100);
+    var dash=251-pct/100*251;
+    arc.style.strokeDashoffset=dash;
+    var angle=-90+ (pct/100*180);
+    if(angle>90)angle=90;
+    var rad=angle*Math.PI/180;
+    var x=100+60*Math.cos(rad); var y=100+60*Math.sin(rad);
+    needle.setAttribute("x2",x); needle.setAttribute("y2",y);
+    if(isAuto){
+      setTimeout(function(){var m=$("speedModal"); if(m && !m.classList.contains("hidden") && isAuto){} },1000);
+    }
+  }).catch(function(e){
+    pingEl.textContent="hata";
+    if(infoEl)infoEl.textContent="Ölçüm hatası: "+e.message;
+    num.textContent="0.00";
+    $("netSpeed").textContent="Net: Hata";
+  });
+}
+function loadM3UFromUrls(idx){
+  if(idx==null)idx=0;
+  if(idx>=M3U_URLS.length){
+    setLoad(0,"Tüm linkler başarısız - AYAR'a bas");
+    $("stat").textContent="Otomatik yüklenemedi, AYAR'dan dosya seç\nDenenen: "+M3U_URLS.join("\n");
+    $("modal").classList.remove("hidden");
+    return;
+  }
+  var url=M3U_URLS[idx];
+  setLoad(10+idx*10,"Deneniyor "+(idx+1)+"/"+M3U_URLS.length);
+  $("epgNow").textContent="M3U deneniyor "+(idx+1)+": "+url.slice(0,50)+"...";
+  fetch(url,{cache:"no-store"}).then(function(r){
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    return r.text();
+  }).then(function(t){
+    if(t.length<100)throw new Error("dosya boş "+t.length);
+    setLoad(50,t.length+" bayt okundu - ayrılıyor");
+    channels=parseM3U(t);
+    if(channels.length==0)throw new Error("0 kanal bulundu");
+    var ul=findUlusalGroup();
+    if(ul){curGroup=ul; setLoad(70,"Ulusal bulundu: "+ul+" - "+channels.length+" kanal");}
+    else{curGroup=groupOrder[0]; setLoad(70,channels.length+" kanal - ilk grup: "+curGroup);}
+    renderGroups(); renderGrid();
+    setLoad(80,"EPG yükleniyor...");
+    fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){
+      epg=parseEPG(xe);
+      var keys=Object.keys(epg);
+      setLoad(100,keys.length+" EPG | "+channels.length+" kanal - Ulusal seçili");
+      setTimeout(function(){var lw=$("loadWrap"); if(lw)lw.style.display="none";},1000);
+      renderGrid();
+    }).catch(function(e){setLoad(90,channels.length+" kanal - Ulusal seçili - EPG yok"); renderGrid();});
+  }).catch(function(e){
+    setLoad(5,"Link "+(idx+1)+" başarısız: "+e.message);
+    $("stat").textContent="Link "+(idx+1)+" hata: "+e.message+"\n"+url;
+    setTimeout(function(){loadM3UFromUrls(idx+1);},700);
+  });
+}
+function init(){
+  setLoad(5,"Başlıyor...");
+  var setBtn=$("setBtn"); if(setBtn){setBtn.onclick=function(){$("modal").classList.remove("hidden");};}
+  var closeBtn=$("closeBtn"); if(closeBtn){closeBtn.onclick=function(){$("modal").classList.add("hidden");};}
+  var leftArrow=$("leftArrow"); if(leftArrow){leftArrow.onclick=function(){$("groups").scrollBy({left:-120,behavior:"smooth"});};}
+  var rightArrow=$("rightArrow"); if(rightArrow){rightArrow.onclick=function(){$("groups").scrollBy({left:120,behavior:"smooth"});};}
+  var search=$("search"); if(search){search.addEventListener("input",function(){renderGrid();});}
+  var netSpeed=$("netSpeed"); if(netSpeed){netSpeed.onclick=function(){$("speedModal").classList.remove("hidden"); doSpeedTest(false);};}
+  var closeSpeed=$("closeSpeed"); if(closeSpeed){closeSpeed.onclick=function(){$("speedModal").classList.add("hidden");};}
+  var startTest=$("startTest"); if(startTest){startTest.onclick=function(){doSpeedTest(false);};}
+  var tabs=document.querySelectorAll(".top button");
+  for(var i=0;i<tabs.length;i++){
+    tabs[i].addEventListener("click",(function(btn){return function(){
+      for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on");
+      btn.classList.add("on"); curTab=btn.dataset.tab;
+      if(curTab=="live"){var ul=findUlusalGroup(); if(ul)curGroup=ul; else curGroup=null;} else curGroup=null;
+      renderGroups(); renderGrid();
+    };})(tabs[i]));
+  }
+  var loadBtn=$("loadBtn");
+  if(loadBtn){
+    loadBtn.onclick=function(){
+      var m3u=$("m3uIn").value.trim();
+      if(m3u){
+        setLoad(20,"Elle yükleniyor...");
+        fetch(m3u).then(function(r){return r.text();}).then(function(t){
+          var add=parseM3U(t); channels=add;
+          var ul=findUlusalGroup(); if(ul)curGroup=ul;
+          renderGroups(); renderGrid();
+          setLoad(100,add.length+" kanal - Ulusal seçili"); $("modal").classList.add("hidden");
+          var lw=$("loadWrap"); if(lw)lw.style.display="none";
+        }).catch(function(e){$("stat").textContent="Hata: "+e.message;});
+      }
+    };
+  }
+  var fileIn=$("fileIn");
+  if(fileIn){
+    fileIn.addEventListener("change",function(e){
+      var file=e.target.files[0]; if(!file)return;
+      var reader=new FileReader();
+      reader.onload=function(ev){
+        var txt=ev.target.result;
+        if(file.name.endsWith(".xml")){var newEpg=parseEPG(txt); for(var k in newEpg)epg[k]=newEpg[k]; $("stat").textContent="EPG ok"; renderGrid();}
+        else{var add=parseM3U(txt); channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; renderGroups(); renderGrid(); setLoad(100,"Dosyadan "+add.length+" kanal - Ulusal seçili"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none";}
+      };
+      reader.readAsText(file);
+    });
+  }
+
+  loadM3UFromUrls(0);
+  setTimeout(function(){doSpeedTest(true);},1500);
+}
+
+init();
+</script>
+</body>
+</html>
