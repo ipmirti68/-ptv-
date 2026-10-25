@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v30</title>
+<title>Mırtı TV v31</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -14,16 +14,16 @@ header{height:44px;background:#0f1726;display:flex;align-items:center;justify-co
 .top{height:32px;background:#0d1525;display:flex;gap:4px;align-items:center;padding:0 6px;border-bottom:1px solid #1c2b4a;overflow:auto;flex-shrink:0}
 .top button{background:#101c33;border:1px solid #1e2f52;color:#aab7d1;padding:4px 10px;border-radius:12px;font-size:10px;white-space:nowrap;cursor:pointer}
 .top button.on{background:#d4b78f;color:#111;font-weight:800}
-#playerCol{height:44vh;min-height:260px;max-height:44vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
+#playerCol{height:42vh;min-height:240px;max-height:42vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
 #player{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #video{width:100%;height:100%;object-fit:contain;background:#000;z-index:2}
 #radioBg{position:absolute;inset:0;z-index:1;display:none;align-items:center;justify-content:center;background:#000}
 #radioBg img{max-width:70%;max-height:70%;object-fit:contain}
-#idle{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;gap:0}
-#idle img{width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;border-radius:0;display:block}
+#idle{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:#000}
+#idle img{width:auto;height:88%;max-width:96%;max-height:88%;object-fit:contain;border-radius:8px;display:block}
 #idle #info{display:none!important}
-#epgBar{height:28px;background:#111d33;padding:2px 8px;font-size:11px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0}
-#now{position:absolute;left:6px;bottom:34px;z-index:4;background:rgba(0,0,0,.7);padding:3px 6px;border-radius:4px;font-size:9px}
+#epgBar{height:26px;background:#111d33;padding:2px 8px;font-size:11px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0}
+#now{display:none}
 #groupsWrap{height:34px;min-height:34px;max-height:34px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 2px;gap:2px;flex-shrink:0}
 #groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:24px;height:24px;border-radius:50%;font-size:11px;cursor:pointer;flex-shrink:0}
 #groups{flex:1;display:flex;gap:5px;overflow:auto;scroll-behavior:smooth}
@@ -36,7 +36,6 @@ header{height:44px;background:#0f1726;display:flex;align-items:center;justify-co
 #grid.radio{grid-template-columns:repeat(2,1fr);gap:3px;padding:3px}
 .item{display:flex;align-items:center;gap:6px;background:#121e33;border:1px solid #1e2e51;border-radius:6px;padding:5px 7px;cursor:pointer;min-height:42px;max-width:100%}
 .item.radio{padding:3px 5px;min-height:36px}
-.item.radio .logoBox{width:22px;height:22px;min-width:22px}
 .logoBox{width:28px;height:28px;min-width:28px;background:#0d1525;border-radius:4px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
 .logoBox img{width:100%;height:100%;object-fit:contain}
 .info{flex:1;overflow:hidden;min-width:0}
@@ -51,7 +50,7 @@ header{height:44px;background:#0f1726;display:flex;align-items:center;justify-co
 <body>
 <header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:6px"><span id="netSpeed" style="font-size:8px;background:#101c33;border:1px solid #1e2f52;padding:4px 8px;border-radius:10px;color:#7ec8ff;cursor:pointer">Net: ...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 10px;border-radius:5px;font-weight:800;font-size:11px">Ayar</button></div></header>
 <div class="top"><button data-tab="live" class="on" id="bLive">Canlı</button><button data-tab="movie" id="bMovie">Film</button><button data-tab="series" id="bSeries">Dizi</button><button data-tab="radio" id="bRadio">Radyo</button><button data-tab="fav">Fav</button><input id="search" placeholder="Ara" style="margin-left:auto;width:70px;background:#0a1222;border:1px solid #1e2f52;color:#fff;padding:3px 6px;border-radius:10px;font-size:9px"></div>
-<div id="playerCol"><div id="player"><div id="radioBg"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/file_000000003b08820a96dea4b438a874d6.png"></div><video id="video" controls playsinline></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="info">Yükleniyor...</div></div><div id="now"></div></div><div id="epgBar"><div id="epgNow">EPG bekleniyor</div></div></div>
+<div id="playerCol"><div id="player"><div id="radioBg"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/file_000000003b08820a96dea4b438a874d6.png"></div><video id="video" controls playsinline></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"></div></div><div id="epgBar"><div id="epgNow">EPG bekleniyor</div></div></div>
 <div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
 <div id="list"><div id="grid"></div></div>
 <div id="modal" class="hidden"><div class="box"><b style="font-size:12px">M3U / EPG Yükle</b><input id="m3uIn" placeholder="M3U Linki"><input id="epgIn" placeholder="EPG Linki"><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:6px;border-radius:5px">Yükle</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:6px;border-radius:5px">Kapat</button></div><div id="stat" style="font-size:9px;color:#8fb0ff"></div></div></div>
@@ -64,14 +63,18 @@ try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
 function norm(s){return (s||"").toLowerCase().replace(/İ/g,"i").replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c");}
 function isSeriesGroup(g){
   var n=norm(g||"");
+  if(n.indexOf("yerli dizi")!=-1)return true;
+  if(n.indexOf("guncel dizi")!=-1)return true;
   if(n.indexOf("dizi")!=-1)return true;
   if(n.indexOf("sezon")!=-1)return true;
   if(n.indexOf("bolum")!=-1)return true;
   if(n.indexOf("series")!=-1)return true;
   if(n.indexOf("episode")!=-1)return true;
+  if(n.indexOf("platform")!=-1){
+    if(n.indexOf("dizi")!=-1)return true;
+  }
   if(n.indexOf("bein")!=-1){
     if(n.indexOf("dizi")!=-1)return true;
-    if(n.indexOf("series")!=-1)return true;
   }
   return false;
 }
@@ -92,18 +95,27 @@ function isMovieGroup(g,url){
     if(n.indexOf("dizi")!=-1)return false;
     return true;
   }
-  if(n.indexOf("bein")!=-1)return false;
-  if(n.indexOf("canli")!=-1)return false;
-  if(n.indexOf("live")!=-1)return false;
-  if(n.indexOf("spor")!=-1)return false;
-  if(n.indexOf("sport")!=-1)return false;
-  if(n.indexOf("haber")!=-1)return false;
-  if(n.indexOf("ulusal")!=-1)return false;
+  if(n.indexOf("yerli dizi")!=-1)return false;
+  if(n.indexOf("guncel dizi")!=-1)return false;
   if(n.indexOf("dizi")!=-1)return false;
   if(n.indexOf("sezon")!=-1)return false;
   if(n.indexOf("bolum")!=-1)return false;
+  if(n.indexOf("canli")!=-1)return false;
+  if(n.indexOf("live")!=-1)return false;
+  if(n.indexOf("bein")!=-1){
+    if(n.indexOf("film")==-1)return false;
+    if(n.indexOf("movie")==-1)return false;
+  }
+  if(n.indexOf("spor")!=-1)return false;
+  if(n.indexOf("haber")!=-1)return false;
   if(n.indexOf("film")!=-1)return true;
   if(n.indexOf("movie")!=-1)return true;
+  if(n.indexOf("sineturk")!=-1)return true;
+  if(n.indexOf("sine turk")!=-1)return true;
+  if(n.indexOf("kemal")!=-1)return true;
+  if(n.indexOf("sunal")!=-1)return true;
+  if(n.indexOf("yesilcam")!=-1)return true;
+  if(n.indexOf("turk filmi")!=-1)return true;
   if(n.indexOf("vod")!=-1)return true;
   if(n.indexOf("netflix")!=-1)return true;
   if(n.indexOf("sinema")!=-1)return true;
@@ -321,18 +333,15 @@ audio.style.position="absolute";audio.style.bottom="36px";audio.style.left="4px"
 $("#player").appendChild(audio);
 }
 audio.style.display="block";audio.src=ch.url;audio.play();
-now.style.display="block";now.textContent="Radyo "+ch.title;
 renderGrid();return;
 }else{
 rb.style.display="none";
 var audio=document.getElementById("audioPlayer");if(audio!=null)audio.style.display="none";
-v.style.display="block";now.style.display="block";
+v.style.display="block";
 if(en!=null){
 $("#epgNow").textContent=ch.title+" - "+en.title;
-now.textContent=ch.title+" - "+en.title;
 }else{
 $("#epgNow").textContent=ch.title+" - "+ch.group;
-now.textContent=ch.title;
 }
 if(hls!=null){hls.destroy();hls=null;}
 var url=ch.url;
@@ -436,7 +445,6 @@ else{document.exitFullscreen();}
 $("#leftArrow").onclick=function(){$("#groups").scrollBy({left:-140,behavior:"smooth"});};
 $("#rightArrow").onclick=function(){$("#groups").scrollBy({left:140,behavior:"smooth"});};
 function init(){
-$("#info").textContent="Yükleniyor...";
 updateNet();
 setInterval(updateNet,4000);
 var ns=$("#netSpeed");
