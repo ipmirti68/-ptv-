@@ -2,80 +2,136 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v3 - Final</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>Mırtı TV v4 - TV Mode</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}body{background:#080d16;color:#e8e6df;font-family:Inter,Segoe UI,sans-serif;overflow:hidden}
-header{height:64px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 16px;border-bottom:1px solid #1e2a44}
-.logo-area{display:flex;align-items:center;gap:10px;font-weight:900;font-size:20px}.logo-area img{height:40px;border-radius:8px}
-#search{background:#111d33;border:1px solid #233454;color:#fff;padding:9px 12px;border-radius:10px;width:200px}
-#settingsBtn{background:#d4b78f;color:#111;border:none;padding:9px 14px;border-radius:10px;font-weight:800;cursor:pointer}
-#main{display:flex;height:calc(100vh - 64px)}
-#sidebar{width:320px;background:#0d1525;border-right:1px solid #1c2b4a;padding:12px;display:flex;flex-direction:column;gap:12px;overflow:auto}
-#sidebar nav{display:flex;flex-direction:column;gap:4px}
-#sidebar nav button{width:100%;text-align:left;background:transparent;border:none;color:#aab7d1;padding:11px 12px;border-radius:10px;cursor:pointer;font-size:14px;display:flex;justify-content:space-between}
+*{box-sizing:border-box;margin:0;padding:0;touch-action:manipulation}
+body{background:#050a14;color:#e8e6df;font-family:Inter,Segoe UI,sans-serif;overflow:hidden;user-select:none}
+header{height:56px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #1e2a44}
+.logo-area{display:flex;align-items:center;gap:10px;font-weight:900;font-size:19px}.logo-area img{height:38px;border-radius:8px}
+#search{background:#111d33;border:1px solid #233454;color:#fff;padding:8px 12px;border-radius:10px;width:180px}
+#settingsBtn{background:#d4b78f;color:#111;border:none;padding:8px 14px;border-radius:10px;font-weight:800;cursor:pointer}
+#main{display:flex;height:calc(100vh - 56px)}
+#sidebar{width:320px;background:#0d1525;border-right:1px solid #1c2b4a;padding:10px;display:flex;flex-direction:column;gap:10px;overflow:auto;transition:.3s}
+#sidebar.hiddenTV{transform:translateX(-100%);position:absolute;z-index:20;height:calc(100vh - 56px)}
+#sidebar nav{display:flex;flex-direction:column;gap:3px}
+#sidebar nav button{width:100%;text-align:left;background:transparent;border:none;color:#aab7d1;padding:10px 11px;border-radius:10px;cursor:pointer;font-size:13px;display:flex;justify-content:space-between}
 #sidebar nav button.active{background:#1a2844;color:#fff;border:1px solid #2a3d65}
-#groupList{display:flex;flex-direction:column;gap:5px;max-height:45vh;overflow:auto}
-#groupList .gitem{display:flex;align-items:center;justify-content:space-between;background:#101c33;border:1px solid #1e2f52;padding:8px 10px;border-radius:10px;font-size:12px;cursor:pointer;color:#c7d5ee}
+#groupList{display:flex;flex-direction:column;gap:4px;max-height:38vh;overflow:auto}
+#groupList .gitem{display:flex;justify-content:space-between;background:#101c33;border:1px solid #1e2f52;padding:7px 10px;border-radius:9px;font-size:12px;cursor:pointer}
 #groupList .gitem.active{background:#d4b78f;color:#111;font-weight:700}
-#epgInfo{background:#111d33;border-radius:12px;padding:10px;font-size:12px;min-height:70px}
-#content{flex:1;display:flex;flex-direction:column;overflow:hidden}
-#playerWrap{position:relative;background:#000;aspect-ratio:16/9;max-height:42vh;display:flex;align-items:center;justify-content:center}
-#video{width:100%;height:100%;display:none}
+#epgInfo{background:#111d33;border-radius:10px;padding:9px;font-size:11px;min-height:60px}
+#content{flex:1;display:flex;flex-direction:column;overflow:hidden;position:relative}
+#playerWrap{position:relative;background:#000;flex:1;display:flex;align-items:center;justify-content:center;cursor:pointer}
+#video{width:100%;height:100%;background:#000;object-fit:contain}
 #idleScreen{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:radial-gradient(600px at 50% 10%, #1e2f54, #050810)}
-#idleScreen img{width:220px;border-radius:16px}
-#nowPlaying{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.8);padding:8px 12px;border-radius:10px;display:none;max-width:80%;font-size:13px}
-#grid{display:grid;gap:10px;padding:14px;overflow:auto;background:#080d16}
-#grid.live{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
-#grid.movie,#grid.series{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
-#grid.radio{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
-.card{background:#121e33;border:1px solid #1e2e51;border-radius:14px;overflow:hidden;cursor:pointer}
-.card:hover{border-color:#d4b78f;transform:translateY(-2px)}
+#idleScreen img{width:210px;border-radius:16px}
+#nowPlaying{position:absolute;left:12px;bottom:12px;background:rgba(0,0,0,.8);padding:8px 12px;border-radius:10px;display:none;max-width:80%;font-size:13px;z-index:5}
+#volumeOSD{position:absolute;right:20px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.8);padding:12px 10px;border-radius:20px;display:none;flex-direction:column;align-items:center;gap:8px;z-index:15}
+#volumeBar{width:6px;height:120px;background:#223; border-radius:10px;overflow:hidden;display:flex;align-items:flex-end}
+#volumeFill{width:100%;background:#d4b78f;height:70%}
+#channelOSD{position:absolute;top:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);padding:10px 18px;border-radius:14px;display:none;z-index:15;text-align:center}
+#tvOverlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(13,21,37,.97) 0%,rgba(13,21,37,.85) 45%,transparent 100%);display:none;z-index:10;padding:16px;overflow:auto}
+#tvOverlay.show{display:flex;gap:16px}
+#tvOverlay .ovGroups{width:180px;display:flex;flex-direction:column;gap:4px}
+#tvOverlay .ovChannels{flex:1;display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;align-content:start}
+.ovCard{background:#121e33;border:1px solid #1e2e51;border-radius:12px;overflow:hidden;cursor:pointer}
+.ovCard.active{border-color:#d4b78f;box-shadow:0 0 0 2px #d4b78f}
+.ovCard .p{aspect-ratio:1/1;background:#0d1525;display:flex;align-items:center;justify-content:center}
+.ovCard .p img{width:100%;height:100%;object-fit:cover}
+.ovCard .m{padding:6px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#grid{display:grid;gap:8px;padding:12px;overflow:auto;background:#080d16;max-height:58vh}
+#grid.live{grid-template-columns:repeat(auto-fill,minmax(105px,1fr))}
+#grid.movie,#grid.series{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+#grid.radio{grid-template-columns:repeat(auto-fill,minmax(105px,1fr))}
+.card{background:#121e33;border:1px solid #1e2e51;border-radius:12px;overflow:hidden;cursor:pointer}
+.card.active{border-color:#d4b78f;box-shadow:0 0 0 2px #d4b78f}
 .card .poster{background:#0d1525;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
 .card.live .poster,.card.radio .poster{aspect-ratio:1/1}
 .card.movie .poster,.card.series .poster{aspect-ratio:2/3}
 .card .poster img{width:100%;height:100%;object-fit:cover}
-.card .meta{padding:7px 8px}.card .meta h4{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card .meta p{font-size:10px;color:#9bb0d0;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;height:13px}
-.badge{position:absolute;top:5px;left:5px;background:#e11d48;color:#fff;font-size:9px;padding:3px 6px;border-radius:20px}
-.favBtn{position:absolute;top:5px;right:5px;background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:50%;width:22px;height:22px;cursor:pointer}
+.card .meta{padding:6px 7px}.card .meta h4{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.card .meta p{font-size:10px;color:#9bb0d0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.badge{position:absolute;top:4px;left:4px;background:#e11d48;color:#fff;font-size:8px;padding:2px 5px;border-radius:10px}
 .hidden{display:none!important}
-#settingsModal{position:fixed;inset:0;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:center;z-index:99}
+#settingsModal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:100}
 .modal{background:#101b30;border:1px solid #22365e;width:540px;max-width:94vw;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px}
 .modal input{background:#0a1222;border:1px solid #22365e;color:#fff;padding:10px 12px;border-radius:10px;width:100%}
-.modal label{font-size:12px;color:#aab7d1}.modal .row{display:flex;gap:8px}
 #loadBtn{background:#d4b78f;color:#111;border:none;padding:11px 16px;border-radius:10px;font-weight:800;cursor:pointer;flex:1}
 #closeSettings{background:transparent;border:1px solid #33486f;color:#fff;padding:11px 16px;border-radius:10px;cursor:pointer}
+.hint{position:absolute;bottom:8px;right:12px;background:rgba(0,0,0,.6);padding:5px 8px;border-radius:8px;font-size:10px;color:#8aa0c2;z-index:5}
 </style>
 </head>
 <body>
-<header><div class="logo-area"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg"><span>Mırtı TV</span></div><div class="search-area"><input id="search" placeholder="Ara..."><button id="settingsBtn">Kaynaklar</button></div></header>
+<header id="header">
+<div class="logo-area"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg"><span>Mırtı TV</span></div>
+<div style="display:flex;gap:8px"><input id="search" placeholder="Ara..."><button id="settingsBtn">⚙️</button></div>
+</header>
 <div id="main">
 <aside id="sidebar">
 <nav>
-<button data-tab="live" class="active"><b>📺 Canlı TV</b><span id="count-live"></span></button>
-<button data-tab="movie"><b>🎬 Filmler</b><span id="count-movie"></span></button>
-<button data-tab="series"><b>🎞️ Diziler</b><span id="count-series"></span></button>
+<button data-tab="live" class="active"><b>📺 Canlı</b><span id="count-live"></span></button>
+<button data-tab="movie"><b>🎬 Film</b><span id="count-movie"></span></button>
+<button data-tab="series"><b>🎞️ Dizi</b><span id="count-series"></span></button>
 <button data-tab="radio"><b>📻 Radyo</b><span id="count-radio"></span></button>
-<button data-tab="fav"><b>⭐ Favoriler</b></button>
+<button data-tab="fav"><b>⭐ Fav</b></button>
 </nav>
 <div id="groupList"></div>
-<div id="epgInfo"><h4>Şimdi Oynuyor</h4><div id="epgCurrent">Kanal seç</div></div>
+<div id="epgInfo"><div id="epgCurrent">Kanal seç</div></div>
 </aside>
 <section id="content">
-<div id="playerWrap"><video id="video" controls playsinline></video><div id="idleScreen"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg"><h1>Mırtı TV</h1><small style="color:#8aa0c2">M3U + EPG • Posterli</small></div><div id="nowPlaying"></div></div>
+<div id="playerWrap" tabindex="0">
+<video id="video" controls playsinline></video>
+<div id="idleScreen"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg"><h1>Mırtı TV</h1><small>TV Modu: Dokun / OK / Geri</small></div>
+<div id="nowPlaying"></div>
+<div id="volumeOSD"><div>🔊</div><div id="volumeBar"><div id="volumeFill"></div></div><div id="volText">70%</div></div>
+<div id="channelOSD"></div>
+<div id="tvOverlay"></div>
+<div class="hint">Dokun: Liste | Yan: Kanal | Yukarı: Ses | Geri: Grup</div>
+</div>
 <div id="grid" class="live"></div>
 </section>
 </div>
-<div id="settingsModal"><div class="modal"><h2>Mırtı TV Kaynakları</h2><label>M3U URL</label><input id="m3uUrl"><label>M3U Dosya</label><input type="file" id="m3uFile"><label>EPG URL</label><input id="epgUrl"><label>EPG Dosya</label><input type="file" id="epgFile"><div class="row"><button id="loadBtn">Yükle</button><button id="closeSettings">Kapat</button></div><div id="loadStatus"></div></div></div>
+<div id="settingsModal"><div class="modal"><h2>Kaynaklar</h2><input id="m3uUrl" placeholder="M3U URL"><input type="file" id="m3uFile"><input id="epgUrl" placeholder="EPG URL"><input type="file" id="epgFile"><div style="display:flex;gap:8px"><button id="loadBtn">Yükle</button><button id="closeSettings">Kapat</button></div><div id="loadStatus"></div></div></div>
 <script>
-const $=s=>document.querySelector(s);let channels=[],epg={},currentGroup=null,currentTab='live',hls=null,favs=JSON.parse(localStorage.getItem('mirti_fav')||'[]'),groupOrder=[];
+const $=s=>document.querySelector(s);let channels=[],epg={},currentGroup=null,currentTab='live',hls=null,favs=JSON.parse(localStorage.getItem('mirti_fav')||'[]'),groupOrder=[],currentIndex=0,vol=0.7,overlayOpen=false,lastTap=0;
 function isMovieGroup(g){return /film|movie|sinema|vod|cinema/i.test(g);}function isRadioGroup(g){return /radyo|radio|muzik|müzik|turku/i.test(g);}
 function parseM3U(t){let list=[],cur=null,seen=new Set();groupOrder=[];for(let l of t.split('\n')){l=l.trim();if(!l)continue;if(l.startsWith('#EXTINF')){cur={};const lo=l.match(/tvg-logo="([^"]+)"/);if(lo)cur.logo=lo[1];const id=l.match(/tvg-id="([^"]+)"/);if(id)cur.tvgId=id[1];const gr=l.match(/group-title="([^"]+)"/);cur.group=gr?gr[1].trim():'Genel';const c=l.lastIndexOf(',');cur.title=c>-1?l.slice(c+1).trim():`Kanal ${list.length+1}`;if(!seen.has(cur.group)){seen.add(cur.group);groupOrder.push(cur.group);}}else if(cur&&!l.startsWith('#')){let url=l;if(url.includes('|'))url=url.split('|')[0];cur.url=url.trim();const g=(cur.group||'').toLowerCase();let type='live';if(g.includes('yerli dizi')||g.includes('guncel dizi')||g.includes('güncel dizi')||g.includes('dizi')||g.includes('series')||g.includes('sezon'))type='series';else if(isRadioGroup(g))type='radio';else if(isMovieGroup(g)||/\.mp4|\.mkv|\.avi/i.test(url))type='movie';cur.type=type;list.push(cur);cur=null;}}return list;}
-function parseEPG(x){try{const p=new DOMParser(),d=p.parseFromString(x,'text/xml'),m={};d.querySelectorAll('programme').forEach(pr=>{const ch=pr.getAttribute('channel');const ti=pr.querySelector('title')?.textContent||'';const de=pr.querySelector('desc')?.textContent||'';if(!m[ch])m[ch]=[];m[ch].push({title:ti,desc:de,start:pr.getAttribute('start')});});Object.keys(m).forEach(k=>m[k].sort((a,b)=>a.start.localeCompare(b.start)));return m;}catch(e){return {};}}
+function parseEPG(x){try{const p=new DOMParser(),d=p.parseFromString(x,'text/xml'),m={};d.querySelectorAll('programme').forEach(pr=>{const ch=pr.getAttribute('channel');const ti=pr.querySelector('title')?.textContent||'';const de=pr.querySelector('desc')?.textContent||'';if(!m[ch])m[ch]=[];m[ch].push({title:ti,desc:de,start:pr.getAttribute('start')});});return m;}catch(e){return {};}}
 function getEPG(ch){for(let k of [ch.tvgId,ch.title]){if(epg[k]?.length)return epg[k][0];}const low=ch.title.toLowerCase();for(let ek of Object.keys(epg)){if(ek.toLowerCase()===low)return epg[ek][0];}for(let ek of Object.keys(epg)){if(ek.toLowerCase().includes(low)||low.includes(ek.toLowerCase()))return epg[ek][0];}return null;}
-function renderGroups(){const gl=$('#groupList');gl.innerHTML='';const filtered=groupOrder.filter(g=>channels.some(c=>c.group===g&&(currentTab==='fav'?favs.includes(c.url):c.type===currentTab)));const all=document.createElement('div');all.className='gitem'+(!currentGroup?' active':'');all.innerHTML=`<span>⭐ Tümü</span><span>${channels.filter(c=>currentTab==='fav'?favs.includes(c.url):c.type===currentTab).length}</span>`;all.onclick=()=>{currentGroup=null;renderGrid();renderGroups();};gl.appendChild(all);filtered.forEach(g=>{const count=channels.filter(c=>c.group===g&&(currentTab==='fav'?favs.includes(c.url):c.type===currentTab)).length;const div=document.createElement('div');div.className='gitem'+(g===currentGroup?' active':'');div.innerHTML=`<span>${g}</span><span>${count}</span>`;div.onclick=()=>{currentGroup=currentGroup===g?null:g;renderGrid();renderGroups();};gl.appendChild(div);});}
-function renderGrid(){const grid=$('#grid');grid.className=currentTab;const q=$('#search').value.toLowerCase();let list=channels.filter(c=>currentTab==='fav'?favs.includes(c.url):c.type===currentTab);if(currentGroup)list=list.filter(c=>c.group===currentGroup);if(q)list=list.filter(c=>c.title.toLowerCase().includes(q)||(c.group||'').toLowerCase().includes(q));grid.innerHTML='';list.forEach(ch=>{const card=document.createElement('div');card.className='card '+ch.type;const poster=document.createElement('div');poster.className='poster';if(ch.logo){const img=document.createElement('img');img.src=ch.logo;img.loading='lazy';img.onerror=()=>{poster.innerHTML=`<div style="font-size:28px">${ch.type==='movie'?'🎬':ch.type==='series'?'🎞️':ch.type==='radio'?'📻':'📺'}</div>`;};poster.appendChild(img);}else{poster.innerHTML=`<div style="font-size:28px">${ch.type==='movie'?'🎬':ch.type==='series'?'🎞️':ch.type==='radio'?'📻':'📺'}</div>`;}if(ch.type==='live'){const b=document.createElement('div');b.className='badge';b.textContent='CANLI';poster.appendChild(b);}const fav=document.createElement('button');fav.className='favBtn';fav.textContent=favs.includes(ch.url)?'★':'☆';fav.onclick=e=>{e.stopPropagation();if(favs.includes(ch.url))favs=favs.filter(u=>u!==ch.url);else favs.push(ch.url);localStorage.setItem('mirti_fav',JSON.stringify(favs));renderGrid();};poster.appendChild(fav);const meta=document.createElement('div');meta.className='meta';const en=getEPG(ch);meta.innerHTML=`<h4>${ch.title}</h4><p>${en?en.title:ch.group}</p>`;card.appendChild(poster);card.appendChild(meta);card.onclick=()=>playChannel(ch);grid.appendChild(card);});$('#count-live').textContent=`(${channels.filter(c=>c.type==='live').length})`;$('#count-movie').textContent=`(${channels.filter(c=>c.type==='movie').length})`;$('#count-series').textContent=`(${channels.filter(c=>c.type==='series').length})`;$('#count-radio').textContent=`(${channels.filter(c=>c.type==='radio').length})`;}
+function getFiltered(){let list=channels.filter(c=>currentTab==='fav'?favs.includes(c.url):c.type===currentTab);if(currentGroup)list=list.filter(c=>c.group===currentGroup);const q=$('#search').value.toLowerCase();if(q)list=list.filter(c=>c.title.toLowerCase().includes(q));return list;}
+function renderGroups(){const gl=$('#groupList');gl.innerHTML='';const filtered=groupOrder.filter(g=>channels.some(c=>c.group===g&&(currentTab==='fav'?favs.includes(c.url):c.type===currentTab)));const all=document.createElement('div');all.className='gitem'+(!currentGroup?' active':'');all.innerHTML=`<span>⭐ Tümü</span><span>${channels.filter(c=>currentTab==='fav'?favs.includes(c.url):c.type===currentTab).length}</span>`;all.onclick=()=>{currentGroup=null;currentIndex=0;renderGrid();renderGroups();};gl.appendChild(all);filtered.forEach(g=>{const cnt=channels.filter(c=>c.group===g&&(currentTab==='fav'?favs.includes(c.url):c.type===currentTab)).length;const div=document.createElement('div');div.className='gitem'+(g===currentGroup?' active':'');div.innerHTML=`<span>${g}</span><span>${cnt}</span>`;div.onclick=()=>{currentGroup=g;currentIndex=0;renderGrid();renderGroups();if(window.innerWidth<900)enterTVMode();};gl.appendChild(div);});}
+function renderGrid(){const grid=$('#grid');grid.className=currentTab;let list=getFiltered();grid.innerHTML='';list.forEach((ch,i)=>{const card=document.createElement('div');card.className='card '+ch.type+(i===currentIndex?' active':'');const poster=document.createElement('div');poster.className='poster';if(ch.logo){const img=document.createElement('img');img.src=ch.logo;img.loading='lazy';poster.appendChild(img);}else{poster.innerHTML=`<div style="font-size:26px">${ch.type==='movie'?'🎬':ch.type==='series'?'🎞️':ch.type==='radio'?'📻':'📺'}</div>`;}if(ch.type==='live'){const b=document.createElement('div');b.className='badge';b.textContent='CANLI';poster.appendChild(b);}const meta=document.createElement('div');meta.className='meta';const en=getEPG(ch);meta.innerHTML=`<h4>${ch.title}</h4><p>${en?en.title:ch.group}</p>`;card.appendChild(poster);card.appendChild(meta);card.onclick=()=>{currentIndex=i;playChannel(ch);enterTVMode();};grid.appendChild(card);});$('#count-live').textContent=`(${channels.filter(c=>c.type==='live').length})`;$('#count-movie').textContent=`(${channels.filter(c=>c.type==='movie').length})`;$('#count-series').textContent=`(${channels.filter(c=>c.type==='series').length})`;$('#count-radio').textContent=`(${channels.filter(c=>c.type==='radio').length})`;}
+function showChannelOSD(ch){const osd=$('#channelOSD');osd.innerHTML=`<b>${ch.title}</b><br><small>${ch.group}</small>`;osd.style.display='block';clearTimeout(osd._t);osd._t=setTimeout(()=>osd.style.display='none',2000);}
+function showVolOSD(){const o=$('#volumeOSD');$('#volumeFill').style.height=(vol*100)+'%';$('#volText').textContent=Math.round(vol*100)+'%';o.style.display='flex';clearTimeout(o._t);o._t=setTimeout(()=>o.style.display='none',1500);}
+function playChannel(ch){const v=$('#video'),i=$('#idleScreen'),n=$('#nowPlaying');i.style.display='none';v.style.display='block';v.volume=vol;n.style.display='block';n.innerHTML=`<b>${ch.title}</b> • ${ch.group||''}`;const en=getEPG(ch);if(en){$('#epgCurrent').innerHTML=`<b>${ch.title}</b><br>${en.title}`;n.innerHTML+=`<br><small style="color:#d4b78f">${en.title}</small>`;}else{$('#epgCurrent').innerHTML=`<b>${ch.title}</b><br>${ch.group}`;}if(hls){hls.destroy();hls=null;}let url=ch.url;showChannelOSD(ch);if(url.includes('.m3u8')){if(Hls.isSupported()){hls=new Hls();hls.loadSource(url);hls.attachMedia(v);hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play());}else{v.src=url;v.play();}}else{v.src=url;v.play();}if(!document.fullscreenElement){$('#playerWrap').requestFullscreen?.().catch(()=>{});}}
+function enterTVMode(){renderTVOverlay();$('#tvOverlay').classList.add('show');overlayOpen=true;}
+function exitTVMode(){$('#tvOverlay').classList.remove('show');overlayOpen=false;}
+function renderTVOverlay(){const ov=$('#tvOverlay');ov.innerHTML='';const groupsDiv=document.createElement('div');groupsDiv.className='ovGroups';const all=document.createElement('div');all.className='gitem'+(!currentGroup?' active':'');all.textContent='Tümü';all.onclick=()=>{currentGroup=null;currentIndex=0;renderGrid();renderTVOverlay();};groupsDiv.appendChild(all);groupOrder.filter(g=>channels.some(c=>c.group===g&&(currentTab==='fav'?favs.includes(c.url):c.type===currentTab))).forEach(g=>{const d=document.createElement('div');d.className='gitem'+(g===currentGroup?' active':'');d.textContent=g;d.onclick=()=>{currentGroup=g;currentIndex=0;renderGrid();renderTVOverlay();};groupsDiv.appendChild(d);});const chDiv=document.createElement('div');chDiv.className='ovChannels';getFiltered().forEach((ch,i)=>{const card=document.createElement('div');card.className='ovCard'+(i===currentIndex?' active':'');card.innerHTML=`<div class="p">${ch.logo?`<img src="${ch.logo}">`:`<span>📺</span>`}</div><div class="m">${ch.title}</div>`;card.onclick=()=>{currentIndex=i;playChannel(ch);exitTVMode();renderGrid();};chDiv.appendChild(card);});ov.appendChild(groupsDiv);ov.appendChild(chDiv);}
+function nextChannel(dir){let list=getFiltered();if(!list.length)return;currentIndex=(currentIndex+dir+list.length)%list.length;const ch=list[currentIndex];renderGrid();playChannel(ch);if(overlayOpen)renderTVOverlay();}
+function changeVolume(d){vol=Math.min(1,Math.max(0,vol+d));$('#video').volume=vol;showVolOSD();}
+$('#playerWrap').addEventListener('click',e=>{if(e.target.closest('#tvOverlay'))return;const now=Date.now();if(now-lastTap<300){if(document.fullscreenElement)document.exitFullscreen();else $('#playerWrap').requestFullscreen();}else{if(overlayOpen)exitTVMode();else enterTVMode();}lastTap=now;});
+document.addEventListener('keydown',e=>{
+if(e.key==='ArrowRight'){e.preventDefault();nextChannel(1);}
+if(e.key==='ArrowLeft'){e.preventDefault();nextChannel(-1);}
+if(e.key==='ArrowUp'){e.preventDefault();changeVolume(0.05);}
+if(e.key==='ArrowDown'){e.preventDefault();changeVolume(-0.05);}
+if(e.key==='Escape'||e.key==='Backspace'||e.key==='GoBack'||e.key==='BrowserBack'){e.preventDefault();if(overlayOpen){exitTVMode();}else{if(currentGroup){currentGroup=null;renderGrid();renderGroups();enterTVMode();}else{exitTVMode();document.exitFullscreen?.();}}}
+if(e.key==='Enter'){e.preventDefault();if(overlayOpen){const ch=getFiltered()[currentIndex];if(ch){playChannel(ch);exitTVMode();}}else{enterTVMode();}}
+});
+let touchX=0;$('#playerWrap').addEventListener('touchstart',e=>{touchX=e.touches[0].clientX;},{passive:true});
+$('#playerWrap').addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>80){if(dx<0)nextChannel(1);else nextChannel(-1);}},{passive:true});
+$('#settingsBtn').onclick=()=>$('#settingsModal').classList.remove('hidden');
+$('#closeSettings').onclick=()=>$('#settingsModal').classList.add('hidden');
+$('#loadBtn').onclick=async()=>{const mu=$('#m3uUrl').value.trim(),eu=$('#epgUrl').value.trim(),st=$('#loadStatus');st.textContent='Yükleniyor...';try{if(mu){const r=await fetch(mu);const t=await r.text();channels=parseM3U(t);localStorage.setItem('mirti_m3u',t);localStorage.setItem('mirti_m3u_url',mu);}if(eu){const r=await fetch(eu);let txt;if(eu.endsWith('.gz')){const buf=await r.arrayBuffer();try{const ds=new DecompressionStream('gzip');txt=await new Response(new Blob([buf]).stream().pipeThrough(ds)).text();}catch{txt=new TextDecoder().decode(buf);}}else txt=await r.text();epg=parseEPG(txt);localStorage.setItem('mirti_epg_url',eu);}renderGroups();renderGrid();st.textContent=`${channels.length} kanal`;$('#settingsModal').classList.add('hidden');}catch(e){st.textContent='Hata '+e.message;}};
+$('#m3uFile').addEventListener('change',async e=>{const t=await e.target.files[0].text();channels=parseM3U(t);localStorage.setItem('mirti_m3u',t);renderGroups();renderGrid();});
+$('#epgFile').addEventListener('change',async e=>{let f=e.target.files[0],txt;if(f.name.endsWith('.gz')){const b=await f.arrayBuffer();const ds=new DecompressionStream('gzip');txt=await new Response(new Blob([b]).stream().pipeThrough(ds)).text();}else txt=await f.text();epg=parseEPG(txt);renderGroups();renderGrid();});
+document.querySelectorAll('#sidebar nav button').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#sidebar nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentTab=b.dataset.tab;currentGroup=null;currentIndex=0;renderGroups();renderGrid();if(window.innerWidth<900)enterTVMode();}));
+$('#search').addEventListener('input',()=>{currentIndex=0;renderGrid();if($('#search').value)enterTVMode();});
+(function(){const s=localStorage.getItem('mirti_m3u');if(s){channels=parseM3U(s);renderGroups();renderGrid();$('#settingsModal').classList.add('hidden');}const mu=localStorage.getItem('mirti_m3u_url');if(mu)$('#m3uUrl').value=mu;const eu=localStorage.getItem('mirti_epg_url');if(eu)$('#epgUrl').value=eu;if(!s)$('#settingsModal').classList.remove('hidden');})();
+</script>
+</body>
+</html>':'📺'}</div>`;};poster.appendChild(img);}else{poster.innerHTML=`<div style="font-size:28px">${ch.type==='movie'?'🎬':ch.type==='series'?'🎞️':ch.type==='radio'?'📻':'📺'}</div>`;}if(ch.type==='live'){const b=document.createElement('div');b.className='badge';b.textContent='CANLI';poster.appendChild(b);}const fav=document.createElement('button');fav.className='favBtn';fav.textContent=favs.includes(ch.url)?'★':'☆';fav.onclick=e=>{e.stopPropagation();if(favs.includes(ch.url))favs=favs.filter(u=>u!==ch.url);else favs.push(ch.url);localStorage.setItem('mirti_fav',JSON.stringify(favs));renderGrid();};poster.appendChild(fav);const meta=document.createElement('div');meta.className='meta';const en=getEPG(ch);meta.innerHTML=`<h4>${ch.title}</h4><p>${en?en.title:ch.group}</p>`;card.appendChild(poster);card.appendChild(meta);card.onclick=()=>playChannel(ch);grid.appendChild(card);});$('#count-live').textContent=`(${channels.filter(c=>c.type==='live').length})`;$('#count-movie').textContent=`(${channels.filter(c=>c.type==='movie').length})`;$('#count-series').textContent=`(${channels.filter(c=>c.type==='series').length})`;$('#count-radio').textContent=`(${channels.filter(c=>c.type==='radio').length})`;}
 function playChannel(ch){const v=$('#video'),i=$('#idleScreen'),n=$('#nowPlaying');i.style.display='none';v.style.display='block';n.style.display='block';n.innerHTML=`<b>${ch.title}</b> • ${ch.group||''}`;const en=getEPG(ch);if(en){$('#epgCurrent').innerHTML=`<b>${ch.title}</b><br>${en.title}<br><small>${(en.desc||'').slice(0,140)}</small>`;n.innerHTML+=`<br><small style="color:#d4b78f">${en.title}</small>`;}else{$('#epgCurrent').innerHTML=`<b>${ch.title}</b><br>${ch.group}`;}if(hls){hls.destroy();hls=null;}let url=ch.url;if(url.includes('.m3u8')){if(Hls.isSupported()){hls=new Hls();hls.loadSource(url);hls.attachMedia(v);hls.on(Hls.Events.MANIFEST_PARSED,()=>v.play());}else{v.src=url;v.play();}}else{v.src=url;v.play();}}
 $('#settingsBtn').onclick=()=>$('#settingsModal').classList.remove('hidden');
 $('#closeSettings').onclick=()=>$('#settingsModal').classList.add('hidden');
