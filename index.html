@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v41 Ulusal+Hız</title>
+<title>Mırtı TV v43 Ulusal Seçili</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -25,11 +25,11 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 #loadText{font-size:9px;color:#fff;background:rgba(0,0,0,.8);padding:3px 10px;border-radius:10px;text-align:center;max-width:100%}
 #epgBar{height:26px;background:#101c33;padding:2px 8px;font-size:10px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0;gap:6px}
 #epgNow{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#groupsWrap{height:32px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 2px;gap:2px;flex-shrink:0}
+#groupsWrap{height:34px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 2px;gap:2px;flex-shrink:0}
 #groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:22px;height:22px;border-radius:50%;font-size:10px;cursor:pointer;flex-shrink:0}
-#groups{flex:1;display:flex;gap:4px;overflow:auto}
-.gChip{padding:3px 8px;background:#101c33;border:1px solid #1e2f52;border-radius:12px;font-size:8px;white-space:nowrap;cursor:pointer;flex-shrink:0}
-.gChip.on{background:#d4b78f;color:#111;font-weight:700}
+#groups{flex:1;display:flex;gap:4px;overflow:auto;scroll-behavior:smooth}
+.gChip{padding:4px 10px;background:#101c33;border:1px solid #1e2f52;border-radius:12px;font-size:8px;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.gChip.on{background:#d4b78f;color:#111;font-weight:800;border-color:#d4b78f;box-shadow:0 0 8px rgba(212,183,143,.4)}
 #list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden;min-height:0}
 #grid{flex:1;overflow:auto;padding:4px}
 #grid.live{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;padding:3px;grid-auto-rows:34px}
@@ -46,8 +46,8 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 .favBtn{width:22px;height:22px;min-width:22px;border:none;background:transparent;color:#555;font-size:14px;cursor:pointer;flex-shrink:0}
 .favBtn.on{color:#ffcc33}
 .posterCard{background:#121e33;border:1px solid #1e2e51;border-radius:10px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:300px;position:relative}
-.posterImg{height:240px;min-height:240px;max-height:240px;background:#0d1525;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
-.posterImg img{width:100%;height:240px;object-fit:cover;display:block}
+.posterImg{height:240px;min-height:240px;max-height:240px;background:linear-gradient(135deg,#0d1525,#1a2a4a);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;color:#8aa0c0;font-weight:800;font-size:11px;text-align:center;padding:8px}
+.posterImg img{width:100%;height:100%;object-fit:contain;display:block;position:absolute;inset:0;background:#0d1525}
 .posterTitle{padding:6px 8px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#121e33;font-weight:800;height:60px;display:flex;align-items:center}
 .favBtnCard{position:absolute;top:6px;right:6px;width:28px;height:28px;background:rgba(0,0,0,.75);border-radius:50%;border:none;color:#888;font-size:16px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
 .favBtnCard.on{color:#ffcc33}
@@ -101,24 +101,32 @@ function toggleFav(url){
   if(i==-1)favs.push(url); else favs.splice(i,1);
   saveFav(); renderGrid(); renderGroups();
 }
-function norm(s){return (s||"").toLowerCase().replace(/İ/g,"i").replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c");}
+function norm(s){
+  if(!s)return "";
+  var t=s+"";
+  t=t.replace(/İ/g,"i").replace(/I/g,"i");
+  t=t.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  t=t.toLowerCase();
+  t=t.replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c");
+  return t;
+}
 function isSeriesGroup(g){
-  var n=norm(g||"");
+  var n=norm(g);
   if(n.indexOf("yerli dizi")!=-1)return true;
   if(n.indexOf("guncel dizi")!=-1)return true;
+  if(n.indexOf("guncel diziler")!=-1)return true;
   if(n.indexOf("dizi")!=-1)return true;
   if(n.indexOf("sezon")!=-1)return true;
   if(n.indexOf("bolum")!=-1)return true;
   if(n.indexOf("series")!=-1)return true;
-  if(n.indexOf("platform")!=-1 && n.indexOf("dizi")!=-1)return true;
-  if(n.indexOf("bein")!=-1 && n.indexOf("dizi")!=-1)return true;
   return false;
 }
 function isMovieGroup(g,url){
-  var n=norm(g||"");
+  var n=norm(g);
   var u=(url||"").toLowerCase();
   if(n.indexOf("yerli dizi")!=-1)return false;
   if(n.indexOf("guncel dizi")!=-1)return false;
+  if(n.indexOf("guncel diziler")!=-1)return false;
   if(n.indexOf("dizi")!=-1)return false;
   if(n.indexOf("sezon")!=-1)return false;
   if(n.indexOf("bolum")!=-1)return false;
@@ -178,228 +186,4 @@ function parseEPG(xmlText){
     var progs=d.querySelectorAll("programme");
     progs.forEach(function(pr){
       var ch=pr.getAttribute("channel");
-      var ti=pr.querySelector("title"); var title=ti?ti.textContent:"";
-      if(!m[ch])m[ch]=[]; m[ch].push({title:title});
-    });
-    return m;
-  }catch(e){return {};}
-}
-function getEPG(ch){
-  if(!ch)return null;
-  if(ch.tvgId && epg[ch.tvgId] && epg[ch.tvgId].length)return epg[ch.tvgId][0];
-  if(epg[ch.title] && epg[ch.title].length)return epg[ch.title][0];
-  var low=norm(ch.title);
-  for(var k in epg){if(norm(k)==low)return epg[k][0];}
-  return null;
-}
-function getFiltered(){
-  var list=[];
-  for(var i=0;i<channels.length;i++){
-    var c=channels[i];
-    if(curTab=="fav"){if(isFav(c.url))list.push(c);} else if(c.type==curTab)list.push(c);
-  }
-  if(curGroup){
-    var f=[]; for(var j=0;j<list.length;j++) if(list[j].group==curGroup)f.push(list[j]); list=f;
-  }
-  var q=$("search").value.toLowerCase();
-  if(q){var f2=[]; for(var k=0;k<list.length;k++) if(list[k].title.toLowerCase().indexOf(q)!=-1)f2.push(list[k]); list=f2;}
-  return list;
-}
-function renderGroups(){
-  var gl=$("groups"); if(!gl)return; gl.innerHTML="";
-  for(var i=0;i<groupOrder.length;i++){
-    var g=groupOrder[i];
-    var has=false, cnt=0;
-    for(var j=0;j<channels.length;j++){
-      if(channels[j].group==g){
-        if(curTab=="fav"){if(isFav(channels[j].url)){has=true;cnt++;}} else if(channels[j].type==curTab){has=true;cnt++;}
-      }
-    }
-    if(!has)continue;
-    var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); div.textContent=g+" "+cnt;
-    div.onclick=(function(gg){return function(){curGroup=gg; renderGrid(); renderGroups();};})(g);
-    gl.appendChild(div);
-  }
-}
-function renderGrid(){
-  var grid=$("grid"); if(!grid)return; grid.innerHTML="";
-  var list=getFiltered();
-  if(list.length==0 && channels.length==0){
-    var d=document.createElement("div"); d.style.cssText="color:#ff9a3d;padding:20px;text-align:center;font-size:11px";
-    d.textContent="Liste boş - AYAR'a bas"; grid.appendChild(d); return;
-  }
-  if(list.length==0 && curTab=="fav"){
-    var d2=document.createElement("div"); d2.style.cssText="color:#888;padding:20px;text-align:center;font-size:11px";
-    d2.textContent="Fav yok - ☆ tıkla"; grid.appendChild(d2); return;
-  }
-  if(curTab=="movie" || curTab=="series"){
-    grid.className="poster";
-    for(var i=0;i<list.length;i++){
-      var ch=list[i];
-      var card=document.createElement("div"); card.className="posterCard";
-      var p=document.createElement("div"); p.className="posterImg";
-      if(ch.logo){
-        var img=document.createElement("img"); img.src=ch.logo; img.loading="lazy";
-        img.onerror=function(){this.style.display="none"; p.textContent=curTab=="series"?"Dizi":"Film";};
-        p.appendChild(img);
-      }else{p.textContent=curTab=="series"?"Dizi":"Film"; p.style.color="#fff"; p.style.fontWeight="700";}
-      var favBtn=document.createElement("button"); favBtn.className="favBtnCard"+(isFav(ch.url)?" on":""); favBtn.textContent=isFav(ch.url)?"★":"☆";
-      favBtn.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch.url);
-      p.appendChild(favBtn);
-      var m=document.createElement("div"); m.className="posterTitle";
-      var ep=getEPG(ch);
-      var txt=ch.title; if(ep)txt=ch.title+" • "+ep.title;
-      m.textContent=txt;
-      card.appendChild(p); card.appendChild(m);
-      card.onclick=(function(c){return function(){play(c);};})(ch);
-      grid.appendChild(card);
-    }
-  }else{
-    grid.className="live";
-    for(var j=0;j<list.length;j++){
-      var ch2=list[j];
-      var row=document.createElement("div"); row.className="item"+(curCh && curCh.url==ch2.url?" on":"");
-      if(ch2.group && norm(ch2.group).indexOf("ulusal")!=-1)row.className+=" ulusal";
-      var logoBox=document.createElement("div"); logoBox.className="logoBox";
-      if(ch2.logo){var img2=document.createElement("img"); img2.src=ch2.logo; logoBox.appendChild(img2);} else logoBox.textContent="TV";
-      var info=document.createElement("div"); info.className="info";
-      var b=document.createElement("b"); b.textContent=ch2.title;
-      var s=document.createElement("span");
-      var en=getEPG(ch2);
-      if(en)s.textContent=en.title; else s.textContent=ch2.group;
-      info.appendChild(b); info.appendChild(s);
-      var favBtn2=document.createElement("button"); favBtn2.className="favBtn"+(isFav(ch2.url)?" on":""); favBtn2.textContent=isFav(ch2.url)?"★":"☆";
-      favBtn2.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch2.url);
-      row.appendChild(logoBox); row.appendChild(info); row.appendChild(favBtn2);
-      row.onclick=(function(c){return function(){play(c);};})(ch2);
-      grid.appendChild(row);
-    }
-  }
-  var lc=0,mc=0,sc=0,rc=0;
-  for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;}
-  if($("bLive"))$("bLive").textContent="Canlı "+lc;
-  if($("bMovie"))$("bMovie").textContent="Film "+mc;
-  if($("bSeries"))$("bSeries").textContent="Dizi "+sc;
-  if($("bRadio"))$("bRadio").textContent="Radyo "+rc;
-  if($("bFav"))$("bFav").textContent="Fav "+favs.length;
-}
-function play(ch){
-  curCh=ch;
-  var v=$("video"), idle=$("idle");
-  if(idle)idle.style.display="none";
-  if(v){v.style.display="block"; v.pause();}
-  var en=getEPG(ch);
-  if($("epgNow")){
-    if(en)$("epgNow").textContent=en.title+" | "+ch.title;
-    else $("epgNow").textContent=ch.group+" | "+ch.title;
-  }
-  if(hls){hls.destroy(); hls=null;}
-  if(ch.url.indexOf(".m3u8")!=-1){
-    if(Hls.isSupported()){hls=new Hls(); hls.loadSource(ch.url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){v.play();});}
-    else{v.src=ch.url; v.play();}
-  }else{if(v){v.src=ch.url; v.play();}}
-  renderGrid();
-}
-function findUlusalGroup(){
-  for(var i=0;i<groupOrder.length;i++){
-    var g=groupOrder[i];
-    if(norm(g).indexOf("ulusal")!=-1)return g;
-  }
-  return null;
-}
-function doSpeedTest(){
-  var arc=$("arc"), needle=$("needle"), num=$("speedNum"), pingEl=$("pingVal"), downEl=$("downVal");
-  if(!arc)return;
-  var start=Date.now();
-  num.textContent="..."; pingEl.textContent="...";
-  fetch("https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg?t="+Date.now(),{cache:"no-store"}).then(function(r){return r.blob();}).then(function(){
-    var ping=Date.now()-start; pingEl.textContent=ping;
-    var mbps=41.68;
-    var pct=mbps/1000*251; if(pct>251)pct=251;
-    arc.style.strokeDashoffset=251-pct;
-    var angle=-90+(mbps/100*180); if(angle>90)angle=90;
-    var rad=angle*Math.PI/180;
-    var x=100+60*Math.cos(rad); var y=100+60*Math.sin(rad);
-    needle.setAttribute("x2",x); needle.setAttribute("y2",y);
-    num.textContent=mbps.toFixed(2); downEl.textContent=mbps.toFixed(0);
-    $("netSpeed").textContent="Net: "+mbps.toFixed(1)+" Mbps";
-  }).catch(function(){pingEl.textContent="18";});
-}
-function init(){
-  setLoad(5,"Başlıyor...");
-  var setBtn=$("setBtn"); if(setBtn){setBtn.onclick=function(){$("modal").classList.remove("hidden");};}
-  var closeBtn=$("closeBtn"); if(closeBtn){closeBtn.onclick=function(){$("modal").classList.add("hidden");};}
-  var leftArrow=$("leftArrow"); if(leftArrow){leftArrow.onclick=function(){$("groups").scrollBy({left:-120,behavior:"smooth"});};}
-  var rightArrow=$("rightArrow"); if(rightArrow){rightArrow.onclick=function(){$("groups").scrollBy({left:120,behavior:"smooth"});};}
-  var search=$("search"); if(search){search.addEventListener("input",function(){renderGrid();});}
-  var netSpeed=$("netSpeed"); if(netSpeed){netSpeed.onclick=function(){$("speedModal").classList.remove("hidden"); doSpeedTest();};}
-  var closeSpeed=$("closeSpeed"); if(closeSpeed){closeSpeed.onclick=function(){$("speedModal").classList.add("hidden");};}
-  var startTest=$("startTest"); if(startTest){startTest.onclick=function(){doSpeedTest();};}
-  var tabs=document.querySelectorAll(".top button");
-  for(var i=0;i<tabs.length;i++){
-    tabs[i].addEventListener("click",(function(btn){return function(){
-      for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on");
-      btn.classList.add("on"); curTab=btn.dataset.tab;
-      if(curTab=="live"){var ul=findUlusalGroup(); if(ul)curGroup=ul; else curGroup=null;} else curGroup=null;
-      renderGroups(); renderGrid();
-    };})(tabs[i]));
-  }
-  var loadBtn=$("loadBtn");
-  if(loadBtn){
-    loadBtn.onclick=function(){
-      var m3u=$("m3uIn").value.trim();
-      if(m3u){
-        setLoad(20,"Elle yükleniyor...");
-        fetch(m3u).then(function(r){return r.text();}).then(function(t){
-          var add=parseM3U(t); channels=add;
-          var ul=findUlusalGroup(); if(ul)curGroup=ul;
-          renderGroups(); renderGrid();
-          setLoad(100,add.length+" kanal - Ulusal'dan açıldı"); $("modal").classList.add("hidden");
-          var lw=$("loadWrap"); if(lw)lw.style.display="none";
-        }).catch(function(e){$("stat").textContent="Hata: "+e.message;});
-      }
-    };
-  }
-  var fileIn=$("fileIn");
-  if(fileIn){
-    fileIn.addEventListener("change",function(e){
-      var file=e.target.files[0]; if(!file)return;
-      var reader=new FileReader();
-      reader.onload=function(ev){
-        var txt=ev.target.result;
-        if(file.name.endsWith(".xml")){var newEpg=parseEPG(txt); for(var k in newEpg)epg[k]=newEpg[k]; $("stat").textContent="EPG ok"; renderGrid();}
-        else{var add=parseM3U(txt); channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; renderGroups(); renderGrid(); setLoad(100,"Dosyadan "+add.length+" kanal - Ulusal'dan açıldı"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none";}
-      };
-      reader.readAsText(file);
-    });
-  }
-
-  fetch(M3U_URL).then(function(r){
-    if(!r.ok)throw new Error("HTTP "+r.status);
-    return r.text();
-  }).then(function(t){
-    setLoad(50,t.length+" bayt okundu");
-    channels=parseM3U(t);
-    if(channels.length==0)throw new Error("0 kanal");
-    var ul=findUlusalGroup();
-    if(ul){curGroup=ul; setLoad(70,"Ulusal bulundu: "+ul);} else {curGroup=groupOrder.length?groupOrder[0]:null; setLoad(70,"Ulusal yok, ilk grup: "+curGroup);}
-    renderGroups(); renderGrid();
-    setLoad(80,"EPG yükleniyor...");
-    fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){
-      epg=parseEPG(xe);
-      var keys=Object.keys(epg);
-      setLoad(100,keys.length+" EPG | Ulusal'dan açıldı - "+channels.length+" kanal");
-      setTimeout(function(){var lw=$("loadWrap"); if(lw)lw.style.display="none";},1200);
-      renderGrid();
-    }).catch(function(e){setLoad(90,channels.length+" kanal - Ulusal'dan açıldı"); renderGrid();});
-  }).catch(function(e){
-    setLoad(0,"Yüklenemedi: "+e.message+" - AYAR'a bas");
-    $("stat").textContent="Otomatik yüklenemedi: "+e.message+"\nLink: "+M3U_URL;
-    $("modal").classList.remove("hidden");
-  });
-}
-
-init();
-</script>
-</body>
-</html>
+      var
