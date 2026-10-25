@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v39 Poster EPG</title>
+<title>Mırtı TV v40 Ulusal Açılış</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -35,7 +35,7 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 #grid.live{display:grid;grid-template-columns:repeat(2,1fr);gap:3px;padding:3px;grid-auto-rows:34px}
 #grid.poster{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;padding:6px}
 .item{display:flex;align-items:center;gap:5px;background:#121e33;border:1px solid #1e2e51;border-radius:5px;padding:3px 6px;cursor:pointer;height:34px;max-height:34px;overflow:hidden;flex-shrink:0}
-.item.ulusal{height:30px;max-height:30px;padding:2px 5px}
+.item.ulusal{height:30px;max-height:30px;padding:2px 5px;background:#1a2a4a;border-color:#2a4a7a}
 .item.on{border-color:#d4b78f}
 .logoBox{width:24px;height:24px;min-width:24px;background:#0d1525;border-radius:3px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
 .item.ulusal .logoBox{width:20px;height:20px;min-width:20px}
@@ -60,7 +60,7 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 <body>
 <header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:5px"><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 10px;border-radius:5px;font-weight:800;font-size:11px">AYAR</button></div></header>
 <div class="top"><button data-tab="live" class="on" id="bLive">Canlı</button><button data-tab="movie" id="bMovie">Film</button><button data-tab="series" id="bSeries">Dizi</button><button data-tab="radio" id="bRadio">Radyo</button><button data-tab="fav" id="bFav">Fav</button><input id="search" placeholder="Ara" style="margin-left:auto;width:60px;background:#0a1222;border:1px solid #1e2f52;color:#fff;padding:2px 5px;border-radius:10px;font-size:8px"></div>
-<div id="playerCol"><div id="player"><video id="video" controls playsinline style="width:100%;height:100%;display:none"></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Yükleniyor...</span></div></div>
+<div id="playerCol"><div id="player"><video id="video" controls playsinline style="width:100%;height:100%;display:none"></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Ulusal gruptan açılıyor...</span></div></div>
 <div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
 <div id="list"><div id="grid" class="live"></div></div>
 
@@ -212,7 +212,7 @@ function renderGrid(){
   var list=getFiltered();
   if(list.length==0 && channels.length==0){
     var d=document.createElement("div"); d.style.cssText="color:#ff9a3d;padding:20px;text-align:center;font-size:11px";
-    d.textContent="Liste boş - AYAR'a bas dosyadan yükle"; grid.appendChild(d); return;
+    d.textContent="Liste boş - AYAR'a bas"; grid.appendChild(d); return;
   }
   if(list.length==0 && curTab=="fav"){
     var d2=document.createElement("div"); d2.style.cssText="color:#888;padding:20px;text-align:center;font-size:11px";
@@ -286,6 +286,13 @@ function play(ch){
   }else{if(v){v.src=ch.url; v.play();}}
   renderGrid();
 }
+function findUlusalGroup(){
+  for(var i=0;i<groupOrder.length;i++){
+    var g=groupOrder[i];
+    if(norm(g).indexOf("ulusal")!=-1)return g;
+  }
+  return null;
+}
 function init(){
   setLoad(5,"Başlıyor...");
   var setBtn=$("setBtn"); if(setBtn){setBtn.onclick=function(){$("modal").classList.remove("hidden");};}
@@ -297,7 +304,12 @@ function init(){
   for(var i=0;i<tabs.length;i++){
     tabs[i].addEventListener("click",(function(btn){return function(){
       for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on");
-      btn.classList.add("on"); curTab=btn.dataset.tab; curGroup=null; renderGroups(); renderGrid();
+      btn.classList.add("on"); curTab=btn.dataset.tab;
+      if(curTab=="live"){
+        var ul=findUlusalGroup();
+        if(ul)curGroup=ul; else curGroup=null;
+      }else curGroup=null;
+      renderGroups(); renderGrid();
     };})(tabs[i]));
   }
   var loadBtn=$("loadBtn");
@@ -307,8 +319,11 @@ function init(){
       if(m3u){
         setLoad(20,"Elle yükleniyor...");
         fetch(m3u).then(function(r){return r.text();}).then(function(t){
-          var add=parseM3U(t); channels=add; renderGroups(); renderGrid();
-          setLoad(100,add.length+" kanal yüklendi"); $("modal").classList.add("hidden");
+          var add=parseM3U(t); channels=add;
+          var ul=findUlusalGroup();
+          if(ul)curGroup=ul;
+          renderGroups(); renderGrid();
+          setLoad(100,add.length+" kanal - Ulusal'dan açıldı"); $("modal").classList.add("hidden");
           var lw=$("loadWrap"); if(lw)lw.style.display="none";
         }).catch(function(e){$("stat").textContent="Hata: "+e.message;});
       }
@@ -322,11 +337,19 @@ function init(){
       reader.onload=function(ev){
         var txt=ev.target.result;
         if(file.name.endsWith(".xml")){var newEpg=parseEPG(txt); for(var k in newEpg)epg[k]=newEpg[k]; $("stat").textContent="EPG ok"; renderGrid();}
-        else{var add=parseM3U(txt); channels=add; renderGroups(); renderGrid(); setLoad(100,"Dosyadan "+add.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none";}
+        else{
+          var add=parseM3U(txt); channels=add;
+          var ul=findUlusalGroup();
+          if(ul)curGroup=ul;
+          renderGroups(); renderGrid();
+          setLoad(100,"Dosyadan "+add.length+" kanal - Ulusal'dan açıldı"); $("modal").classList.add("hidden");
+          var lw=$("loadWrap"); if(lw)lw.style.display="none";
+        }
       };
       reader.readAsText(file);
     });
   }
+
   fetch(M3U_URL).then(function(r){
     if(!r.ok)throw new Error("HTTP "+r.status);
     return r.text();
@@ -334,21 +357,30 @@ function init(){
     setLoad(50,t.length+" bayt okundu");
     channels=parseM3U(t);
     if(channels.length==0)throw new Error("0 kanal");
+    var ul=findUlusalGroup();
+    if(ul){
+      curGroup=ul;
+      setLoad(70,"Ulusal bulundu: "+ul);
+    }else{
+      curGroup=groupOrder.length?groupOrder[0]:null;
+      setLoad(70,"Ulusal yok, ilk grup: "+curGroup);
+    }
     renderGroups(); renderGrid();
-    setLoad(70,"EPG yükleniyor...");
+    setLoad(80,"EPG yükleniyor...");
     fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){
       epg=parseEPG(xe);
       var keys=Object.keys(epg);
-      setLoad(100,keys.length+" EPG | "+channels.length+" kanal hazır");
+      setLoad(100,keys.length+" EPG | Ulusal'dan açıldı - "+channels.length+" kanal");
       setTimeout(function(){var lw=$("loadWrap"); if(lw)lw.style.display="none";},1200);
       renderGrid();
-    }).catch(function(e){setLoad(90,channels.length+" kanal - EPG bekleniyor"); renderGrid();});
+    }).catch(function(e){setLoad(90,channels.length+" kanal - Ulusal'dan açıldı"); renderGrid();});
   }).catch(function(e){
     setLoad(0,"Yüklenemedi: "+e.message+" - AYAR'a bas");
     $("stat").textContent="Otomatik yüklenemedi: "+e.message+"\nLink: "+M3U_URL;
     $("modal").classList.remove("hidden");
   });
 }
+
 init();
 </script>
 </body>
