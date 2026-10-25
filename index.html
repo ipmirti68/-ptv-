@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v51 2 Sira</title>
+<title>Mırtı TV v52 Radyo Geldi 2 Sira</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -11,10 +11,10 @@ body{background:#070b14;color:#e8e6df;font-family:Arial,sans-serif;height:100vh;
 header{height:42px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44;flex-shrink:0}
 .logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:14px}
 .logo img{height:30px;width:30px;object-fit:cover;border-radius:6px}
-.top{height:34px;background:#0d1525;display:flex;gap:4px;align-items:center;padding:0 6px;border-bottom:1px solid #1c2b4a;overflow:auto;flex-shrink:0}
-.top button{background:#101c33;border:1px solid #1e2f52;color:#aab7d1;padding:4px 10px;border-radius:14px;font-size:10px;white-space:nowrap;cursor:pointer}
+.top{background:#0d1525;display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:5px 6px;border-bottom:1px solid #1c2b4a;flex-shrink:0}
+.top button{background:#101c33;border:1px solid #1e2f52;color:#aab7d1;padding:5px 12px;border-radius:14px;font-size:10px;white-space:nowrap;cursor:pointer}
 .top button.on{background:#d4b78f;color:#111;font-weight:800}
-#playerCol{height:40vh;min-height:220px;max-height:40vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
+#playerCol{height:38vh;min-height:200px;max-height:38vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
 #player{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #video{width:100%;height:100%;object-fit:contain;background:#000;z-index:2}
 #idle{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000}
@@ -32,7 +32,6 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 .gChip.on{background:#d4b78f;color:#111;font-weight:800;border-color:#d4b78f}
 #list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden;min-height:0}
 #grid{flex:1;overflow:auto;padding:6px}
-/* 2 SIRA DEVAM - 2 SÜTUN */
 #grid.live{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px;grid-auto-rows:72px}
 #grid.poster{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:6px;grid-auto-rows:320px}
 .item{display:flex;align-items:center;gap:8px;background:#121e33;border:1px solid #1e2e51;border-radius:10px;padding:6px 8px;cursor:pointer;height:72px;overflow:hidden;flex-shrink:0}
@@ -60,12 +59,11 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 #speedModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
 .speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .speedVal{font-size:42px;font-weight:300;color:#111;margin-top:-10px}
-@media(max-width:380px){#grid.live{grid-template-columns:1fr;grid-auto-rows:76px}#grid.poster{grid-template-columns:1fr;grid-auto-rows:320px}}
 </style>
 </head>
 <body>
 <header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:5px"><span id="netSpeed" style="font-size:9px;background:#101c33;border:1px solid #1e2f52;padding:5px 10px;border-radius:12px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:5px 12px;border-radius:6px;font-weight:800;font-size:12px">AYAR</button></div></header>
-<div class="top"><button data-tab="live" class="on" id="bLive">Canlı</button><button data-tab="movie" id="bMovie">Film</button><button data-tab="series" id="bSeries">Dizi</button><button data-tab="radio" id="bRadio">Radyo</button><button data-tab="fav" id="bFav">Fav</button><input id="search" placeholder="Ara" style="margin-left:auto;width:70px;background:#0a1222;border:1px solid #1e2f52;color:#fff;padding:4px 8px;border-radius:12px;font-size:10px"></div>
+<div class="top"><button data-tab="live" class="on" id="bLive">Canlı</button><button data-tab="movie" id="bMovie">Film</button><button data-tab="series" id="bSeries">Dizi</button><button data-tab="radio" id="bRadio">Radyo</button><button data-tab="fav" id="bFav">Fav</button><input id="search" placeholder="Ara" style="margin-left:6px;width:80px;background:#0a1222;border:1px solid #1e2f52;color:#fff;padding:5px 8px;border-radius:12px;font-size:10px"></div>
 <div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Ulusal gruptan açılıyor...</span></div></div>
 <div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
 <div id="list"><div id="grid" class="live"></div></div>
@@ -108,9 +106,16 @@ function norm(s){
   t=t.replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c");
   return t;
 }
-function getTypeByGroup(g,url){
+function getTypeByGroup(g,url,raw){
   var n=norm(g);
+  var r=(raw||"").toLowerCase();
+  // RADYO en önce - radio=true varsa direkt radyo
+  if(r.indexOf('radio="true"')!=-1) return "radio";
+  if(n.indexOf("radyo")!=-1) return "radio";
+  if(n.indexOf("radio")!=-1) return "radio";
+  // SİNEMA = CANLI
   if(n.indexOf("sinema")!=-1) return "live";
+  // DİZİ = DİZİ
   if(n.indexOf("yerli dizi")!=-1) return "series";
   if(n.indexOf("guncel dizi")!=-1) return "series";
   if(n.indexOf("guncel diziler")!=-1) return "series";
@@ -118,6 +123,7 @@ function getTypeByGroup(g,url){
   if(n.indexOf("sezon")!=-1) return "series";
   if(n.indexOf("bolum")!=-1) return "series";
   if(n.indexOf("series")!=-1) return "series";
+  // FİLM = FİLM
   if(n.indexOf("film")!=-1) return "movie";
   if(n.indexOf("movie")!=-1) return "movie";
   if(n.indexOf("vod")!=-1) return "movie";
@@ -126,7 +132,7 @@ function getTypeByGroup(g,url){
   if(n.indexOf("turk filmi")!=-1) return "movie";
   if(n.indexOf("kemal")!=-1 && n.indexOf("sunal")!=-1) return "movie";
   var u=(url||"").toLowerCase();
-  if((u.indexOf(".mp4")!=-1 || u.indexOf(".mkv")!=-1) && n.indexOf("dizi")==-1 && n.indexOf("sinema")==-1) return "movie";
+  if((u.indexOf(".mp4")!=-1 || u.indexOf(".mkv")!=-1) && n.indexOf("dizi")==-1 && n.indexOf("sinema")==-1 && n.indexOf("radyo")==-1) return "movie";
   return "live";
 }
 function parseM3U(t){
@@ -148,7 +154,7 @@ function parseM3U(t){
       if(cur && l.charAt(0)!="#"){
         var url=l.split("|")[0].trim();
         cur.url=url;
-        cur.type=getTypeByGroup(cur.group, url);
+        cur.type=getTypeByGroup(cur.group, url, curLine);
         cur.rawLine=curLine;
         list.push(cur); cur=null; curLine="";
       }
