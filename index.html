@@ -3,65 +3,72 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v55 Tek Satir Fix</title>
+<title>Mırtı TV v56 Logo Dar Radyo Fix</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#070b14;color:#e8e6df;font-family:Arial,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-header{height:40px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44;flex-shrink:0}
+header{height:38px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44;flex-shrink:0}
 .logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:13px}
-.logo img{height:28px;width:28px;object-fit:cover;border-radius:6px}
+.logo img{height:26px;width:26px;object-fit:cover;border-radius:5px}
 .top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:3px;align-items:center;padding:4px 5px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto}
-.top button{border:1px solid transparent;color:#fff;padding:4px 8px;border-radius:14px;font-size:9px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:3px;flex-shrink:0;transition:all .2s}
+.top button{border:1px solid transparent;color:#fff;padding:4px 8px;border-radius:14px;font-size:9px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:3px;flex-shrink:0}
 .top button[data-tab="live"]{background:#1a2a4a;border-color:#2a5a9a}
 .top button[data-tab="live"].on{background:#ff3b30;color:#fff;box-shadow:0 0 8px rgba(255,59,48,.4);border-color:#ff3b30}
 .top button[data-tab="movie"]{background:#1e2f4a;border-color:#2a5a7a}
-.top button[data-tab="movie"].on{background:#007aff;color:#fff;box-shadow:0 0 8px rgba(0,122,255,.4);border-color:#007aff}
+.top button[data-tab="movie"].on{background:#007aff;color:#fff;border-color:#007aff}
 .top button[data-tab="series"]{background:#2a204a;border-color:#5a3a8a}
-.top button[data-tab="series"].on{background:#af52de;color:#fff;box-shadow:0 0 8px rgba(175,82,222,.4);border-color:#af52de}
+.top button[data-tab="series"].on{background:#af52de;color:#fff;border-color:#af52de}
 .top button[data-tab="radio"]{background:#3a2a1a;border-color:#8a5a2a}
-.top button[data-tab="radio"].on{background:#ff9500;color:#fff;box-shadow:0 0 8px rgba(255,149,0,.4);border-color:#ff9500}
+.top button[data-tab="radio"].on{background:#ff9500;color:#fff;border-color:#ff9500}
 .top button[data-tab="fav"]{background:#3a3210;border-color:#8a7a20}
-.top button[data-tab="fav"].on{background:#ffcc00;color:#111;box-shadow:0 0 8px rgba(255,204,0,.4);border-color:#ffcc00}
-#playerCol{height:38vh;min-height:200px;max-height:38vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
+.top button[data-tab="fav"].on{background:#ffcc00;color:#111;border-color:#ffcc00}
+#playerCol{height:36vh;min-height:180px;max-height:36vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
 #player{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #video{width:100%;height:100%;object-fit:contain;background:#000;z-index:2}
-#idle{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000}
-#idle img{width:auto;height:78%;max-width:94%;max-height:78%;object-fit:contain;border-radius:8px;display:block}
-#loadWrap{position:absolute;bottom:10px;left:8%;right:8%;z-index:4;display:flex;flex-direction:column;align-items:center;gap:4px}
-#loadBar{width:100%;height:5px;background:rgba(255,255,255,.3);border-radius:4px;overflow:hidden}
+#idle{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;transition:all .5s}
+#idle img{width:100%;height:100%;object-fit:cover;display:block;transition:all .6s}
+#idle.radioMode img{animation:radioZoom 4s infinite alternate}
+@keyframes radioZoom{0%{transform:scale(1)}100%{transform:scale(1.05)}}
+#loadWrap{position:absolute;bottom:8px;left:8%;right:8%;z-index:4;display:flex;flex-direction:column;align-items:center;gap:3px}
+#loadBar{width:100%;height:4px;background:rgba(255,255,255,.25);border-radius:3px;overflow:hidden}
 #loadFill{height:100%;width:0%;background:#d4b78f;transition:width .3s}
-#loadText{font-size:9px;color:#fff;background:rgba(0,0,0,.8);padding:3px 10px;border-radius:10px;text-align:center;max-width:100%}
-#epgBar{height:28px;background:#101c33;padding:2px 10px;font-size:11px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0;gap:6px}
+#loadText{font-size:8px;color:#fff;background:rgba(0,0,0,.75);padding:2px 8px;border-radius:8px;text-align:center}
+#epgBar{height:24px;background:#101c33;padding:2px 8px;font-size:10px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0}
 #epgNow{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#groupsWrap{height:36px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 3px;gap:3px;flex-shrink:0}
-#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:22px;height:22px;border-radius:50%;font-size:10px;cursor:pointer;flex-shrink:0}
+#groupsWrap{height:34px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 3px;gap:3px;flex-shrink:0}
+#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:20px;height:20px;border-radius:50%;font-size:9px;cursor:pointer;flex-shrink:0}
 #groups{flex:1;display:flex;gap:4px;overflow:auto;scroll-behavior:smooth}
-.gChip{padding:4px 10px;background:#101c33;border:1px solid #1e2f52;border-radius:12px;font-size:9px;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.gChip{padding:3px 9px;background:#101c33;border:1px solid #1e2f52;border-radius:10px;font-size:8px;white-space:nowrap;cursor:pointer;flex-shrink:0}
 .gChip.on{background:#d4b78f;color:#111;font-weight:800;border-color:#d4b78f}
 #list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden;min-height:0}
-#grid{flex:1;overflow:auto;padding:6px}
-#grid.live{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px;grid-auto-rows:84px}
-#grid.poster{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:6px;grid-auto-rows:320px}
-.item{position:relative;display:flex;align-items:center;gap:8px;background:#142040;border:1px solid #1e2e51;border-radius:10px;padding:6px 8px;cursor:pointer;height:84px;overflow:hidden;flex-shrink:0}
+#grid{flex:1;overflow:auto;padding:5px}
+#grid.live{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:68px}
+#grid.poster{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:280px}
+/* LOGO DARALTILDI - ALTI ÜSTÜ BOŞLUK YOK */
+.item{position:relative;display:flex;align-items:center;gap:6px;background:#13203a;border:1px solid #1e2e51;border-radius:8px;padding:4px 6px;cursor:pointer;height:68px;overflow:hidden;flex-shrink:0}
 .item.ulusal{background:#1a2f5a;border-color:#2a4a8a}
-.item.on{border-color:#d4b78f;box-shadow:0 0 8px rgba(212,183,143,.3)}
-.logoBox{width:48px;height:48px;min-width:48px;background:#0d1525;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
-.logoBox img{width:100%;height:100%;object-fit:contain}
-.info{flex:1;overflow:hidden;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding-right:16px}
-.info b{font-size:13px;line-height:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;color:#fff}
-.info .simdi{font-size:11px;line-height:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;color:#e8f0ff}
-.info .sonra{font-size:9px;line-height:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:500;color:#7a8aaa}
-.favBtn{position:absolute;right:3px;bottom:3px;width:18px;height:18px;min-width:18px;border:none;background:rgba(0,0,0,.35);border-radius:50%;color:#666;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.item.on{border-color:#d4b78f;box-shadow:0 0 6px rgba(212,183,143,.25)}
+.logoBox{width:42px;height:42px;min-width:42px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;padding:1px}
+.logoBox img{width:100%;height:100%;object-fit:contain;background:#fff}
+.info{flex:1;overflow:hidden;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding-right:14px}
+.info b{font-size:12px;line-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;color:#fff}
+/* EPG 2 SATIR - ŞİMDİ SONRA YAZMADAN DİREKT YAYIN */
+.info .epg1{font-size:10px;line-height:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:#c8d8ff;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;white-space:normal;max-height:22px;line-clamp:1}
+.info .epg2{font-size:9px;line-height:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:400;color:#7a8aaa;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;white-space:normal;max-height:20px;line-clamp:1}
+.favBtn{position:absolute;right:2px;bottom:2px;width:16px;height:16px;min-width:16px;border:none;background:rgba(0,0,0,.3);border-radius:50%;color:#666;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .favBtn.on{color:#ffcc33;background:rgba(255,204,51,.25)}
-.posterCard{background:#121e33;border:1px solid #1e2e51;border-radius:10px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:320px;position:relative}
-.posterImg{height:250px;min-height:250px;max-height:250px;background:#0d1525;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
+.posterCard{background:#121e33;border:1px solid #1e2e51;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:280px;position:relative}
+.posterImg{height:210px;min-height:210px;background:#0d1525;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative}
 .posterImg img{width:100%;height:100%;object-fit:contain;display:block;background:#0d1525}
-.posterTitle{padding:6px 8px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#121e33;font-weight:800;height:70px;display:flex;flex-direction:column;justify-content:center;gap:1px}
-.posterTitle small{font-size:9px;color:#7ec8ff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.favBtnCard{position:absolute;top:5px;right:5px;width:20px;height:20px;background:rgba(0,0,0,.6);border-radius:50%;border:none;color:#888;font-size:10px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
-.favBtnCard.on{color:#ffcc33;background:rgba(255,204,51,.25)}
+.posterTitle{padding:5px 6px;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#121e33;font-weight:700;height:70px;display:flex;flex-direction:column;justify-content:center;gap:1px}
+.posterTitle small{font-size:8px;color:#7ec8ff;font-weight:500;white-space:normal;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;max-height:20px}
+.favBtnCard{position:absolute;top:4px;right:4px;width:18px;height:18px;background:rgba(0,0,0,.55);border-radius:50%;border:none;color:#888;font-size:9px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
+.favBtnCard.on{color:#ffcc33}
 .hidden{display:none!important}
+#radioInfo{position:absolute;bottom:30px;left:10px;right:10px;z-index:5;background:rgba(0,0,0,.7);padding:6px 10px;border-radius:8px;text-align:center;display:none}
+#radioInfo b{font-size:11px;color:#ffcc33;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#radioInfo span{font-size:9px;color:#aaa}
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99}
 .box{background:#101b30;border:1px solid #22365e;width:360px;max-width:92vw;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
 .box input{background:#0a1222;border:1px solid #22365e;color:#fff;padding:8px;border-radius:6px;width:100%;font-size:11px}
@@ -71,9 +78,9 @@ header{height:40px;background:#0f1726;display:flex;align-items:center;justify-co
 </style>
 </head>
 <body>
-<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:5px"><span id="netSpeed" style="font-size:8px;background:#101c33;border:1px solid #1e2f52;padding:4px 8px;border-radius:10px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 10px;border-radius:5px;font-weight:800;font-size:11px">AYAR</button></div></header>
+<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:4px"><span id="netSpeed" style="font-size:7px;background:#101c33;border:1px solid #1e2f52;padding:3px 6px;border-radius:8px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:3px 8px;border-radius:4px;font-weight:800;font-size:10px">AYAR</button></div></header>
 <div class="top"><button data-tab="live" class="on" id="bLive">📺 Canlı</button><button data-tab="movie" id="bMovie">🎬 Film</button><button data-tab="series" id="bSeries">🎞️ Dizi</button><button data-tab="radio" id="bRadio">📻 Radyo</button><button data-tab="fav" id="bFav">⭐ Fav</button></div>
-<div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
+<div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><span id="rSub">📻 Canlı Radyo</span></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
 <div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
 <div id="list"><div id="grid" class="live"></div></div>
 
@@ -104,7 +111,15 @@ M3U_URLS.push("https://api.allorigins.win/raw?url="+encodeURIComponent("https://
 var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
 var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
 var SPEED_TEST_URL="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
-var channels=[],epg={},curGroup=null,curTab="live",hls=null,groupOrder=[],favs=[],curCh=null;
+// Radyoda her seferde farklı resim
+var RADIO_IMAGES=[
+"https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg",
+"https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg",
+"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600",
+"https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600",
+"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600"
+];
+var channels=[],epg={},curGroup=null,curTab="live",hls=null,groupOrder=[],favs=[],curCh=null,radioTimer=null,radioImgIdx=0;
 try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
 
 function $(id){return document.getElementById(id);}
@@ -223,7 +238,15 @@ function renderGroups(){
     for(var j=0;j<channels.length;j++){ if(channels[j].group==g){ if(curTab=="fav"){if(isFav(channels[j].url)){has=true;cnt++;}} else if(channels[j].type==curTab){has=true;cnt++;} } }
     if(!has)continue;
     var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); div.textContent=g+" "+cnt;
-    div.onclick=(function(gg){return function(){curGroup=gg; renderGrid(); renderGroups();};})(g);
+    div.onclick=(function(gg){return function(){
+      // Radyo çalıyorsa başka gruba gidince kapansın
+      if(curCh && curCh.type=="radio"){
+        var willBeRadio=false;
+        for(var k=0;k<channels.length;k++){ if(channels[k].group==gg && channels[k].type=="radio"){willBeRadio=true;break;} }
+        if(!willBeRadio){ stopRadio(); }
+      }
+      curGroup=gg; renderGrid(); renderGroups();
+    };})(g);
     gl.appendChild(div);
   }
   setTimeout(function(){var el=document.querySelector(".gChip.on"); if(el)el.scrollIntoView({behavior:"smooth",block:"nearest",inline:"center"});},200);
@@ -241,7 +264,12 @@ function renderGrid(){
       var img=document.createElement("img"); img.src=ch.logo ? ch.logo : DEFAULT_LOGO; img.loading="lazy"; img.onerror=function(){this.onerror=null; this.src=DEFAULT_LOGO;}; p.appendChild(img);
       var favBtn=document.createElement("button"); favBtn.className="favBtnCard"+(isFav(ch.url)?" on":""); favBtn.textContent=isFav(ch.url)?"★":"☆"; favBtn.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch.url); p.appendChild(favBtn);
       var m=document.createElement("div"); m.className="posterTitle";
-      var epgNN=getEPGNowNext(ch); var t1=document.createElement("div"); t1.textContent=ch.title; var t2=document.createElement("small"); if(epgNN.now)t2.textContent="Şimdi: "+epgNN.now.title; else if(epgNN.next)t2.textContent="Sonra: "+epgNN.next.title; else t2.textContent=ch.group; m.appendChild(t1); m.appendChild(t2);
+      var epgNN=getEPGNowNext(ch); var t1=document.createElement("div"); t1.textContent=ch.title; var t2=document.createElement("small");
+      // EPG 2 satır
+      if(epgNN.now) t2.textContent=epgNN.now.title;
+      else if(epgNN.next) t2.textContent=epgNN.next.title;
+      else t2.textContent=ch.group;
+      m.appendChild(t1); m.appendChild(t2);
       card.appendChild(p); card.appendChild(m); card.onclick=(function(c){return function(){play(c);};})(ch); grid.appendChild(card);
     }
   }else{
@@ -252,11 +280,17 @@ function renderGrid(){
       var info=document.createElement("div"); info.className="info";
       var b=document.createElement("b"); b.textContent=ch2.title;
       var epgNN2=getEPGNowNext(ch2);
-      var s=document.createElement("span"); s.className="simdi";
-      if(epgNN2.now) s.textContent="Şimdi: "+epgNN2.now.title;
-      else s.textContent=ch2.group;
-      var nxt=document.createElement("span"); nxt.className="sonra";
-      if(epgNN2.next) nxt.textContent="Sonra: "+epgNN2.next.title;
+      var s=document.createElement("div"); s.className="epg1";
+      var nxt=document.createElement("div"); nxt.className="epg2";
+      // EPG 2 satır - Şimdi Sonra yazmadan direkt
+      if(epgNN2.now){
+        s.textContent=epgNN2.now.title;
+        if(epgNN2.next) nxt.textContent=epgNN2.next.title;
+        else nxt.textContent="";
+      }else{
+        s.textContent=ch2.group;
+        nxt.textContent="";
+      }
       info.appendChild(b); info.appendChild(s); if(nxt.textContent) info.appendChild(nxt);
       var favBtn2=document.createElement("button"); favBtn2.className="favBtn"+(isFav(ch2.url)?" on":""); favBtn2.textContent=isFav(ch2.url)?"★":"☆";
       favBtn2.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch2.url);
@@ -268,13 +302,65 @@ function renderGrid(){
   var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;}
   if($("bLive"))$("bLive").innerHTML="📺 Canlı "+lc; if($("bMovie"))$("bMovie").innerHTML="🎬 Film "+mc; if($("bSeries"))$("bSeries").innerHTML="🎞️ Dizi "+sc; if($("bRadio"))$("bRadio").innerHTML="📻 Radyo "+rc; if($("bFav"))$("bFav").innerHTML="⭐ Fav "+favs.length;
 }
+function stopRadio(){
+  var v=$("video");
+  if(v){ v.pause(); v.src=""; v.style.display="none"; }
+  if(hls){try{hls.destroy();}catch(e){} hls=null;}
+  if(radioTimer){ clearInterval(radioTimer); radioTimer=null; }
+  var idle=$("idle"); if(idle){ idle.style.display="flex"; idle.classList.remove("radioMode"); }
+  var rInfo=$("radioInfo"); if(rInfo) rInfo.style.display="none";
+  var idleImg=$("idleImg"); if(idleImg) idleImg.src=RADIO_IMAGES[0];
+  curCh=null;
+  if($("epgNow")) $("epgNow").textContent="Radyo durdu";
+}
+function startRadioImages(ch){
+  var idleImg=$("idleImg"); var idle=$("idle");
+  if(!idleImg||!idle)return;
+  radioImgIdx=Math.floor(Math.random()*RADIO_IMAGES.length);
+  idleImg.src=RADIO_IMAGES[radioImgIdx];
+  idle.classList.add("radioMode");
+  var rInfo=$("radioInfo"); if(rInfo){ rInfo.style.display="block"; $("rTitle").textContent=ch.title; $("rSub").textContent="📻 "+ch.group; }
+  if(radioTimer) clearInterval(radioTimer);
+  radioTimer=setInterval(function(){
+    radioImgIdx=(radioImgIdx+1)%RADIO_IMAGES.length;
+    idleImg.style.opacity="0.2";
+    setTimeout(function(){ idleImg.src=RADIO_IMAGES[radioImgIdx]; idleImg.style.opacity="1"; },200);
+  },4000);
+}
 function play(ch){
+  // Radyo ise farklı resim her seferde
+  if(ch.type=="radio"){
+    var v=$("video"), idle=$("idle");
+    curCh=ch;
+    if(idle)idle.style.display="flex";
+    if(v){ v.style.display="none"; v.pause(); v.currentTime=0; }
+    if($("epgNow")) $("epgNow").textContent="📻 "+ch.title+" | "+ch.group;
+    if(hls){try{hls.destroy();}catch(e){} hls=null;}
+    startRadioImages(ch);
+    var aud=$("video"); // audio olarak video kullanıyoruz ama gizli
+    // Radyo için ayrı audio elementi gibi davran
+    if(ch.url.indexOf(".m3u8")!=-1){
+      if(Hls.isSupported()){
+        hls=new Hls();
+        hls.loadSource(ch.url);
+        hls.attachMedia(aud);
+        hls.on(Hls.Events.MANIFEST_PARSED,function(){ aud.play().catch(function(){}); });
+      }else{ aud.src=ch.url; aud.play().catch(function(){}); }
+    }else{ aud.src=ch.url; aud.play().catch(function(){}); aud.style.display="none"; }
+    renderGrid();
+    return;
+  }
+  // Normal TV - radyo çalıyorsa durdur
+  if(curCh && curCh.type=="radio"){ stopRadio(); }
+  if(radioTimer){ clearInterval(radioTimer); radioTimer=null; }
+  var idle2=$("idle"); if(idle2){ idle2.classList.remove("radioMode"); }
+  var rInfo2=$("radioInfo"); if(rInfo2) rInfo2.style.display="none";
   curCh=ch;
   var v=$("video"), idle=$("idle");
   if(idle)idle.style.display="none";
   if(v){v.style.display="block"; v.removeAttribute("hidden"); v.pause(); v.currentTime=0;}
   var epgNN=getEPGNowNext(ch);
-  if($("epgNow")){ if(epgNN.now&&epgNN.next)$("epgNow").textContent="Şimdi: "+epgNN.now.title+" | Sonra: "+epgNN.next.title+" | "+ch.title; else if(epgNN.now)$("epgNow").textContent=epgNN.now.title+" | "+ch.title; else $("epgNow").textContent=ch.group+" | "+ch.title; }
+  if($("epgNow")){ if(epgNN.now&&epgNN.next)$("epgNow").textContent=epgNN.now.title+" | "+epgNN.next.title+" | "+ch.title; else if(epgNN.now)$("epgNow").textContent=epgNN.now.title+" | "+ch.title; else $("epgNow").textContent=ch.group+" | "+ch.title; }
   if(hls){try{hls.destroy();}catch(e){} hls=null;}
   if(ch.url.indexOf(".m3u8")!=-1){
     if(Hls.isSupported()){
@@ -301,7 +387,15 @@ function init(){
   $("closeSpeed").onclick=function(){$("speedModal").classList.add("hidden");};
   $("startTest").onclick=function(){doSpeedTest();};
   var tabs=document.querySelectorAll(".top button");
-  for(var i=0;i<tabs.length;i++){ tabs[i].addEventListener("click",(function(btn){return function(){ for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on"); btn.classList.add("on"); curTab=btn.dataset.tab; if(curTab=="live"){var ul=findUlusalGroup(); if(ul)curGroup=ul; else curGroup=null;} else curGroup=null; renderGroups(); renderGrid(); };})(tabs[i])); }
+  for(var i=0;i<tabs.length;i++){ tabs[i].addEventListener("click",(function(btn){return function(){
+    var newTab=btn.dataset.tab;
+    // Radyo çalıyorsa başka gruba (Canlı/Film/Dizi/Fav) gidince kapansın
+    if(curCh && curCh.type=="radio" && newTab!="radio" && newTab!="fav"){
+      var isRadioTab = newTab=="radio";
+      if(!isRadioTab){ stopRadio(); }
+    }
+    for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on"); btn.classList.add("on"); curTab=newTab; if(curTab=="live"){var ul=findUlusalGroup(); if(ul)curGroup=ul; else curGroup=null;} else curGroup=null; renderGroups(); renderGrid();
+  };})(tabs[i])); }
   $("loadBtn").onclick=function(){ var m3u=$("m3uIn").value.trim(); if(m3u){ setLoad(20,"Elle yükleniyor..."); fetch(m3u).then(function(r){return r.text();}).then(function(t){ var add=parseM3U(t); channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; renderGroups(); renderGrid(); setLoad(100,add.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; }).catch(function(e){$("stat").textContent="Hata: "+e.message;}); } };
   $("fileIn").addEventListener("change",function(e){ var file=e.target.files[0]; if(!file)return; var reader=new FileReader(); reader.onload=function(ev){ var txt=ev.target.result; if(file.name.endsWith(".xml")){var newEpg=parseEPG(txt); for(var k in newEpg)epg[k]=newEpg[k]; $("stat").textContent="EPG ok"; renderGrid();} else{var add=parseM3U(txt); channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; renderGroups(); renderGrid(); setLoad(100,"Dosyadan "+add.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none";} }; reader.readAsText(file); });
   loadM3UFromUrls(0);
