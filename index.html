@@ -3,33 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mirti TV v84 Temiz</title>
+<title>Mirti TV v85</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#070b14;color:#e8e6df;font-family:Arial,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-header{height:36px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44;flex-shrink:0}
-.logo{font-weight:900;font-size:13px;display:flex;align-items:center;gap:6px}
+header{height:36px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44}
+.logo{font-weight:900;font-size:13px;display:flex;gap:6px;align-items:center}
 .logo img{height:24px;width:24px;border-radius:4px}
-.top{background:#0d1a33;display:flex;gap:6px;padding:6px 8px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto}
-.top button{border:1px solid #2a5a9a;background:#1e3a5f;color:#c8d8ff;padding:6px 12px;border-radius:14px;font-size:10px;font-weight:800;white-space:nowrap;cursor:pointer;flex-shrink:0}
-.top button.on{color:#fff}
-.top button[data-tab="live"].on{background:#ff3b30;border-color:#ff3b30}
-.top button[data-tab="movie"].on{background:#007aff;border-color:#007aff}
-.top button[data-tab="series"].on{background:#af52de;border-color:#af52de}
-.top button[data-tab="radio"].on{background:#ff9500;border-color:#ff9500;color:#111}
-.top button[data-tab="fav"].on{background:#ffcc00;border-color:#ffcc00;color:#111}
-#playerCol{height:42vh;min-height:220px;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
-#player{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center}
+.top{background:#0d1a33;display:flex;gap:6px;padding:6px 8px;border-bottom:1px solid #1c2b4a;overflow:auto}
+.top button{border:1px solid #2a5a9a;background:#1e3a5f;color:#c8d8ff;padding:6px 12px;border-radius:14px;font-size:11px;font-weight:800;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.top button.on{color:#fff;background:#ff3b30;border-color:#ff3b30}
+.top button[data-tab=movie].on{background:#007aff;border-color:#007aff}
+.top button[data-tab=series].on{background:#af52de;border-color:#af52de}
+.top button[data-tab=radio].on{background:#ff9500;border-color:#ff9500;color:#111}
+.top button[data-tab=fav].on{background:#ffcc00;border-color:#ffcc00;color:#111}
+#playerCol{height:42vh;min-height:220px;background:#000;display:flex;flex-direction:column}
+#player{flex:1;background:#000;display:flex;align-items:center;justify-content:center;position:relative}
 #video{width:100%;height:100%;object-fit:contain;background:#000}
-#idle{position:absolute;inset:0;z-index:2;background:#000;display:flex;align-items:center;justify-content:center}
+#idle{position:absolute;inset:0;background:#000;display:flex;align-items:center;justify-content:center}
 #idle img{width:100%;height:100%;object-fit:cover}
-#epgBar{height:24px;background:#101c33;padding:0 8px;font-size:11px;display:flex;align-items:center;flex-shrink:0;border-top:1px solid #1c2b4a;white-space:nowrap;overflow:hidden}
-#groupsWrap{height:42px;background:#0f2440;border-bottom:1px solid #2a5a9a;display:flex;align-items:center;padding:0 8px;gap:6px;flex-shrink:0}
+#epgBar{height:24px;background:#101c33;padding:0 8px;font-size:11px;display:flex;align-items:center;border-top:1px solid #1c2b4a;white-space:nowrap;overflow:hidden}
+#groupsWrap{height:42px;background:#0f2440;border-bottom:1px solid #2a5a9a;display:flex;align-items:center;padding:0 8px;gap:6px}
 #groups{flex:1;display:flex;gap:6px;overflow:auto}
 .gChip{padding:6px 14px;background:#1e3a5f;border:1px solid #2a5a9a;border-radius:12px;font-size:11px;white-space:nowrap;cursor:pointer;flex-shrink:0;color:#c8d8ff;font-weight:700}
 .gChip.on{background:#ff9500!important;color:#111!important;border-color:#ff9500!important;font-weight:900}
-#list{flex:1;background:#080d16;overflow:hidden;display:flex;flex-direction:column;min-height:0}
+#list{flex:1;background:#080d16;overflow:hidden;display:flex;flex-direction:column}
 #grid{flex:1;overflow:auto;padding:6px;display:grid;grid-template-columns:1fr 1fr;gap:6px;grid-auto-rows:66px}
 .item{display:flex;align-items:center;gap:6px;background:#13203a;border:1px solid #1e2e51;border-radius:8px;padding:4px 6px;cursor:pointer;height:66px;overflow:hidden;position:relative}
 .item.on{border-color:#ff9500}
@@ -41,12 +40,11 @@ header{height:36px;background:#0f1726;display:flex;align-items:center;justify-co
 .favBtn{position:absolute;right:3px;bottom:3px;width:14px;height:14px;border:none;background:rgba(0,0,0,.4);border-radius:50%;color:#666;font-size:8px;cursor:pointer}
 .favBtn.on{color:#ffcc33}
 @media (min-width:900px){
-  #playerCol{height:52vh;min-height:340px;max-width:1100px;margin:0 auto;width:100%;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a}
-  #idle img{object-fit:contain}
-  #list,#groupsWrap,.top,header,#epgBar{max-width:1100px;margin:0 auto;width:100%;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a}
-  #groupsWrap{height:48px!important}
-  .gChip{font-size:13px!important;padding:8px 18px!important;border-radius:16px!important}
-  .top button{font-size:12px!important;padding:7px 16px!important}
+#playerCol{height:52vh;min-height:340px;max-width:1100px;margin:0 auto;width:100%;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a}
+#idle img{object-fit:contain}
+#list,#groupsWrap,.top,header,#epgBar{max-width:1100px;margin:0 auto;width:100%;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a}
+.gChip{font-size:13px!important;padding:8px 18px!important}
+.top button{font-size:12px!important;padding:7px 16px!important}
 }
 .hidden{display:none!important}
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99}
@@ -55,710 +53,106 @@ header{height:36px;background:#0f1726;display:flex;align-items:center;justify-co
 </style>
 </head>
 <body>
-<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg"> Mirti TV</div><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 8px;border-radius:4px;font-weight:800;font-size:10px">AYAR</button></header>
+<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg" alt=""> Mirti TV</div><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 8px;border-radius:4px;font-weight:800;font-size:10px">AYAR</button></header>
 <div class="top"><button data-tab="live" class="on" id="bLive">Canli</button><button data-tab="movie" id="bMovie">Film</button><button data-tab="series" id="bSeries">Dizi</button><button data-tab="radio" id="bRadio">Radyo</button><button data-tab="fav" id="bFav">Fav</button></div>
 <div id="playerCol"><div id="player"><video id="video" controls playsinline style="width:100%;height:100%;display:none"></video><div id="idle"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg" alt=""></div></div><div id="epgBar"><span id="epgNow">Hazir...</span></div></div>
 <div id="groupsWrap"><div id="groups"></div></div>
 <div id="list"><div id="grid"></div></div>
-
 <div id="modal" class="hidden"><div class="box"><b style="font-size:12px">M3U Yukle</b><textarea id="m3uIn" placeholder="M3U linki"></textarea><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:8px;border-radius:6px;font-weight:800">YUKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:8px;border-radius:6px">KAPAT</button></div><button id="fixM3U" style="background:#ff3b30;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">YAYIN GERI</button><div id="stat" style="font-size:9px;color:#8fb0ff"></div></div></div>
-
 <script>
-var M3U_URLS=["https://raw.githubusercontent.com/ipmirti68/-p/main/m%C4%B1rt%C4%B168.m3u","https://raw.githubusercontent.com/ipmirti68/-p/main/mirti68.m3u"];
+var M3U_URLS=["https://raw.githubusercontent.com/ipmirti68/-p/main/mirti68.m3u"];
 var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
 var channels=[],groupOrder=[],favs=[],curGroup=null,curTab="live",hls=null,curCh=null;
 try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
 function $(id){return document.getElementById(id);}
 function isFav(u){return favs.indexOf(u)>=0;}
-function toggleFav(u){ var i=favs.indexOf(u); if(i<0) favs.push(u); else favs.splice(i,1); try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){} renderGrid(); renderGroups(); }
-function cleanGroup(g){ var t=(g||"Genel").trim(); t=t.replace(/\s+/g," ").trim(); return t; }
-function getType(g,u){ var n=(g||"").toLowerCase(); if(n.indexOf("dizi")>=0) return "series"; if(n.indexOf("film")>=0) return "movie"; if(n.indexOf("radyo")>=0||n.indexOf("radio")>=0) return "radio"; if((u||"").indexOf(".mp4")>=0) return "movie"; return "live"; }
+function toggleFav(u){var i=favs.indexOf(u);if(i<0)favs.push(u);else favs.splice(i,1);try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){}renderGrid();renderGroups();}
+function cleanGroup(g){var t=(g||"Genel").trim();t=t.replace(/\s+/g," ").trim();return t;}
+function getType(g,u){var n=(g||"").toLowerCase();if(n.indexOf("dizi")>=0)return "series";if(n.indexOf("film")>=0)return "movie";if(n.indexOf("radyo")>=0||n.indexOf("radio")>=0)return "radio";if((u||"").indexOf(".mp4")>=0)return "movie";return "live";}
 function parseM3U(t){
-  var list=[],seen={},newOrder=[],cur=null;
-  var lines=t.replace(/\r/g,"").split("\n");
-  for(var i=0;i<lines.length;i++){
-    var l=lines[i].trim(); if(!l) continue;
-    if(l.toUpperCase().indexOf("#EXTINF")===0){
-      cur={}; var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo) cur.logo=lo[1];
-      var gr=l.match(/group-title="([^"]+)"/i); cur.group=cleanGroup(gr?gr[1]:"Genel");
-      var c=l.lastIndexOf(","); cur.title=c>=0?l.slice(c+1).trim():"Kanal";
-      if(!seen[cur.group]){seen[cur.group]=1; newOrder.push(cur.group);}
-    } else if(cur && l.charAt(0)!=="#"){
-      var url=l.split("|")[0].trim().split(/\s+/)[0];
-      if(url.indexOf("http")===0){ cur.url=url; cur.type=getType(cur.group,url); list.push(cur); }
-      cur=null;
-    }
-  }
-  newOrder.sort(function(a,b){return a.localeCompare(b,"tr");});
-  groupOrder=newOrder; return list;
+var list=[],seen={},newOrder=[],cur=null;
+var lines=t.replace(/\r/g,"").split("\n");
+for(var i=0;i<lines.length;i++){
+var l=lines[i].trim();if(!l)continue;
+if(l.toUpperCase().indexOf("#EXTINF")===0){
+cur={};var lo=l.match(/tvg-logo="([^"]+)"/i);if(lo)cur.logo=lo[1];
+var gr=l.match(/group-title="([^"]+)"/i);cur.group=cleanGroup(gr?gr[1]:"Genel");
+var c=l.lastIndexOf(",");cur.title=c>=0?l.slice(c+1).trim():"Kanal";
+if(!seen[cur.group]){seen[cur.group]=1;newOrder.push(cur.group);}
+}else if(cur&&l.charAt(0)!=="#"){
+var url=l.split("|")[0].trim().split(/\s+/)[0];
+if(url.indexOf("http")===0){cur.url=url;cur.type=getType(cur.group,url);list.push(cur);}
+cur=null;
+}
+}
+newOrder.sort(function(a,b){return a.localeCompare(b,"tr");});
+groupOrder=newOrder;return list;
 }
 function getFiltered(){
-  var list=[]; for(var i=0;i<channels.length;i++){ var c=channels[i]; if(curTab==="fav"){if(isFav(c.url))list.push(c);} else if(c.type===curTab)list.push(c); }
-  if(curGroup){ var f=[]; for(var j=0;j<list.length;j++) if(list[j].group===curGroup) f.push(list[j]); list=f; }
-  return list;
+var list=[];for(var i=0;i<channels.length;i++){var c=channels[i];if(curTab==="fav"){if(isFav(c.url))list.push(c);}else if(c.type===curTab)list.push(c);}
+if(curGroup){var f=[];for(var j=0;j<list.length;j++)if(list[j].group===curGroup)f.push(list[j]);list=f;}
+return list;
 }
 function renderGroups(){
-  var gl=$("groups"); if(!gl) return; gl.innerHTML="";
-  var has={}; for(var j=0;j<channels.length;j++){ var g=channels[j].group; if(!has[g]) has[g]={live:0,movie:0,series:0,radio:0,fav:0}; var t=channels[j].type; if(t==="live") has[g].live=1; else if(t==="movie") has[g].movie=1; else if(t==="series") has[g].series=1; else if(t==="radio") has[g].radio=1; if(isFav(channels[j].url)) has[g].fav=1; }
-  for(var i=0;i<groupOrder.length;i++){
-    var g=groupOrder[i]; var m=has[g]; if(!m) continue;
-    var ok=false; if(curTab==="live"&&m.live) ok=true; else if(curTab==="movie"&&m.movie) ok=true; else if(curTab==="series"&&m.series) ok=true; else if(curTab==="radio"&&m.radio) ok=true; else if(curTab==="fav"&&m.fav) ok=true;
-    if(!ok) continue;
-    var div=document.createElement("div"); div.className="gChip"+(g===curGroup?" on":""); div.textContent=g;
-    (function(gg){ div.onclick=function(){ curGroup=gg; renderGrid(); renderGroups(); }; })(g);
-    gl.appendChild(div);
-  }
+var gl=$("groups");if(!gl)return;gl.innerHTML="";
+var has={};for(var j=0;j<channels.length;j++){var g=channels[j].group;if(!has[g])has[g]={live:0,movie:0,series:0,radio:0,fav:0};var t=channels[j].type;if(t==="live")has[g].live=1;else if(t==="movie")has[g].movie=1;else if(t==="series")has[g].series=1;else if(t==="radio")has[g].radio=1;if(isFav(channels[j].url))has[g].fav=1;}
+for(var i=0;i<groupOrder.length;i++){
+var g=groupOrder[i];var m=has[g];if(!m)continue;
+var ok=false;if(curTab==="live"&&m.live)ok=true;else if(curTab==="movie"&&m.movie)ok=true;else if(curTab==="series"&&m.series)ok=true;else if(curTab==="radio"&&m.radio)ok=true;else if(curTab==="fav"&&m.fav)ok=true;
+if(!ok)continue;
+var div=document.createElement("div");div.className="gChip"+(g===curGroup?" on":"");div.textContent=g;
+(function(gg){div.onclick=function(){curGroup=gg;renderGrid();renderGroups();};})(g);
+gl.appendChild(div);
+}
 }
 function renderGrid(){
-  var grid=$("grid"); if(!grid) return; grid.innerHTML="";
-  var list=getFiltered();
-  if(list.length===0){ var d=document.createElement("div"); d.style.cssText="grid-column:1/-1;color:#888;padding:20px;text-align:center;font-size:11px"; d.textContent=channels.length===0?"Liste bos - AYAR > YAYIN GERI":"Bu grupta kanal yok"; grid.appendChild(d); return; }
-  for(var i=0;i<list.length;i++){
-    var ch=list[i];
-    var row=document.createElement("div"); row.className="item"+(curCh&&curCh.url===ch.url?" on":"");
-    var logoBox=document.createElement("div"); logoBox.className="logoBox";
-    var img=document.createElement("img"); img.src=ch.logo||DEFAULT_LOGO; img.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox.appendChild(img);
-    var info=document.createElement("div"); info.className="info";
-    var b=document.createElement("b"); b.textContent=ch.title;
-    var sp=document.createElement("span"); sp.textContent=ch.group;
-    info.appendChild(b); info.appendChild(sp);
-    var fav=document.createElement("button"); fav.className="favBtn"+(isFav(ch.url)?" on":""); fav.textContent=isFav(ch.url)?"★":"☆";
-    (function(u){ fav.onclick=function(e){ e.stopPropagation(); toggleFav(u); }; })(ch.url);
-    row.appendChild(logoBox); row.appendChild(info); row.appendChild(fav);
-    (function(c){ row.onclick=function(){ play(c); }; })(ch);
-    grid.appendChild(row);
-  }
-  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type==="live")lc++; else if(channels[k].type==="movie")mc++; else if(channels[k].type==="series")sc++; else if(channels[k].type==="radio")rc++;}
-  $("bLive").textContent="Canli "+lc; $("bMovie").textContent="Film "+mc; $("bSeries").textContent="Dizi "+sc; $("bRadio").textContent="Radyo "+rc; $("bFav").textContent="Fav "+favs.length;
+var grid=$("grid");if(!grid)return;grid.innerHTML="";
+var list=getFiltered();
+if(list.length===0){var d=document.createElement("div");d.style.cssText="grid-column:1/-1;color:#888;padding:20px;text-align:center;font-size:11px";d.textContent=channels.length===0?"Liste bos - AYAR > YAYIN GERI":"Bu grupta kanal yok";grid.appendChild(d);return;}
+for(var i=0;i<list.length;i++){
+var ch=list[i];
+var row=document.createElement("div");row.className="item"+(curCh&&curCh.url===ch.url?" on":"");
+var logoBox=document.createElement("div");logoBox.className="logoBox";
+var img=document.createElement("img");img.src=ch.logo||DEFAULT_LOGO;img.onerror=function(){this.src=DEFAULT_LOGO;};logoBox.appendChild(img);
+var info=document.createElement("div");info.className="info";
+var b=document.createElement("b");b.textContent=ch.title;
+var sp=document.createElement("span");sp.textContent=ch.group;
+info.appendChild(b);info.appendChild(sp);
+var fav=document.createElement("button");fav.className="favBtn"+(isFav(ch.url)?" on":"");fav.textContent=isFav(ch.url)?"★":"☆";
+(function(u){fav.onclick=function(e){e.stopPropagation();toggleFav(u);};})(ch.url);
+row.appendChild(logoBox);row.appendChild(info);row.appendChild(fav);
+(function(c){row.onclick=function(){play(c);};})(ch);
+grid.appendChild(row);
+}
+var lc=0,mc=0,sc=0,rc=0;for(var k=0;k<channels.length;k++){if(channels[k].type==="live")lc++;else if(channels[k].type==="movie")mc++;else if(channels[k].type==="series")sc++;else if(channels[k].type==="radio")rc++;}
+$("bLive").textContent="Canli "+lc;$("bMovie").textContent="Film "+mc;$("bSeries").textContent="Dizi "+sc;$("bRadio").textContent="Radyo "+rc;$("bFav").textContent="Fav "+favs.length;
 }
 function play(ch){
-  if(!ch||!ch.url) return;
-  curCh=ch; var v=$("video"), idle=$("idle"); if(idle) idle.style.display="none"; v.style.display="block"; v.pause();
-  $("epgNow").textContent=ch.group+" | "+ch.title;
-  if(hls){try{hls.destroy();}catch(e){} hls=null;}
-  if(ch.url.indexOf(".m3u8")>=0){
-    if(Hls.isSupported()){ hls=new Hls(); hls.loadSource(ch.url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); }
-    else if(v.canPlayType("application/vnd.apple.mpegurl")){ v.src=ch.url; v.play(); }
-  } else { v.src=ch.url; v.play().catch(function(){ $("epgNow").textContent="VLC'de ac: "+ch.title; }); }
-  renderGrid();
+if(!ch||!ch.url)return;
+curCh=ch;var v=$("video"),idle=$("idle");if(idle)idle.style.display="none";v.style.display="block";v.pause();
+$("epgNow").textContent=ch.group+" | "+ch.title;
+if(hls){try{hls.destroy();}catch(e){}hls=null;}
+if(ch.url.indexOf(".m3u8")>=0){
+if(Hls.isSupported()){hls=new Hls();hls.loadSource(ch.url);hls.attachMedia(v);hls.on(Hls.Events.MANIFEST_PARSED,function(){v.play().catch(function(){});});}
+else if(v.canPlayType("application/vnd.apple.mpegurl")){v.src=ch.url;v.play();}
+}else{v.src=ch.url;v.play().catch(function(){$("epgNow").textContent="VLC'de ac: "+ch.title;});}
+renderGrid();
 }
-function findUlusal(){ for(var i=0;i<groupOrder.length;i++) if(groupOrder[i].toLowerCase().indexOf("ulusal")>=0) return groupOrder[i]; return groupOrder[0]||null; }
-function loadFallback(){ channels=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}]; groupOrder=["ULUSAL"]; curGroup="ULUSAL"; curTab="live"; renderGroups(); renderGrid(); $("epgNow").textContent="Yedek yayin"; }
+function findUlusal(){for(var i=0;i<groupOrder.length;i++)if(groupOrder[i].toLowerCase().indexOf("ulusal")>=0)return groupOrder[i];return groupOrder[0]||null;}
+function loadFallback(){channels=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}];groupOrder=["ULUSAL"];curGroup="ULUSAL";curTab="live";renderGroups();renderGrid();$("epgNow").textContent="Yedek yayin";}
 function loadM3U(idx){
-  if(idx==null) idx=0; if(idx>=M3U_URLS.length){ loadFallback(); return; }
-  $("epgNow").textContent="Yukleniyor "+(idx+1);
-  fetch(M3U_URLS[idx],{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("http"); return r.text(); }).then(function(t){
-    if(t.length<100) throw new Error("bos"); var p=parseM3U(t); if(p.length===0) throw new Error("0"); channels=p; curGroup=findUlusal()||groupOrder[0]; $("epgNow").textContent=channels.length+" kanal - v84 temiz"; renderGroups(); renderGrid();
-  }).catch(function(){ loadM3U(idx+1); });
+if(idx==null)idx=0;if(idx>=M3U_URLS.length){loadFallback();return;}
+$("epgNow").textContent="Yukleniyor "+(idx+1);
+fetch(M3U_URLS[idx],{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("http");return r.text();}).then(function(t){
+if(t.length<100)throw new Error("bos");var p=parseM3U(t);if(p.length===0)throw new Error("0");channels=p;curGroup=findUlusal()||groupOrder[0];$("epgNow").textContent=channels.length+" kanal - v85 temiz";renderGroups();renderGrid();
+}).catch(function(){loadM3U(idx+1);});
 }
 $("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
 $("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
-$("fixM3U").onclick=function(){ loadFallback(); $("modal").classList.add("hidden"); };
-var tabs=document.querySelectorAll(".top button"); for(var i=0;i<tabs.length;i++){ (function(btn){ btn.addEventListener("click",function(){ for(var j=0;j<tabs.length;j++) tabs[j].classList.remove("on"); btn.classList.add("on"); curTab=btn.getAttribute("data-tab"); if(curTab==="live") curGroup=findUlusal(); else curGroup=null; renderGroups(); renderGrid(); }); })(tabs[i]); }
-$("loadBtn").onclick=function(){
-  var raw=$("m3uIn").value.trim(); if(!raw) return;
-  if(raw.indexOf("http")===0&&raw.indexOf("#EXTINF")<0){
-    fetch(raw).then(function(r){return r.text();}).then(function(t){ var p=parseM3U(t); channels=p; curGroup=findUlusal(); renderGroups(); renderGrid(); $("modal").classList.add("hidden"); });
-  } else { var p=parseM3U(raw); for(var ii=0;ii<p.length;ii++){ if(groupOrder.indexOf(p[ii].group)<0) groupOrder.push(p[ii].group); channels.push(p[ii]); } groupOrder.sort(function(a,b){return a.localeCompare(b,"tr");}); renderGroups(); renderGrid(); $("modal").classList.add("hidden"); }
-};
+$("fixM3U").onclick=function(){loadFallback();$("modal").classList.add("hidden");};
+var tabs=document.querySelectorAll(".top button");for(var i=0;i<tabs.length;i++){(function(btn){btn.addEventListener("click",function(){for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on");btn.classList.add("on");curTab=btn.getAttribute("data-tab");if(curTab==="live")curGroup=findUlusal();else curGroup=null;renderGroups();renderGrid();});})(tabs[i]);}
+$("loadBtn").onclick=function(){var raw=$("m3uIn").value.trim();if(!raw)return;if(raw.indexOf("http")===0&&raw.indexOf("#EXTINF")<0){fetch(raw).then(function(r){return r.text();}).then(function(t){var p=parseM3U(t);channels=p;curGroup=findUlusal();renderGroups();renderGrid();$("modal").classList.add("hidden");});}else{var p=parseM3U(raw);for(var ii=0;ii<p.length;ii++){if(groupOrder.indexOf(p[ii].group)<0)groupOrder.push(p[ii].group);channels.push(p[ii]);}groupOrder.sort(function(a,b){return a.localeCompare(b,"tr");});renderGroups();renderGrid();$("modal").classList.add("hidden");}};
 loadM3U(0);
-</script>
-</body>
-</html>sName="item"+(curCh&&curCh.url==ch.url?" on":"");
-    var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img=document.createElement("img"); img.src=ch.logo||DEFAULT_LOGO; img.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox.appendChild(img);
-    var info=document.createElement("div"); info.className="info"; var b=document.createElement("b"); b.textContent=ch.title; var sp=document.createElement("span"); sp.textContent=ch.group; info.appendChild(b); info.appendChild(sp);
-    var fav=document.createElement("button"); fav.className="favBtn"+(isFav(ch.url)?" on":""); fav.textContent=isFav(ch.url)?"★":"☆"; fav.onclick=(function(u){return function(e){e.stopPropagation(); toggleFav(u);};})(ch.url);
-    row.appendChild(logoBox); row.appendChild(info); row.appendChild(fav);
-    row.onclick=(function(c){return function(){ play(c); };})(ch);
-    grid.appendChild(row);
-  }
-  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;}
-  $("bLive").textContent="Canli "+lc; $("bMovie").textContent="Film "+mc; $("bSeries").textContent="Dizi "+sc; $("bRadio").textContent="Radyo "+rc; $("bFav").textContent="Fav "+favs.length;
-}
-function play(ch){
-  if(!ch||!ch.url) return;
-  curCh=ch; var v=$("video"), idle=$("idle"); if(idle) idle.style.display="none"; v.style.display="block"; v.pause(); v.currentTime=0;
-  $("epgNow").textContent=ch.group+" | "+ch.title;
-  if(hls){try{hls.destroy();}catch(e){} hls=null;}
-  if(ch.url.indexOf(".m3u8")!=-1){
-    if(Hls.isSupported()){ hls=new Hls(); hls.loadSource(ch.url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); }
-    else if(v.canPlayType('application/vnd.apple.mpegurl')){ v.src=ch.url; v.play(); }
-  } else { v.src=ch.url; v.play().catch(function(){ $("epgNow").textContent="VLC'de ac: "+ch.title; }); }
-  renderGrid();
-}
-function findUlusal(){ for(var i=0;i<groupOrder.length;i++) if(groupOrder[i].toLowerCase().indexOf("ulusal")!=-1) return groupOrder[i]; return groupOrder[0]||null; }
-function loadFallback(){ channels=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}]; groupOrder=["ULUSAL"]; curGroup="ULUSAL"; curTab="live"; renderGroups(); renderGrid(); $("epgNow").textContent="Yedek yayin"; }
-function loadM3U(idx){
-  if(idx==null) idx=0; if(idx>=M3U_URLS.length){ loadFallback(); return; }
-  $("epgNow").textContent="Yukleniyor "+(idx+1);
-  fetch(M3U_URLS[idx],{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("http"); return r.text(); }).then(function(t){
-    if(t.length<100) throw new Error("bos"); var p=parseM3U(t); if(p.length==0) throw new Error("0"); channels=p; curGroup=findUlusal()||groupOrder[0]; $("epgNow").textContent=channels.length+" kanal - v82 temiz"; renderGroups(); renderGrid();
-  }).catch(function(){ loadM3U(idx+1); });
-}
-$("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
-$("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
-$("fixM3U").onclick=function(){ loadFallback(); $("modal").classList.add("hidden"); };
-document.querySelectorAll(".top button").forEach(function(btn){
-  btn.addEventListener("click",function(){
-    document.querySelectorAll(".top button").forEach(function(b){b.classList.remove("on");});
-    btn.classList.add("on"); curTab=btn.dataset.tab; if(curTab=="live") curGroup=findUlusal(); else curGroup=null; renderGroups(); renderGrid();
-  });
-});
-$("loadBtn").onclick=function(){
-  var raw=$("m3uIn").value.trim(); if(!raw) return;
-  if(raw.indexOf("http")==0&&raw.indexOf("#EXTINF")==-1){
-    fetch(raw).then(function(r){return r.text();}).then(function(t){ var p=parseM3U(t); channels=p; curGroup=findUlusal(); renderGroups(); renderGrid(); $("modal").classList.add("hidden"); });
-  } else { var p=parseM3U(raw); for(var i=0;i<p.length;i++){ if(groupOrder.indexOf(p[i].group)==-1) groupOrder.push(p[i].group); channels.push(p[i]); } renderGroups(); renderGrid(); $("modal").classList.add("hidden"); }
-};
-$("fileIn").addEventListener("change",function(e){ var f=e.target.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(ev){ var p=parseM3U(ev.target.result); channels=p; renderGroups(); renderGrid(); $("modal").classList.add("hidden"); }; r.readAsText(f); });
-loadM3U(0);
-</script>
-</body>
-</html>RI":"Bu grupta kanal yok"; grid.appendChild(d); return; }
-  for(var i=0;i<list.length;i++){
-    var ch=list[i];
-    var row=document.createElement("div"); row.className="item"+(curCh&&curCh.url===ch.url?" on":"");
-    var logoBox=document.createElement("div"); logoBox.className="logoBox";
-    var img=document.createElement("img"); img.src=ch.logo||DEFAULT_LOGO; img.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox.appendChild(img);
-    var info=document.createElement("div"); info.className="info";
-    var b=document.createElement("b"); b.textContent=ch.title;
-    var sp=document.createElement("span"); sp.textContent=ch.group;
-    info.appendChild(b); info.appendChild(sp);
-    var fav=document.createElement("button"); fav.className="favBtn"+(isFav(ch.url)?" on":""); fav.textContent=isFav(ch.url)?"★":"☆";
-    (function(u){ fav.onclick=function(e){ e.stopPropagation(); toggleFav(u); }; })(ch.url);
-    row.appendChild(logoBox); row.appendChild(info); row.appendChild(fav);
-    (function(c){ row.onclick=function(){ play(c); }; })(ch);
-    grid.appendChild(row);
-  }
-  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type==="live")lc++; else if(channels[k].type==="movie")mc++; else if(channels[k].type==="series")sc++; else if(channels[k].type==="radio")rc++;}
-  $("bLive").textContent="Canli "+lc; $("bMovie").textContent="Film "+mc; $("bSeries").textContent="Dizi "+sc; $("bRadio").textContent="Radyo "+rc; $("bFav").textContent="Fav "+favs.length;
-}
-function play(ch){
-  if(!ch||!ch.url) return;
-  curCh=ch; var v=$("video"), idle=$("idle"); if(idle) idle.style.display="none"; v.style.display="block"; v.pause();
-  $("epgNow").textContent=ch.group+" | "+ch.title;
-  if(hls){try{hls.destroy();}catch(e){} hls=null;}
-  if(ch.url.indexOf(".m3u8")>=0){
-    if(Hls.isSupported()){ hls=new Hls(); hls.loadSource(ch.url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); }
-    else if(v.canPlayType("application/vnd.apple.mpegurl")){ v.src=ch.url; v.play(); }
-  } else { v.src=ch.url; v.play().catch(function(){ $("epgNow").textContent="VLC'de ac: "+ch.title; }); }
-  renderGrid();
-}
-function findUlusal(){ for(var i=0;i<groupOrder.length;i++) if(groupOrder[i].toLowerCase().indexOf("ulusal")>=0) return groupOrder[i]; return groupOrder[0]||null; }
-function loadFallback(){ channels=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}]; groupOrder=["ULUSAL"]; curGroup="ULUSAL"; curTab="live"; renderGroups(); renderGrid(); $("epgNow").textContent="Yedek yayin"; }
-function loadM3U(idx){
-  if(idx==null) idx=0; if(idx>=M3U_URLS.length){ loadFallback(); return; }
-  $("epgNow").textContent="Yukleniyor "+(idx+1);
-  fetch(M3U_URLS[idx],{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("http"); return r.text(); }).then(function(t){
-    if(t.length<100) throw new Error("bos"); var p=parseM3U(t); if(p.length===0) throw new Error("0"); channels=p; curGroup=findUlusal()||groupOrder[0]; $("epgNow").textContent=channels.length+" kanal - v84 temiz"; renderGroups(); renderGrid();
-  }).catch(function(){ loadM3U(idx+1); });
-}
-$("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
-$("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
-$("fixM3U").onclick=function(){ loadFallback(); $("modal").classList.add("hidden"); };
-var tabs=document.querySelectorAll(".top button"); for(var i=0;i<tabs.length;i++){ (function(btn){ btn.addEventListener("click",function(){ for(var j=0;j<tabs.length;j++) tabs[j].classList.remove("on"); btn.classList.add("on"); curTab=btn.getAttribute("data-tab"); if(curTab==="live") curGroup=findUlusal(); else curGroup=null; renderGroups(); renderGrid(); }); })(tabs[i]); }
-$("loadBtn").onclick=function(){
-  var raw=$("m3uIn").value.trim(); if(!raw) return;
-  if(raw.indexOf("http")===0&&raw.indexOf("#EXTINF")<0){
-    fetch(raw).then(function(r){return r.text();}).then(function(t){ var p=parseM3U(t); channels=p; curGroup=findUlusal(); renderGroups(); renderGrid(); $("modal").classList.add("hidden"); });
-  } else { var p=parseM3U(raw); for(var ii=0;ii<p.length;ii++){ if(groupOrder.indexOf(p[ii].group)<0) groupOrder.push(p[ii].group); channels.push(p[ii]); } groupOrder.sort(function(a,b){return a.localeCompare(b,"tr");}); renderGroups(); renderGrid(); $("modal").classList.add("hidden"); }
-};
-loadM3U(0);
-</script>
-</body>
-</html>rid.innerHTML="";
-  var list=getFiltered();
-  if(list.length==0){ var d=document.createElement("div"); d.style.cssText="grid-column:1/-1;color:#888;padding:20px;text-align:center;font-size:11px"; d.textContent=channels.length==0?"Liste bos - AYAR > YAYIN GERI":"Bu grupta kanal yok"; grid.appendChild(d); return; }
-  for(var i=0;i<list.length;i++){
-    var ch=list[i]; var row=document.createElement("div"); row.className="item"+(curCh&&curCh.url==ch.url?" on":"");
-    var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img=document.createElement("img"); img.src=ch.logo||DEFAULT_LOGO; img.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox.appendChild(img);
-    var info=document.createElement("div"); info.className="info"; var b=document.createElement("b"); b.textContent=ch.title; var sp=document.createElement("span"); sp.textContent=ch.group; info.appendChild(b); info.appendChild(sp);
-    var fav=document.createElement("button"); fav.className="favBtn"+(isFav(ch.url)?" on":""); fav.textContent=isFav(ch.url)?"★":"☆"; fav.onclick=(function(u){return function(e){e.stopPropagation(); toggleFav(u);};})(ch.url);
-    row.appendChild(logoBox); row.appendChild(info); row.appendChild(fav);
-    row.onclick=(function(c){return function(){ play(c); };})(ch);
-    grid.appendChild(row);
-  }
-  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;}
-  $("bLive").textContent="Canli "+lc; $("bMovie").textContent="Film "+mc; $("bSeries").textContent="Dizi "+sc; $("bRadio").textContent="Radyo "+rc; $("bFav").textContent="Fav "+favs.length;
-}
-function play(ch){
-  if(!ch||!ch.url) return;
-  curCh=ch; var v=$("video"), idle=$("idle"); if(idle) idle.style.display="none"; v.style.display="block"; v.pause(); v.currentTime=0;
-  $("epgNow").textContent=ch.group+" | "+ch.title;
-  if(hls){try{hls.destroy();}catch(e){} hls=null;}
-  if(ch.url.indexOf(".m3u8")!=-1){
-    if(Hls.isSupported()){ hls=new Hls(); hls.loadSource(ch.url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); }
-    else if(v.canPlayType('application/vnd.apple.mpegurl')){ v.src=ch.url; v.play(); }
-  } else { v.src=ch.url; v.play().catch(function(){ $("epgNow").textContent="VLC'de ac: "+ch.title; }); }
-  renderGrid();
-}
-function findUlusal(){ for(var i=0;i<groupOrder.length;i++) if(groupOrder[i].toLowerCase().indexOf("ulusal")!=-1) return groupOrder[i]; return groupOrder[0]||null; }
-function loadFallback(){ channels=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}]; groupOrder=["ULUSAL"]; curGroup="ULUSAL"; curTab="live"; renderGroups(); renderGrid(); $("epgNow").textContent="Yedek yayin"; }
-function loadM3U(idx){
-  if(idx==null) idx=0; if(idx>=M3U_URLS.length){ loadFallback(); return; }
-  $("epgNow").textContent="Yukleniyor "+(idx+1);
-  fetch(M3U_URLS[idx],{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("http"); return r.text(); }).then(function(t){
-    if(t.length<100) throw new Error("bos"); var p=parseM3U(t); if(p.length==0) throw new Error("0"); channels=p; curGroup=findUlusal()||groupOrder[0]; $("epgNow").textContent=channels.length+" kanal - v83 grup fix"; renderGroups(); renderGrid();
-  }).catch(function(){ loadM3U(idx+1); });
-}
-$("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
-$("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
-$("fixM3U").onclick=function(){ loadFallback(); $("modal").classList.add("hidden"); };
-document.querySelectorAll(".top button").forEach(function(btn){
-  btn.addEventListener("click",function(){
-    document.querySelectorAll(".top button").forEach(function(b){b.classList.remove("on");});
-    btn.classList.add("on"); curTab=btn.dataset.tab; if(curTab=="live") curGroup=findUlusal(); else curGroup=null; renderGroups(); renderGrid();
-  });
-});
-$("loadBtn").onclick=function(){
-  var raw=$("m3uIn").value.trim(); if(!raw) return;
-  if(raw.indexOf("http")==0&&raw.indexOf("#EXTINF")==-1){
-    fetch(raw).then(function(r){return r.text();}).then(function(t){ var p=parseM3U(t); channels=p; curGroup=findUlusal(); renderGroups(); renderGrid(); $("modal").classList.add("hidden"); });
-  } else { var p=parseM3U(raw); for(var i=0;i<p.length;i++){ if(groupOrder.indexOf(p[i].group)==-1) groupOrder.push(p[i].group); channels.push(p[i]); } groupOrder.sort(function(a,b){return a.localeCompare(b,'tr');}); renderGroups(); renderGrid(); $("modal").classList.add("hidden"); }
-};
-$("fileIn").addEventListener("change",function(e){ var f=e.target.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(ev){ var p=parseM3U(ev.target.result); channels=p; renderGroups(); renderGrid(); $("modal").classList.add("hidden"); }; r.readAsText(f); });
-loadM3U(0);
-</script>
-</body>
-</html>ist[i]; var row=document.createElement("div"); row.className="item"+(curCh&&curCh.url==ch.url?" on":"");
-    var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img=document.createElement("img"); img.src=ch.logo||DEFAULT_LOGO; img.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox.appendChild(img);
-    var info=document.createElement("div"); info.className="info"; var b=document.createElement("b"); b.textContent=ch.title; var sp=document.createElement("span"); sp.textContent=ch.group; info.appendChild(b); info.appendChild(sp);
-    var fav=document.createElement("button"); fav.className="favBtn"+(isFav(ch.url)?" on":""); fav.textContent=isFav(ch.url)?"★":"☆"; fav.onclick=(function(u){return function(e){e.stopPropagation(); toggleFav(u);};})(ch.url);
-    row.appendChild(logoBox); row.appendChild(info); row.appendChild(fav);
-    row.onclick=(function(c){return function(){ play(c); };})(ch);
-    grid.appendChild(row);
-  }
-  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;}
-  $("bLive").textContent="📺 Canlı "+lc; $("bMovie").textContent="🎬 Film "+mc; $("bSeries").textContent="🎞️ Dizi "+sc; $("bRadio").textContent="📻 Radyo "+rc; $("bFav").textContent="⭐ Fav "+favs.length;
-}
-function play(ch){
-  if(!ch||!ch.url) return;
-  curCh=ch; var v=$("video"), idle=$("idle"); if(idle) idle.style.display="none"; v.style.display="block"; v.pause(); v.currentTime=0;
-  $("epgNow").textContent=ch.group+" | "+ch.title;
-  if(hls){try{hls.destroy();}catch(e){} hls=null;}
-  if(ch.url.indexOf(".m3u8")!=-1){
-    if(Hls.isSupported()){ hls=new Hls(); hls.loadSource(ch.url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); }
-    else if(v.canPlayType('application/vnd.apple.mpegurl')){ v.src=ch.url; v.play(); }
-  } else { v.src=ch.url; v.play().catch(function(){ $("epgNow").textContent="VLC'de aç: "+ch.title; }); }
-  renderGrid();
-}
-function findUlusal(){ for(var i=0;i<groupOrder.length;i++) if(groupOrder[i].toLowerCase().indexOf("ulusal")!=-1) return groupOrder[i]; return groupOrder[0]||null; }
-function loadFallback(){ channels=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}]; groupOrder=["ULUSAL"]; curGroup="ULUSAL"; curTab="live"; renderGroups(); renderGrid(); $("epgNow").textContent="Yedek yayın"; }
-function loadM3U(idx){
-  if(idx==null) idx=0; if(idx>=M3U_URLS.length){ loadFallback(); return; }
-  $("epgNow").textContent="Yükleniyor "+(idx+1);
-  fetch(M3U_URLS[idx],{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("http"); return r.text(); }).then(function(t){
-    if(t.length<100) throw new Error("boş"); var p=parseM3U(t); if(p.length==0) throw new Error("0"); channels=p; curGroup=findUlusal()||groupOrder[0]; $("epgNow").textContent=channels.length+" kanal - v81 sade"; renderGroups(); renderGrid();
-  }).catch(function(){ loadM3U(idx+1); });
-}
-$("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
-$("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
-$("fixM3U").onclick=function(){ loadFallback(); $("modal").classList.add("hidden"); };
-document.querySelectorAll(".top button").forEach(function(btn){
-  btn.addEventListener("click",function(){
-    document.querySelectorAll(".top button").forEach(function(b){b.classList.remove("on");});
-    btn.classList.add("on"); curTab=btn.dataset.tab; if(curTab=="live") curGroup=findUlusal(); else curGroup=null; renderGroups(); renderGrid();
-  });
-});
-$("loadBtn").onclick=function(){
-  var raw=$("m3uIn").value.trim(); if(!raw) return;
-  if(raw.indexOf("http")==0&&raw.indexOf("#EXTINF")==-1){
-    fetch(raw).then(function(r){return r.text();}).then(function(t){ var p=parseM3U(t); channels=p; curGroup=findUlusal(); renderGroups(); renderGrid(); $("modal").classList.add("hidden"); });
-  } else { var p=parseM3U(raw); for(var i=0;i<p.length;i++){ if(groupOrder.indexOf(p[i].group)==-1) groupOrder.push(p[i].group); channels.push(p[i]); } renderGroups(); renderGrid(); $("modal").classList.add("hidden"); }
-};
-$("fileIn").addEventListener("change",function(e){ var f=e.target.files[0]; if(!f)return; var r=new FileReader(); r.onload=function(ev){ var p=parseM3U(ev.target.result); channels=p; renderGroups(); renderGrid(); $("modal").classList.add("hidden"); }; r.readAsText(f); });
-loadM3U(0);
-</script>
-</body>
-</html>lor:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">▶</button><button id="fsClose" style="background:#ff3b30;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Kapat</button></div></div><div id="fsGrid"></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
-<div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
-<div id="list"><div id="grid" class="live"></div></div>
-
-<div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U Yükle - Hafif</b><textarea id="m3uIn" placeholder="M3U Linki veya içeriği" style="min-height:80px"></textarea><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div style="display:flex;gap:4px"><button id="fixM3U" style="flex:1;background:#ff3b30;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">YAYIN GERİ</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
-
-<script>
-var M3U_URLS=[
-"https://raw.githubusercontent.com/ipmirti68/-p/main/m%C4%B1rt%C4%B168.m3u",
-"https://raw.githubusercontent.com/ipmirti68/-p/main/mirti68.m3u"
-];
-var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
-var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
-var MAIN_SCREEN="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg";
-var channels=[],epg={},epgNorm={},curGroup=null,curTab="live",hls=null,groupOrder=[],favs=[],curCh=null,isFS=false,curVol=0.8;
-try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
-
-function $(id){return document.getElementById(id);}
-function setLoad(p,t){ var f=$("loadFill"), tx=$("loadText"); if(f)f.style.width=p+"%"; if(tx)tx.textContent="%"+p+" "+t; var en=$("epgNow"); if(en)en.textContent=t; }
-function saveFav(){try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){}}
-function isFav(url){return favs.indexOf(url)!=-1;}
-function toggleFav(url){ var i=favs.indexOf(url); if(i==-1)favs.push(url); else favs.splice(i,1); saveFav(); renderGrid(); renderGroups(); }
-function norm(s){ if(!s)return ""; return s.toLowerCase().replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c"); }
-function getTypeByGroup(g,url){
-  var n=norm(g); if(n.indexOf("dizi")!=-1) return "series"; if(n.indexOf("film")!=-1) return "movie"; if(n.indexOf("radio")!=-1||n.indexOf("radyo")!=-1) return "radio";
-  var u=(url||"").toLowerCase(); if(u.indexOf(".mp4")!=-1||u.indexOf(".mkv")!=-1) return "movie"; return "live";
-}
-function parseM3U(t){
-  var list=[]; var seen={}; var cur=null; var newOrder=[];
-  t=t.replace(/\r/g,""); var lines=t.split("\n");
-  for(var i=0;i<lines.length;i++){
-    var l=lines[i].trim(); if(!l) continue;
-    if(l.toUpperCase().indexOf("#EXTINF")==0){
-      cur={}; var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo) cur.logo=lo[1];
-      var id=l.match(/tvg-id="([^"]+)"/i); if(id) cur.tvgId=id[1];
-      var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel";
-      var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal";
-      if(!seen[cur.group]){seen[cur.group]=1; newOrder.push(cur.group);}
-    } else {
-      if(cur && l.charAt(0)!="#"){
-        var url=l.split("|")[0].trim().split(/\s+/)[0];
-        cur.url=url; cur.type=getTypeByGroup(cur.group, url); list.push(cur); cur=null;
-      }
-    }
-  }
-  groupOrder=newOrder; return list;
-}
-function parseEPG(xmlText){
-  try{
-    var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}, mn={};
-    d.querySelectorAll("programme").forEach(function(pr){
-      var ch=pr.getAttribute("channel"); var ti=pr.querySelector("title"); var title=ti?ti.textContent:"";
-      if(!m[ch])m[ch]=[]; m[ch].push({title:title});
-      var cn=ch.toLowerCase().replace(/[^a-z0-9]/g,""); if(!mn[cn]) mn[cn]=ch;
-    });
-    epgNorm=mn; return m;
-  }catch(e){return {};}
-}
-function getEPGNowNext(ch){
-  if(!ch||!epg) return {now:null,found:false};
-  var list=null; if(ch.tvgId&&epg[ch.tvgId]) list=epg[ch.tvgId];
-  if(!list) return {now:null,found:false};
-  return {now:list[0]||null,found:!!list.length};
-}
-function getFiltered(){ var list=[]; for(var i=0;i<channels.length;i++){ var c=channels[i]; if(curTab=="fav"){if(isFav(c.url))list.push(c);} else if(c.type==curTab)list.push(c); } if(curGroup){ var f=[]; for(var j=0;j<list.length;j++) if(list[j].group==curGroup)f.push(list[j]); list=f; } return list; }
-function renderGroups(){
-  var gl=$("groups"); if(!gl)return; gl.innerHTML="";
-  var has={}; for(var j=0;j<channels.length;j++){ var g=channels[j].group; if(!has[g]) has[g]={live:0,movie:0,series:0,radio:0,fav:0}; var t=channels[j].type; if(t=="live") has[g].live=1; else if(t=="movie") has[g].movie=1; else if(t=="series") has[g].series=1; else if(t=="radio") has[g].radio=1; if(isFav(channels[j].url)) has[g].fav=1; }
-  for(var i=0;i<groupOrder.length;i++){
-    var g=groupOrder[i]; var m=has[g]; if(!m) continue;
-    var ok=false; if(curTab=="live"&&m.live) ok=true; else if(curTab=="movie"&&m.movie) ok=true; else if(curTab=="series"&&m.series) ok=true; else if(curTab=="radio"&&m.radio) ok=true; else if(curTab=="fav"&&m.fav) ok=true;
-    if(!ok) continue;
-    var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); div.textContent=g;
-    div.onclick=(function(gg){return function(){ curGroup=gg; renderGrid(); renderGroups(); };})(g);
-    gl.appendChild(div);
-  }
-}
-function renderFsGrid(){
-  var fsGrid=$("fsGrid"); if(!fsGrid)return; fsGrid.innerHTML=""; var list=getFiltered();
-  for(var j=0;j<Math.min(list.length,30);j++){
-    var ch2=list[j]; var row=document.createElement("div"); row.className="item"+(curCh&&curCh.url==ch2.url?" on":"");
-    var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img2=document.createElement("img"); img2.src=ch2.logo||DEFAULT_LOGO; img2.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox.appendChild(img2);
-    var info=document.createElement("div"); info.className="info"; var b=document.createElement("b"); b.textContent=ch2.title; var s=document.createElement("div"); s.className="epg1"; s.textContent=ch2.group; info.appendChild(b); info.appendChild(s);
-    row.appendChild(logoBox); row.appendChild(info); row.onclick=(function(c){return function(){ play(c); var fsList=$("fsChannelList"); if(fsList) fsList.classList.remove("show"); };})(ch2); fsGrid.appendChild(row);
-  }
-}
-function renderGrid(){
-  var grid=$("grid"); if(!grid)return; grid.innerHTML=""; var list=getFiltered();
-  if(list.length==0&&channels.length==0){ var d=document.createElement("div"); d.style.cssText="color:#ff9a3d;padding:20px;text-align:center;font-size:11px"; d.textContent="Liste boş - AYAR > YAYIN GERİ"; grid.appendChild(d); return; }
-  if(list.length==0){ var d2=document.createElement("div"); d2.style.cssText="color:#888;padding:20px;text-align:center;font-size:11px"; d2.textContent=curTab=="fav"?"Fav yok":"Bu grupta kanal yok"; grid.appendChild(d2); return; }
-  if(curTab=="movie"||curTab=="series"){
-    grid.className="poster";
-    for(var i=0;i<list.length;i++){
-      var ch=list[i]; var card=document.createElement("div"); card.className="posterCard"; var p=document.createElement("div"); p.className="posterImg"; var img=document.createElement("img"); img.src=ch.logo||DEFAULT_LOGO; img.loading="lazy"; img.onerror=function(){this.src=DEFAULT_LOGO;}; p.appendChild(img);
-      var favBtn=document.createElement("button"); favBtn.className="favBtnCard"+(isFav(ch.url)?" on":""); favBtn.textContent=isFav(ch.url)?"★":"☆"; favBtn.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch.url); p.appendChild(favBtn);
-      var m=document.createElement("div"); m.className="posterTitle"; var t1=document.createElement("div"); t1.textContent=ch.title; var t2=document.createElement("small"); t2.textContent=ch.group; m.appendChild(t1); m.appendChild(t2); card.appendChild(p); card.appendChild(m); card.onclick=(function(c){return function(){play(c);};})(ch); grid.appendChild(card);
-    }
-  } else {
-    grid.className="live";
-    for(var j2=0;j2<list.length;j2++){
-      var ch2b=list[j2]; var row2=document.createElement("div"); row2.className="item"+(curCh&&curCh.url==ch2b.url?" on":"");
-      var logoBox2=document.createElement("div"); logoBox2.className="logoBox"; var img2b=document.createElement("img"); img2b.src=ch2b.logo||DEFAULT_LOGO; img2b.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox2.appendChild(img2b);
-      var info=document.createElement("div"); info.className="info"; var b2=document.createElement("b"); b2.textContent=ch2b.title; var s=document.createElement("div"); s.className="epg1"; s.textContent=ch2b.group; info.appendChild(b2); info.appendChild(s);
-      var favBtn2b=document.createElement("button"); favBtn2b.className="favBtn"+(isFav(ch2b.url)?" on":""); favBtn2b.textContent=isFav(ch2b.url)?"★":"☆"; favBtn2b.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch2b.url);
-      row2.appendChild(logoBox2); row2.appendChild(info); row2.appendChild(favBtn2b); row2.onclick=(function(c){return function(){play(c);};})(ch2b); grid.appendChild(row2);
-    }
-  }
-  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;}
-  if($("bLive"))$("bLive").innesterCard{background:#121e33;border:1px solid #1e2e51;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:280px;position:relative}
-.posterImg{height:210px;min-height:210px;background:#0d1525;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.posterImg img{width:100%;height:100%;object-fit:contain;display:block;background:#0d1525}
-.posterTitle{padding:5px 6px;font-size:9px;background:#121e33;font-weight:700;height:70px;display:flex;flex-direction:column;justify-content:center;gap:1px}
-.posterTitle small{font-size:8px;color:#7ec8ff;white-space:normal;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.favBtnCard{position:absolute;top:4px;right:4px;width:18px;height:18px;background:rgba(0,0,0,.55);border-radius:50%;border:none;color:#888;font-size:9px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
-.favBtnCard.on{color:#ffcc33}
-.hidden{display:none!important}
-#radioInfo{position:absolute;bottom:30px;left:10px;right:10px;z-index:5;background:rgba(0,0,0,.7);padding:6px 10px;border-radius:8px;text-align:center;display:none}
-#radioInfo b{font-size:11px;color:#ffcc33;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99}
-.box{background:#101b30;border:1px solid #22365e;width:360px;max-width:92vw;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.box textarea{background:#0a1222;border:1px solid #22365e;color:#fff;padding:8px;border-radius:6px;width:100%;font-size:11px}
-#speedModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
-.speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
-.speedVal{font-size:42px;font-weight:300}
-</style>
-</head>
-<body>
-<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:4px"><span id="netSpeed" style="font-size:7px;background:#101c33;border:1px solid #1e2f52;padding:3px 6px;border-radius:8px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:3px 8px;border-radius:4px;font-weight:800;font-size:10px">AYAR</button></div></header>
-<div class="top"><button data-tab="live" class="on" id="bLive">📺 Canlı</button><button data-tab="movie" id="bMovie">🎬 Film</button><button data-tab="series" id="bSeries">🎞️ Dizi</button><button data-tab="radio" id="bRadio">📻 Radyo</button><button data-tab="fav" id="bFav">⭐ Fav</button></div>
-<div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><audio id="audioEl" controls preload="none"></audio><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><span id="rSub">📻 Canlı Radyo</span></div></div><button id="fsBtn">⛶</button><button id="fsExit">✕</button><div id="fsHint">Dokun: liste | Sağ/Sol: kanal | Yukarı/Aşağı: ses</div><div id="volOsd"><div style="font-size:9px">Ses</div><div id="volBar"><div id="volFill" style="height:80%"></div></div><div id="volTxt" style="font-size:10px;font-weight:800">80%</div></div><div id="fsChannelList"><div class="fsHead"><b style="font-size:10px">📺 Kanal Listesi</b><div style="display:flex;gap:4px"><button id="fsPrev" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">◀ Önceki</button><button id="fsNext" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Sonraki ▶</button><button id="fsClose" style="background:#ff3b30;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Kapat</button></div></div><div id="fsGrid"></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
-<div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
-<div id="list"><div id="grid" class="live"></div></div>
-
-<div id="speedModal" class="hidden"><div class="speedBox"><b>SPEEDTEST</b><div id="speedNum" class="speedVal">0.00</div><div id="speedInfo" style="font-size:10px;color:#666">BAŞLAT'a bas</div><div style="display:flex;gap:6px;width:100%"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div></div></div>
-<div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U Yükle - Eski Oynatıcı</b><textarea id="m3uIn" placeholder="M3U Linki veya içeriği - SZC KOZA KRT için VLC önerilir" style="min-height:80px"></textarea><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div style="display:flex;gap:4px"><button id="addTest" style="flex:1;background:#ff9500;color:#111;border:none;padding:8px;border-radius:6px;font-size:10px;font-weight:800">+ SZC KOZA KRT (VLC)</button><button id="fixM3U" style="flex:1;background:#ff3b30;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">YAYIN GERİ</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
-
-<script>
-var M3U_FILES=["mırtı68.m3u","mirti68.m3u"];
-var M3U_BASES=["https://raw.githubusercontent.com/ipmirti68/-p/main/","https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/"];
-var M3U_URLS=[]; for(var bi=0;bi<M3U_BASES.length;bi++){ for(var fi=0;fi<M3U_FILES.length;fi++){ try{ M3U_URLS.push(M3U_BASES[bi]+encodeURIComponent(M3U_FILES[fi])); }catch(e){} try{ M3U_URLS.push(encodeURI(M3U_BASES[bi]+M3U_FILES[fi])); }catch(e){} } }
-var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
-var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
-var MAIN_SCREEN="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg";
-var RADIO_BG="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/file_000000003b08820a96dea4b438a874d6.png";
-var SPEED_TEST_URL=MAIN_SCREEN;
-var FALLBACK_CHANNELS=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}];
-var channels=[],epg={},epgNorm={},curGroup=null,curTab="live",hls=null,hlsAudio=null,groupOrder=[],favs=[],curCh=null,isFS=false,fsListOpen=false,curVol=0.8,touchStartX=0,touchStartY=0;
-try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
-
-function $(id){return document.getElementById(id);}
-function setLoad(p,t){ var f=$("loadFill"), tx=$("loadText"); if(f)f.style.width=p+"%"; if(tx)tx.textContent="%"+p+" "+t; var en=$("epgNow"); if(en)en.textContent=t; }
-function saveFav(){try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){}}
-function isFav(url){return favs.indexOf(url)!=-1;}
-function toggleFav(url){ var i=favs.indexOf(url); if(i==-1)favs.push(url); else favs.splice(i,1); saveFav(); renderGrid(); renderGroups(); renderFsGrid(); }
-function norm(s){ if(!s)return ""; var t=s+""; t=t.replace(/İ/g,"i").replace(/I/g,"i"); t=t.normalize("NFD").replace(/[\u0300-\u036f]/g,""); t=t.toLowerCase(); t=t.replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c"); return t; }
-function cleanName(s){ if(!s)return ""; var t=norm(s); t=t.replace(/\btr\b/g,"").replace(/[^a-z0-9]/g,""); return t; }
-function getTypeByGroup(g,url){
-  var n=norm(g);
-  if(n.indexOf("dizi")!=-1) return "series";
-  if(n.indexOf("film")!=-1) return "movie";
-  if(n.indexOf("radio")!=-1||n.indexOf("radyo")!=-1) return "radio";
-  var u=(url||"").toLowerCase(); if(u.indexOf(".mp4")!=-1||u.indexOf(".mkv")!=-1) return "movie";
-  return "live";
-}
-function parseM3U(t){
-  var list=[]; var seenGroup={}; var cur=null, curLine=""; var newOrder=[];
-  t=t.replace(/\r/g,""); var lines=t.split("\n");
-  for(var i=0;i<lines.length;i++){
-    var l=lines[i].trim(); if(!l) continue;
-    if(l.toUpperCase().indexOf("#EXTINF")==0){
-      cur={}; curLine=l; var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo) cur.logo=lo[1];
-      var id=l.match(/tvg-id="([^"]+)"/i); if(id) cur.tvgId=id[1];
-      var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel";
-      var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1);
-      if(!seenGroup[cur.group]){seenGroup[cur.group]=1; newOrder.push(cur.group);}
-    } else {
-      if(cur && l.charAt(0)!="#"){
-        var url=l.split("|")[0].trim().split(/\s+/)[0];
-        cur.url=url; cur.type=getTypeByGroup(cur.group, url); list.push(cur); cur=null;
-      }
-    }
-  }
-  groupOrder=newOrder;
-  return list;
-}
-function parseEPG(xmlText){
-  try{
-    var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}, mn={};
-    var progs=d.querySelectorAll("programme");
-    progs.forEach(function(pr){
-      var ch=pr.getAttribute("channel"); var st=pr.getAttribute("start"); var en=pr.getA1e2e51;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:280px;position:relative}
-.posterImg{height:210px;min-height:210px;background:#0d1525;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.posterImg img{width:100%;height:100%;object-fit:contain;display:block;background:#0d1525}
-.posterTitle{padding:5px 6px;font-size:9px;background:#121e33;font-weight:700;height:70px;display:flex;flex-direction:column;justify-content:center;gap:1px}
-.posterTitle small{font-size:8px;color:#7ec8ff;white-space:normal;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.favBtnCard{position:absolute;top:4px;right:4px;width:18px;height:18px;background:rgba(0,0,0,.55);border-radius:50%;border:none;color:#888;font-size:9px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
-.favBtnCard.on{color:#ffcc33}
-.hidden{display:none!important}
-#radioInfo{position:absolute;bottom:30px;left:10px;right:10px;z-index:5;background:rgba(0,0,0,.7);padding:6px 10px;border-radius:8px;text-align:center;display:none}
-#radioInfo b{font-size:11px;color:#ffcc33;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99}
-.box{background:#101b30;border:1px solid #22365e;width:360px;max-width:92vw;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.box textarea{background:#0a1222;border:1px solid #22365e;color:#fff;padding:8px;border-radius:6px;width:100%;font-size:11px}
-#speedModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
-.speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
-.speedVal{font-size:42px;font-weight:300}
-</style>
-</head>
-<body>
-<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:4px"><span id="netSpeed" style="font-size:7px;background:#101c33;border:1px solid #1e2f52;padding:3px 6px;border-radius:8px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:3px 8px;border-radius:4px;font-weight:800;font-size:10px">AYAR</button></div></header>
-<div class="top"><button data-tab="live" class="on" id="bLive">📺 Canlı</button><button data-tab="movie" id="bMovie">🎬 Film</button><button data-tab="series" id="bSeries">🎞️ Dizi</button><button data-tab="radio" id="bRadio">📻 Radyo</button><button data-tab="fav" id="bFav">⭐ Fav</button></div>
-<div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><audio id="audioEl" controls preload="none"></audio><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><span id="rSub">📻 Canlı Radyo</span></div></div><button id="fsBtn">⛶</button><button id="fsExit">✕</button><div id="fsHint">Dokun: liste | Sağ/Sol: kanal | Yukarı/Aşağı: ses</div><div id="volOsd"><div style="font-size:9px">Ses</div><div id="volBar"><div id="volFill" style="height:80%"></div></div><div id="volTxt" style="font-size:10px;font-weight:800">80%</div></div><div id="fsChannelList"><div class="fsHead"><b style="font-size:10px">📺 Kanal Listesi</b><div style="display:flex;gap:4px"><button id="fsPrev" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">◀ Önceki</button><button id="fsNext" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Sonraki ▶</button><button id="fsClose" style="background:#ff3b30;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Kapat</button></div></div><div id="fsGrid"></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
-<div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
-<div id="list"><div id="grid" class="live"></div></div>
-
-<div id="speedModal" class="hidden"><div class="speedBox"><b>SPEEDTEST</b><div id="speedNum" class="speedVal">0.00</div><div id="speedInfo" style="font-size:10px;color:#666">BAŞLAT'a bas</div><div style="display:flex;gap:6px;width:100%"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div></div></div>
-<div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U Yükle</b><textarea id="m3uIn" placeholder="M3U Linki veya içeriği" style="min-height:80px"></textarea><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div style="display:flex;gap:4px"><button id="addTest" style="flex:1;background:#ff9500;color:#111;border:none;padding:8px;border-radius:6px;font-size:10px;font-weight:800">+ SZC KOZA KRT</button><button id="fixM3U" style="flex:1;background:#ff3b30;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">YAYIN GERİ</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
-
-<script>
-var M3U_FILES=["mırtı68.m3u","mirti68.m3u"];
-var M3U_BASES=["https://raw.githubusercontent.com/ipmirti68/-p/main/","https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/"];
-var M3U_URLS=[]; for(var bi=0;bi<M3U_BASES.length;bi++){ for(var fi=0;fi<M3U_FILES.length;fi++){ try{ M3U_URLS.push(M3U_BASES[bi]+encodeURIComponent(M3U_FILES[fi])); }catch(e){} try{ M3U_URLS.push(encodeURI(M3U_BASES[bi]+M3U_FILES[fi])); }catch(e){} } }
-var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
-var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
-var MAIN_SCREEN="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg";
-var RADIO_BG="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/file_000000003b08820a96dea4b438a874d6.png";
-var SPEED_TEST_URL=MAIN_SCREEN;
-var FALLBACK_CHANNELS=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}];
-var channels=[],epg={},epgNorm={},curGroup=null,curTab="live",hls=null,hlsAudio=null,groupOrder=[],favs=[],curCh=null,isFS=false,fsListOpen=false,curVol=0.8,touchStartX=0,touchStartY=0;
-try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
-
-function $(id){return document.getElementById(id);}
-function setLoad(p,t){ var f=$("loadFill"), tx=$("loadText"); if(f)f.style.width=p+"%"; if(tx)tx.textContent="%"+p+" "+t; var en=$("epgNow"); if(en)en.textContent=t; }
-function saveFav(){try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){}}
-function isFav(url){return favs.indexOf(url)!=-1;}
-function toggleFav(url){ var i=favs.indexOf(url); if(i==-1)favs.push(url); else favs.splice(i,1); saveFav(); renderGrid(); renderGroups(); renderFsGrid(); }
-function norm(s){ if(!s)return ""; var t=s+""; t=t.replace(/İ/g,"i").replace(/I/g,"i"); t=t.normalize("NFD").replace(/[\u0300-\u036f]/g,""); t=t.toLowerCase(); t=t.replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c"); return t; }
-function cleanName(s){ if(!s)return ""; var t=norm(s); t=t.replace(/\btr\b/g,"").replace(/[^a-z0-9]/g,""); return t; }
-function getTypeByGroup(g,url,raw,tvgId){
-  var n=norm(g+" "+(tvgId||"")); var r=(raw||"").toLowerCase();
-  if(r.indexOf('radio="true"')!=-1) return "radio";
-  if(n.indexOf("dizi")!=-1) return "series";
-  if(n.indexOf("film")!=-1) return "movie";
-  var u=(url||"").toLowerCase(); if((u.indexOf(".mp4")!=-1||u.indexOf(".mkv")!=-1)&&n.indexOf("dizi")==-1) return "movie";
-  return "live";
-}
-function parseM3U(t){
-  var list=[]; var seenGroup={}; var cur=null, curLine="", curId="", curUA=""; var newOrder=[];
-  t=t.replace(/\r/g,""); var lines=t.split("\n");
-  for(var i=0;i<lines.length;i++){
-    var l=lines[i].trim(); if(!l) continue;
-    if(l.toUpperCase().indexOf("#EXTINF")==0){
-      cur={}; curLine=l; curUA=""; var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo) cur.logo=lo[1];
-      var id=l.match(/tvg-id="([^"]+)"/i); if(id){cur.tvgId=id[1]; curId=id[1];} else curId="";
-      var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel";
-      var ua=l.match(/http-user-agent="([^"]+)"/i); if(ua) curUA=ua[1];
-      var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1);
-      if(!seenGroup[cur.group]){seenGroup[cur.group]=1; newOrder.push(cur.group);}
-    } else if(l.toUpperCase().indexOf("#EXTVLCOPT:")==0){
-      var um=l.match(/http-user-agent=(.+)/i); if(um){ curUA=um[1].replace(/^"/,"").replace(/"$/,"").trim(); }
-    } else {
-      if(cur && l.charAt(0)!="#"){
-        var url=l.split("|")[0].trim().split(/\s+/)[0];
-        cur.url=url; cur.userAgent=curUA||""; cur.type=getTypeByGroup(cur.group, url, curLine, curId); list.push(cur); cur=null;
-      }
-    }
-  }
-  groupOrder=newOrder;
-  return list;
-}
-function parseEPG(xmlText){ try{ var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}, mn={}; var progs=d.querySelectorAll("programme"); progs.forEach(function(pr){ var ch=pr.getAttribute("channel"); var ti=pr.querySelector("title"); var title=ti?ti.textContent:""; if(!m[ch])m[ch]=[]; m[ch].push({title:title}); var cn=cleanName(ch); if(cn&&!mn[cn]) mn[cn]=ch; }); epgNorm=mn; return m; }catch(e){return {};} }
-function getEPGNowNext(ch){ if(!ch)return {now:null,found:false}; var list=null; if(ch.tvgId&&epg[ch.tvgId]) list=epg[ch.tvgId]; if(!list) return {now:null,found:false}; return {now:list[0],found:true}; }
-function getFiltered(){ var list=[]; for(var i=0;i<channels.length;i++){ var c=channels[i]; if(curTab=="fav"){if(isFav(c.url))list.push(c);} else if(c.type==curTab)list.push(c); } if(curGroup){ var f=[]; for(var j=0;j<list.length;j++) if(list[j].group==curGroup)f.push(list[j]); list=f; } return list; }
-function renderGroups(){
-  var gl=$("groups"); if(!gl)return; gl.innerHTML="";
-  var hasMap={}; for(var j=0;j<channels.length;j++){ var g=channels[j].group; if(!hasMap[g]) hasMap[g]={live:0,movie:0,series:0,radio:0,fav:0}; var t=channels[j].type; if(t=="live") hasMap[g].live++; else if(t=="movie") hasMap[g].movie++; else if(t=="series") hasMap[g].series++; else if(t=="radio") hasMap[g].radio++; if(isFav(channels[j].url)) hasMap[g].fav++; }
-  for(var i=0;i<groupOrder.length;i++){
-    var g=groupOrder[i]; var m=hasMap[g]; if(!m) continue;
-    var ok=false; if(curTab=="live"&&m.live) ok=true; else if(curTab=="movie"&&m.movie) ok=true; else if(curTab=="series"&&m.series) ok=true; else if(curTab=="radio"&&m.radio) ok=true; else if(curTab=="fav"&&m.fav) ok=true;
-    if(!ok) continue;
-    var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); div.textContent=g;
-    div.onclick=(function(gg){return function(){ if(curCh&&curCh.type=="radio"){ var willBeRadio=false; for(var k=0;k<channels.length;k++){ if(channels[k].group==gg&&channels[k].type=="radio"){willBeRadio=true;break;} } if(!willBeRadio) stopRadio(); } curGroup=gg; renderGrid(); renderGroups(); renderFsGrid(); };})(g);
-    gl.appendChild(div);
-  }
-}
-function renderFsGrid(){
-  var fsGrid=$("fsGrid"); if(!fsGrid)return; fsGrid.innerHTML=""; var list=getFiltered();
-  for(var j=0;j<Math.min(list.length, 40);j++){
-    var ch2=list[j]; var row=document.createElement("div"); row.className="item"+(curCh&&curCh.url==ch2.url?" on":"");
-    var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img2=document.createElement("img"); img2.src=ch2.logo||DEFAULT_LOGO; img2.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox.appendChild(img2);
-    var info=document.createElement("div"); info.className="info"; var b=document.createElement("b"); b.textContent=ch2.title; var s=document.createElement("div"); s.className="epg1"; s.textContent=ch2.group; info.appendChild(b); info.appendChild(s);
-    row.appendChild(logoBox); row.appendChild(info); row.onclick=(function(c){return function(){ play(c); var fsList=$("fsChannelList"); if(fsList) fsList.classList.remove("show"); fsListOpen=false; };})(ch2); fsGrid.appendChild(row);
-  }
-}
-function renderGrid(){
-  var grid=$("grid"); if(!grid)return; grid.innerHTML=""; var list=getFiltered();
-  if(list.length==0&&channels.length==0){ var d=document.createElement("div"); d.style.cssText="color:#ff9a3d;padding:20px;text-align:center;font-size:11px"; d.textContent="Liste boş"; grid.appendChild(d); return; }
-  if(list.length==0){ var d2=document.createElement("div"); d2.style.cssText="color:#888;padding:20px;text-align:center;font-size:11px"; d2.textContent=curTab=="fav"?"Fav yok":"Bu grupta kanal yok"; grid.appendChild(d2); return; }
-  if(curTab=="radio"){
-    grid.className="radioGrid";
-    for(var j=0;j<list.length;j++){
-      var ch2=list[j]; var row=document.createElement("div"); row.className="radioItem"+(curCh&&curCh.url==ch2.url?" on":"");
-      var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img2=document.createElement("img"); img2.src=ch2.logo||DEFAULT_LOGO; logoBox.appendChild(img2);
-      var b=document.createElement("b"); b.textContent=ch2.title; var rg=document.createElement("div"); rg.className="rg"; rg.textContent=ch2.group;
-      var favBtn2=document.createElement("button"); favBtn2.className="favBtn"+(isFav(ch2.url)?" on":""); favBtn2.textContent=isFav(ch2.url)?"★":"☆"; favBtn2.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch2.url);
-      row.appendChild(logoBox); row.appendChild(b); row.appendChild(rg); row.appendChild(favBtn2); row.onclick=(function(c){return function(){play(c);};})(ch2); grid.appendChild(row);
-    }
-  } else if(curTab=="movie"||curTab=="series"){
-    grid.className="poster";
-    for(var i=0;i<list.length;i++){
-      var ch=list[i]; var card=document.createElement("div"); card.className="posterCard"; var p=document.createElement("div"); p.className="posterImg"; var img=document.createElement("img"); img.src=ch.logo||DEFAULT_LOGO; img.loading="lazy"; img.onerror=function(){this.src=DEFAULT_LOGO;}; p.appendChild(img);
-      var favBtn=document.createElement("button"); favBtn.className="favBtnCard"+(isFav(ch.url)?" on":""); favBtn.textContent=isFav(ch.url)?"★":"☆"; favBtn.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch.url); p.appendChild(favBtn);
-      var m=document.createElement("div"); m.className="posterTitle"; var t1=document.createElement("div"); t1.textContent=ch.title; var t2=document.createElement("small"); t2.textContent=ch.group; m.appendChild(t1); m.appendChild(t2); card.appendChild(p); card.appendChild(m); card.onclick=(function(c){return function(){play(c);};})(ch); grid.appendChild(card);
-    }
-  } else {
-    grid.className="live";
-    for(var j2=0;j2<list.length;j2++){
-      var ch2b=list[j2]; var row2=document.createElement("div"); row2.className="item"+(curCh&&curCh.url==ch2b.url?" on":"");
-      var logoBox2=document.createElement("div"); logoBox2.className="logoBox"; var img2b=document.createElement("img"); img2b.src=ch2b.logo||DEFAULT_LOGO; img2b.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox2.appendChild(img2b);
-      var info=document.createElement("div"); info.className="info"; var b2=document.createElement("b"); b2.textContent=ch2b.title; var s=document.createElement("div"); s.className="epg1"; s.textContent=ch2b.group; info.appendChild(b2); info.appendChild(s);
-      var favBtn2b=document.createElement("button"); favBtn2b.className="favBtn"+(isFav(ch2b.url)?" on":""); favBtn2b.textContent=isFav(ch2b.url)?"★":"☆"; favBtn2b.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch2b.url);
-      row2.appendChild(logoBox2); row2.appendChild(info); row2.appendChild(favBtn2b); row2.onclick=(function(c){return function(){play(c);};})(ch2b); grid.appendChild(row2);
-    }
-  }
-  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;}
-  if($("bLive"))$("bLive").innerHTML="📺 Canlı "+lc; if($("bMovie"))$("bMovie").innerHTML="🎬 Film "+mc; if($("bSeries"))$("bSeries").innerHTML="🎞️ Dizi "+sc; if($("bRadio"))$("bRadio").innerHTML="📻 Radyo "+rc; if($("bFav"))$("bFav").innerHTML="⭐ Fav "+favs.length;
-  renderFsGrid();
-}
-function stopRadio(){ var v=$("video"); if(v) v.pause(); var a=$("audioEl"); if(a){ a.pause(); a.src=""; } if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;} var idle=$("idle"); if(idle) idle.style.display="flex"; var rInfo=$("radioInfo"); if(rInfo) rInfo.style.display="none"; var idleImg=$("idleImg"); if(idleImg) idleImg.src=MAIN_SCREEN; curCh=null; if($("epgNow")) $("epgNow").textContent="Radyo durdu"; }
-function startRadioImages(ch){ var idleImg=$("idleImg"); if(idleImg) idleImg.src=RADIO_BG; var rInfo=$("radioInfo"); if(rInfo){ rInfo.style.display="block"; $("rTitle").textContent=ch.title; $("rSub").textContent="📻 "+ch.group; } }
-function playWithUrl(a, url, ch){ if(url.indexOf(".m3u8")!=-1){ if(Hls.isSupported()){ var cfg={}; if(ch.userAgent){ cfg.xhrSetup=function(xhr){ try{ xhr.setRequestHeader("User-Agent", ch.userAgent); }catch(e){} } } hlsAudio=new Hls(cfg); hlsAudio.loadSource(url); hlsAudio.attachMedia(a); hlsAudio.on(Hls.Events.MANIFEST_PARSED,function(){ a.play().catch(function(){}); }); }else{ a.src=url; a.play().catch(function(){}); } }else{ a.src=url; a.play().catch(function(){}); } }
-function play(ch){
-  if(!ch||!ch.url) return;
-  if(ch.type=="radio"){ var v=$("video"), idle=$("idle"), a=$("audioEl"); curCh=ch; if(idle)idle.style.display="flex"; if(v){ v.pause(); v.style.display="none"; } a.controls=false; a.style.position="absolute"; a.style.left="-9999px"; if($("epgNow")) $("epgNow").textContent="📻 "+ch.title; if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;} startRadioImages(ch); playWithUrl(a, ch.url, ch); renderGrid(); return; }
-  if(curCh&&curCh.type=="radio") stopRadio();
-  var rInfo2=$("radioInfo"); if(rInfo2) rInfo2.style.display="none";
-  curCh=ch; var v=$("video"), idle=$("idle"), a2=$("audioEl"); if(a2) a2.pause(); if(idle)idle.style.display="none"; if(v){v.style.display="block"; v.pause(); v.currentTime=0; v.volume=curVol;}
-  if($("epgNow")) $("epgNow").textContent=ch.group+" | "+ch.title;
-  if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;}
-  if(ch.url.indexOf(".m3u8")!=-1){ if(Hls.isSupported()){ var cfg={enableWorker:true}; if(ch.userAgent){ cfg.xhrSetup=function(xhr){ try{ xhr.setRequestHeader("User-Agent", ch.userAgent); }catch(e){} }; } hls=new Hls(cfg); hls.loadSource(ch.url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); hls.on(Hls.Events.ERROR,function(ev,data){ if(data.fatal){ try{hls.destroy();}catch(e){} var prox="https://api.allorigins.win/raw?url="+encodeURIComponent(ch.url); $("epgNow").textContent="Proxy deneniyor..."; setTimeout(function(){ if(Hls.isSupported()){ var h2=new Hls(); h2.loadSource(prox); h2.attachMedia(v); h2.on(Hls.Events.MANIFEST_PARSED,function(){ v.play(); }); } },500); } }); }else if(v.canPlayType('application/vnd.apple.mpegurl')){ v.src=ch.url; v.play().catch(function(){}); } }else{ v.src=ch.url; v.play().catch(function(){ $("epgNow").textContent="TS yayın - VLC deneyin"; }); } renderGrid();
-}
-function findUlusalGroup(){ for(var i=0;i<groupOrder.length;i++){ var g=groupOrder[i]; if(norm(g).indexOf("ulusal")!=-1) return g; } return groupOrder[0]||null; }
-function changeChannel(offset){ var list=getFiltered(); if(!list.length) return; if(!curCh){ play(list[0]); return; } var idx=-1; for(var i=0;i<list.length;i++){ if(list[i].url==curCh.url){ idx=i; break; } } if(idx==-1) idx=0; var newIdx=idx+offset; if(newIdx<0) newIdx=list.length-1; if(newIdx>=list.length) newIdx=0; play(list[newIdx]); }
-function changeVolume(delta){ curVol+=delta; if(curVol<0) curVol=0; if(curVol>1) curVol=1; var v=$("video"), a=$("audioEl"); if(v) v.volume=curVol; if(a) a.volume=curVol; var volOsd=$("volOsd"), volFill=$("volFill"), volTxt=$("volTxt"); if(volOsd){ volOsd.style.display="flex"; volFill.style.height=(curVol*100)+"%"; volTxt.textContent=Math.round(curVol*100)+"%"; clearTimeout(volOsd._t); volOsd._t=setTimeout(function(){ volOsd.style.display="none"; },1500); } }
-function loadFallback(){ channels=[]; groupOrder=["ULUSAL"]; for(var i=0;i<FALLBACK_CHANNELS.length;i++) channels.push(FALLBACK_CHANNELS[i]); curGroup="ULUSAL"; curTab="live"; renderGroups(); renderGrid(); setLoad(100,"Yedek yayın"); var lw=$("loadWrap"); if(lw) lw.style.display="none"; }
-function measureSpeed(url){ return new Promise(function(resolve,reject){ var start=performance.now(); fetch(url+"?t="+Date.now(),{cache:"no-store"}).then(function(r){ return r.blob(); }).then(function(blob){ var end=performance.now(); var ms=end-start; var sec=ms/1000; if(sec<0.01) sec=0.01; var mbps=(blob.size*8/1000000)/sec; resolve({mbps:mbps,ms:ms,bytes:blob.size}); }).catch(function(e){reject(e);}); }); }
-function doSpeedTest(){ var num=$("speedNum"), infoEl=$("speedInfo"); if(!num) return; num.textContent="..."; measureSpeed(SPEED_TEST_URL).then(function(res){ num.textContent=res.mbps.toFixed(2); if(infoEl) infoEl.textContent="OK"; $("netSpeed").textContent="Net: "+res.mbps.toFixed(1)+" Mbps"; }).catch(function(e){ if(infoEl) infoEl.textContent="Hata"; num.textContent="0.00"; }); }
-function loadM3UFromUrls(idx){ if(idx==null) idx=0; if(idx>=M3U_URLS.length){ setLoad(0,"Yedek yükleniyor"); loadFallback(); return; } var url=M3U_URLS[idx]; setLoad(10+Math.floor(idx/M3U_URLS.length*30),"Deneniyor "+(idx+1)); fetch(url,{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }).then(function(t){ if(t.length<100) throw new Error("boş"); setLoad(50,t.length+" bayt"); var parsed=parseM3U(t); if(parsed.length==0) throw new Error("0 kanal"); channels=parsed; var ul=findUlusalGroup(); if(ul) curGroup=ul; else curGroup=groupOrder[0]; setLoad(70,channels.length+" kanal"); renderGroups(); renderGrid(); setLoad(80,"EPG..."); fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); setLoad(100,channels.length+" kanal - v78 üst renk fix"); setTimeout(function(){var lw=$("loadWrap"); if(lw)lw.style.display="none";},600); renderGrid(); }).catch(function(){ setLoad(90,channels.length+" kanal"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; renderGrid(); }); }).catch(function(e){ setLoad(3,"Link "+(idx+1)+" hata"); setTimeout(function(){loadM3UFromUrls(idx+1);},250); }); }
-function toggleFS(){ var pc=$("playerCol"); isFS=!isFS; if(isFS){ pc.classList.add("fullscreen"); } else{ pc.classList.remove("fullscreen"); var fsList=$("fsChannelList"); if(fsList) fsList.classList.remove("show"); fsListOpen=false; } }
-function init(){
-  setLoad(5,"Başlıyor...");
-  $("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
-  $("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
-  $("leftArrow").onclick=function(){$("groups").scrollBy({left:-140,behavior:"smooth"});};
-  $("rightArrow").onclick=function(){$("groups").scrollBy({left:140,behavior:"smooth"});};
-  $("netSpeed").onclick=function(){$("speedModal").classList.remove("hidden"); doSpeedTest();};
-  $("closeSpeed").onclick=function(){$("speedModal").classList.add("hidden");};
-  $("startTest").onclick=function(){doSpeedTest();};
-  $("fsBtn").onclick=function(e){ e.stopPropagation(); toggleFS(); };
-  $("fsExit").onclick=function(e){ e.stopPropagation(); toggleFS(); };
-  $("fsClose").onclick=function(e){ e.stopPropagation(); var fsList=$("fsChannelList"); if(fsList) fsList.classList.remove("show"); fsListOpen=false; };
-  $("fsPrev").onclick=function(e){ e.stopPropagation(); changeChannel(-1); };
-  $("fsNext").onclick=function(e){ e.stopPropagation(); changeChannel(1); };
-  var player=$("player");
-  player.addEventListener("click", function(e){
-    if(!isFS) return; if(e.target.id=="fsBtn"||e.target.id=="fsExit"||e.target.id=="fsClose"||e.target.id=="fsPrev"||e.target.id=="fsNext") return; if(e.target.closest&&e.target.closest("#fsChannelList")) return;
-    var fsList=$("fsChannelList"); if(!fsList) return; if(fsListOpen){ fsList.classList.remove("show"); fsListOpen=false; } else{ renderFsGrid(); fsList.classList.add("show"); fsListOpen=true; }
-  });
-  player.addEventListener("dblclick", function(){ toggleFS(); });
-  document.addEventListener("keydown", function(e){
-    if(!isFS) return; if(e.key=="ArrowRight"){ e.preventDefault(); changeChannel(1); } else if(e.key=="ArrowLeft"){ e.preventDefault(); changeChannel(-1); } else if(e.key=="ArrowUp"){ e.preventDefault(); changeVolume(0.1); } else if(e.key=="ArrowDown"){ e.preventDefault(); changeVolume(-0.1); } else if(e.key=="Enter"){ e.preventDefault(); var fsList=$("fsChannelList"); if(fsList){ if(fsListOpen) fsList.classList.remove("show"); else { renderFsGrid(); fsList.classList.add("show"); } fsListOpen=!fsListOpen; } } else if(e.key=="Escape"){ toggleFS(); }
-  });
-  player.addEventListener("touchstart", function(e){ if(!isFS) return; var t=e.touches[0]; touchStartX=t.clientX; touchStartY=t.clientY; }, {passive:true});
-  player.addEventListener("touchend", function(e){
-    if(!isFS) return; var t=e.changedTouches[0]; var dx=t.clientX-touchStartX; var dy=t.clientY-touchStartY;
-    if(Math.abs(dx)>Math.abs(dy)){ if(Math.abs(dx)>50){ if(dx>0) changeChannel(-1); else changeChannel(1); } } else{ if(Math.abs(dy)>50){ if(dy<0) changeVolume(0.1); else changeVolume(-0.1); } }
-  }, {passive:true});
-  $("addTest").onclick=function(){
-    var txt="#EXTINF:-1 group-title=\"📰 HABER\",SZC TV\nhttp://204.52.191.254:80/play/live.php?mac=00:1A:79:76:D0:D3&stream=475740&extension=ts&play_token=B5YhbAYy6D\n#EXTINF:-1 group-title=\"📰 HABER\" http-user-agent=\"Mozilla/5.0\",KOZA\nhttp://176.65.153.12:6001/play/a04m/index.m3u8";
-    var add=parseM3U(txt); for(var i=0;i<add.length;i++){ if(groupOrder.indexOf(add[i].group)==-1) groupOrder.push(add[i].group); channels.push(add[i]); } renderGroups(); renderGrid(); $("modal").classList.add("hidden"); curGroup="📰 HABER"; curTab="live"; renderGroups(); renderGrid();
-  };
-  $("fixM3U").onclick=function(){ loadFallback(); $("modal").classList.add("hidden"); };
-  var tabs=document.querySelectorAll(".top button"); for(var i=0;i<tabs.length;i++){ tabs[i].addEventListener("click",(function(btn){return function(){ var newTab=btn.dataset.tab; if(curCh&&curCh.type=="radio"&&newTab!="radio"&&newTab!="fav") stopRadio(); for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on"); btn.classList.add("on"); curTab=newTab; if(curTab=="live"){var ul=findUlusalGroup(); if(ul) curGroup=ul; else curGroup=null;} else curGroup=null; renderGroups(); renderGrid(); };})(tabs[i])); }
-  $("loadBtn").onclick=function(){ var raw=$("m3uIn").value.trim(); if(!raw) return; if(raw.indexOf("http")==0&&raw.indexOf("#EXTINF")==-1){ fetch(raw).then(function(r){return r.text();}).then(function(t){ groupOrder=[]; var add=parseM3U(t); channels=add; renderGroups(); renderGrid(); setLoad(100,channels.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; }).catch(function(e){$("stat").textContent="Hata: "+e.message;}); } else { var add=parseM3U(raw); for(var i=0;i<add.length;i++){ if(groupOrder.indexOf(add[i].group)==-1) groupOrder.push(add[i].group); channels.push(add[i]); } renderGroups(); renderGrid(); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; } };
-  $("fileIn").addEventListener("change",function(e){ var file=e.target.files[0]; if(!file)return; var reader=new FileReader(); reader.onload=function(ev){ var txt=ev.target.result; groupOrder=[]; var add=parseM3U(txt); channels=add; renderGroups(); renderGrid(); setLoad(100,channels.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; }; reader.readAsText(file); });
-  loadM3UFromUrls(0);
-  var v=$("video"); if(v) v.volume=curVol; var a=$("audioEl"); if(a) a.volume=curVol;
-}
-init();
 </script>
 </body>
 </html>
