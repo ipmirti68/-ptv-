@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v56 Logo Dar Radyo Fix</title>
+<title>Mırtı TV v57 EPG Fix</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -14,7 +14,7 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 .top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:3px;align-items:center;padding:4px 5px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto}
 .top button{border:1px solid transparent;color:#fff;padding:4px 8px;border-radius:14px;font-size:9px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:3px;flex-shrink:0}
 .top button[data-tab="live"]{background:#1a2a4a;border-color:#2a5a9a}
-.top button[data-tab="live"].on{background:#ff3b30;color:#fff;box-shadow:0 0 8px rgba(255,59,48,.4);border-color:#ff3b30}
+.top button[data-tab="live"].on{background:#ff3b30;color:#fff;border-color:#ff3b30}
 .top button[data-tab="movie"]{background:#1e2f4a;border-color:#2a5a7a}
 .top button[data-tab="movie"].on{background:#007aff;color:#fff;border-color:#007aff}
 .top button[data-tab="series"]{background:#2a204a;border-color:#5a3a8a}
@@ -26,7 +26,7 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 #playerCol{height:36vh;min-height:180px;max-height:36vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
 #player{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #video{width:100%;height:100%;object-fit:contain;background:#000;z-index:2}
-#idle{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000;transition:all .5s}
+#idle{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000}
 #idle img{width:100%;height:100%;object-fit:cover;display:block;transition:all .6s}
 #idle.radioMode img{animation:radioZoom 4s infinite alternate}
 @keyframes radioZoom{0%{transform:scale(1)}100%{transform:scale(1.05)}}
@@ -45,17 +45,16 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 #grid{flex:1;overflow:auto;padding:5px}
 #grid.live{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:68px}
 #grid.poster{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:280px}
-/* LOGO DARALTILDI - ALTI ÜSTÜ BOŞLUK YOK */
 .item{position:relative;display:flex;align-items:center;gap:6px;background:#13203a;border:1px solid #1e2e51;border-radius:8px;padding:4px 6px;cursor:pointer;height:68px;overflow:hidden;flex-shrink:0}
 .item.ulusal{background:#1a2f5a;border-color:#2a4a8a}
 .item.on{border-color:#d4b78f;box-shadow:0 0 6px rgba(212,183,143,.25)}
+.item.noepg{opacity:.85;border-style:dashed}
 .logoBox{width:42px;height:42px;min-width:42px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;padding:1px}
 .logoBox img{width:100%;height:100%;object-fit:contain;background:#fff}
 .info{flex:1;overflow:hidden;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding-right:14px}
 .info b{font-size:12px;line-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;color:#fff}
-/* EPG 2 SATIR - ŞİMDİ SONRA YAZMADAN DİREKT YAYIN */
-.info .epg1{font-size:10px;line-height:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:#c8d8ff;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;white-space:normal;max-height:22px;line-clamp:1}
-.info .epg2{font-size:9px;line-height:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:400;color:#7a8aaa;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;white-space:normal;max-height:20px;line-clamp:1}
+.info .epg1{font-size:10px;line-height:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:#c8d8ff;max-height:22px}
+.info .epg2{font-size:9px;line-height:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:400;color:#7a8aaa;max-height:20px}
 .favBtn{position:absolute;right:2px;bottom:2px;width:16px;height:16px;min-width:16px;border:none;background:rgba(0,0,0,.3);border-radius:50%;color:#666;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .favBtn.on{color:#ffcc33;background:rgba(255,204,51,.25)}
 .posterCard{background:#121e33;border:1px solid #1e2e51;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:280px;position:relative}
@@ -88,6 +87,202 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 <b style="letter-spacing:2px;font-size:14px">SPEEDTEST</b>
 <div style="font-size:11px;color:#00a8b5">GERÇEK HIZ</div>
 <div style="width:260px;height:120px"><svg viewBox="0 0 200 120"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#e5e5e5" stroke-width="12" stroke-linecap="round"/><path id="arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#00d2e0" stroke-width="12" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/><line id="needle" x1="100" y1="100" x2="40" y2="40" stroke="#333" stroke-width="3" stroke-linecap="round"/></svg></div>
+<div id="speedNum" class="speedVal">0.00</div>
+<div style="font-size:10px;color:#00a8b5">Mbps</div>
+<div style="display:flex;gap:16px;font-size:11px;margin-top:6px"><span>Ping <b id="pingVal">-</b></span><span>↓ <b id="downVal">-</b></span><span><b id="sizeVal">-</b></span></div>
+<div id="speedInfo" style="font-size:10px;color:#666;margin-top:8px">BAŞLAT'a bas</div>
+<div style="display:flex;gap:6px;width:100%;margin-top:10px"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div>
+</div></div>
+
+<div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U / EPG Yükle</b><input id="m3uIn" placeholder="M3U Linki"><input id="epgIn" placeholder="EPG Linki"><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
+
+<script>
+var M3U_FILES=["mırtı68.m3u","mirti68.m3u","Mırtı68.m3u"];
+var M3U_BASES=[
+"https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/",
+"https://raw.githubusercontent.com/ipmirti68/-p/main/",
+"https://cdn.jsdelivr.net/gh/ipmirti68/-p@main/",
+"https://cdn.jsdelivr.net/gh/ipmirti68/-p/main/"
+];
+var M3U_URLS=[];
+for(var bi=0;bi<M3U_BASES.length;bi++){ for(var fi=0;fi<M3U_FILES.length;fi++){ M3U_URLS.push(M3U_BASES[bi]+encodeURIComponent(M3U_FILES[fi])); } }
+M3U_URLS.push("https://api.allorigins.win/raw?url="+encodeURIComponent("https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/m%C4%B1rt%C4%B168.m3u"));
+var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
+var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
+var SPEED_TEST_URL="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
+var RADIO_IMAGES=[
+"https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg",
+"https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg",
+"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600",
+"https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600",
+"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600"
+];
+var channels=[],epg={},epgNorm={},curGroup=null,curTab="live",hls=null,groupOrder=[],favs=[],curCh=null,radioTimer=null,radioImgIdx=0;
+try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
+
+function $(id){return document.getElementById(id);}
+function setLoad(p,t){ var f=$("loadFill"), tx=$("loadText"); if(f)f.style.width=p+"%"; if(tx)tx.textContent="%"+p+" "+t; var en=$("epgNow"); if(en)en.textContent=t; }
+function saveFav(){try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){}}
+function isFav(url){return favs.indexOf(url)!=-1;}
+function toggleFav(url){ var i=favs.indexOf(url); if(i==-1)favs.push(url); else favs.splice(i,1); saveFav(); renderGrid(); renderGroups(); }
+function norm(s){
+  if(!s)return "";
+  var t=s+""; t=t.replace(/İ/g,"i").replace(/I/g,"i");
+  t=t.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+  t=t.toLowerCase();
+  t=t.replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c");
+  return t;
+}
+// EPG için temiz isim - HD, TR gibi ekleri at
+function cleanName(s){
+  if(!s)return "";
+  var t=norm(s);
+  t=t.replace(/\btr\b/g,"").replace(/\btr\|/g,"").replace(/\|tr/g,"").replace(/tr:/g,"").replace(/\|/g," ");
+  t=t.replace(/\b(uhd|fhd|hd|sd|4k|8k)\b/g,"");
+  t=t.replace(/\b(atv|show|star|kanal|tv)\b.*\b(hd|fhd)\b/g,function(m){return m.replace(/\b(hd|fhd|uhd)\b/g,"");});
+  t=t.replace(/[^a-z0-9]/g,"");
+  t=t.trim();
+  return t;
+}
+function getTypeByGroup(g,url,raw){
+  var n=norm(g);
+  var r=(raw||"").toLowerCase();
+  if(r.indexOf('radio="true"')!=-1) return "radio";
+  if(n.indexOf("radyo")!=-1) return "radio";
+  if(n.indexOf("radio")!=-1) return "radio";
+  if(n.indexOf("sinema")!=-1) return "live";
+  if(n.indexOf("yerli dizi")!=-1) return "series";
+  if(n.indexOf("guncel dizi")!=-1) return "series";
+  if(n.indexOf("guncel diziler")!=-1) return "series";
+  if(n.indexOf("dizi")!=-1) return "series";
+  if(n.indexOf("sezon")!=-1) return "series";
+  if(n.indexOf("bolum")!=-1) return "series";
+  if(n.indexOf("series")!=-1) return "series";
+  if(n.indexOf("film")!=-1) return "movie";
+  if(n.indexOf("movie")!=-1) return "movie";
+  if(n.indexOf("vod")!=-1) return "movie";
+  if(n.indexOf("sineturk")!=-1) return "movie";
+  if(n.indexOf("yesilcam")!=-1) return "movie";
+  if(n.indexOf("turk filmi")!=-1) return "movie";
+  if(n.indexOf("kemal")!=-1 && n.indexOf("sunal")!=-1) return "movie";
+  var u=(url||"").toLowerCase();
+  if((u.indexOf(".mp4")!=-1 || u.indexOf(".mkv")!=-1) && n.indexOf("dizi")==-1 && n.indexOf("sinema")==-1 && n.indexOf("radyo")==-1) return "movie";
+  return "live";
+}
+function parseM3U(t){
+  var list=[]; var seen={}; groupOrder=[];
+  t=t.replace(/\r/g,"");
+  var lines=t.split("\n");
+  var cur=null, curLine="";
+  for(var i=0;i<lines.length;i++){
+    var l=lines[i].trim();
+    if(!l)continue;
+    if(l.toUpperCase().indexOf("#EXTINF")==0){
+      cur={}; curLine=l;
+      var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo)cur.logo=lo[1];
+      var id=l.match(/tvg-id="([^"]+)"/i); if(id)cur.tvgId=id[1];
+      var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel";
+      var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1);
+      if(!seen[cur.group]){seen[cur.group]=1; groupOrder.push(cur.group);}
+    }else{
+      if(cur && l.charAt(0)!="#"){
+        var url=l.split("|")[0].trim();
+        cur.url=url;
+        cur.type=getTypeByGroup(cur.group, url, curLine);
+        cur.rawLine=curLine;
+        list.push(cur); cur=null; curLine="";
+      }
+    }
+  }
+  return list;
+}
+function parseEPG(xmlText){
+  try{
+    var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}, mn={};
+    var progs=d.querySelectorAll("programme");
+    progs.forEach(function(pr){
+      var ch=pr.getAttribute("channel");
+      var st=pr.getAttribute("start");
+      var en=pr.getAttribute("stop");
+      var ti=pr.querySelector("title"); var title=ti?ti.textContent:"";
+      if(!m[ch])m[ch]=[];
+      m[ch].push({title:title,start:st,stop:en});
+      // normalize index
+      var cn=cleanName(ch);
+      if(cn && !mn[cn]) mn[cn]=ch;
+      var cn2=norm(ch).replace(/\.tr|\.com|\.tv/g,"").replace(/[^a-z0-9]/g,"");
+      if(cn2 && !mn[cn2]) mn[cn2]=ch;
+    });
+    for(var k in m){ m[k].sort(function(a,b){ if(!a.start||!b.start)return 0; return a.start.localeCompare(b.start); }); }
+    epgNorm=mn;
+    return m;
+  }catch(e){return {};}
+}
+function parseEPGDate(s){
+  if(!s)return null;
+  try{ var y=s.substr(0,4), mo=s.substr(4,2)-1, d=s.substr(6,2), h=s.substr(8,2), mi=s.substr(10,2), sec=s.substr(12,2); return new Date(y,mo,d,h,mi,sec); }catch(e){return null;}
+}
+function getEPGNowNext(ch){
+  if(!ch)return {now:null,next:null,found:false};
+  var list=null, key=null;
+  // 1. tvg-id tam
+  if(ch.tvgId && epg[ch.tvgId]){ list=epg[ch.tvgId]; key=ch.tvgId; }
+  // 2. title tam
+  if(!list && epg[ch.title]){ list=epg[ch.title]; key=ch.title; }
+  // 3. cleanName ile
+  if(!list){
+    var cn=cleanName(ch.title);
+    if(cn && epgNorm[cn] && epg[epgNorm[cn]]){ list=epg[epgNorm[cn]]; key=epgNorm[cn]; }
+  }
+  // 4. norm ile ara
+  if(!list){
+    var cn2=norm(ch.title).replace(/[^a-z0-9]/g,"");
+    cn2=cn2.replace(/hd|fhd|uhd|4k/g,"");
+    if(cn2 && epgNorm[cn2] && epg[epgNorm[cn2]]){ list=epg[epgNorm[cn2]]; key=epgNorm[cn2]; }
+  }
+  // 5. içinde geçen
+  if(!list){
+    var low=norm(ch.title);
+    for(var k in epg){
+      var nk=norm(k);
+      if(nk.indexOf(low)!=-1 || low.indexOf(nk)!=-1){ list=epg[k]; key=k; break; }
+    }
+  }
+  // 6. clean içinde geçen
+  if(!list){
+    var cc=cleanName(ch.title);
+    for(var k2 in epgNorm){
+      if(k2.indexOf(cc)!=-1 || cc.indexOf(k2)!=-1){
+        var real=epgNorm[k2];
+        if(epg[real]){ list=epg[real]; key=real; break; }
+      }
+    }
+  }
+  if(!list||!list.length)return {now:null,next:null,found:false};
+  var now=new Date();
+  var nowProg=null,nextProg=null;
+  for(var i=0;i<list.length;i++){
+    var p=list[i]; var st=parseEPGDate(p.start); var en=parseEPGDate(p.stop);
+    if(st&&en){ if(now>=st&&now<en){nowProg=p; if(i+1<list.length)nextProg=list[i+1]; break;} if(now<st && !nowProg){nextProg=p; if(i>0)nowProg=list[i-1]; break;} }
+    else{ if(i==0)nowProg=p; if(i==1)nextProg=p; }
+  }
+  if(!nowProg&&list.length){nowProg=list[0]; if(list.length>1)nextProg=list[1];}
+  return {now:nowProg,next:nextProg,found:true,key:key};
+}
+function getFiltered(){
+  var list=[];
+  for(var i=0;i<channels.length;i++){ var c=channels[i]; if(curTab=="fav"){if(isFav(c.url))list.push(c);} else if(c.type==curTab)list.push(c); }
+  if(curGroup){ var f=[]; for(var j=0;j<list.length;j++) if(list[j].group==curGroup)f.push(list[j]); list=f; }
+  return list;
+}
+function renderGroups(){
+  var gl=$("groups"); if(!gl)return; gl.innerHTML="";
+  for(var i=0;i<groupOrder.length;i++){
+    var g=groupOrder[i];
+    var has=false, cnt=0;
+    for(var j=0;j<channels.length;j++){ if(channels[j].group==g){ if(curTab=="fav"){if(isFav(channels[j].url)){has=true;cnt++;}} else if(channels[j].type==curTab){has=true;cnt++;} } }
+    if(!has)continue;
+    var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); divx"><svg viewBox="0 0 200 120"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#e5e5e5" stroke-width="12" stroke-linecap="round"/><path id="arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#00d2e0" stroke-width="12" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/><line id="needle" x1="100" y1="100" x2="40" y2="40" stroke="#333" stroke-width="3" stroke-linecap="round"/></svg></div>
 <div id="speedNum" class="speedVal">0.00</div>
 <div style="font-size:10px;color:#00a8b5">Mbps</div>
 <div style="display:flex;gap:16px;font-size:11px;margin-top:6px"><span>Ping <b id="pingVal">-</b></span><span>↓ <b id="downVal">-</b></span><span><b id="sizeVal">-</b></span></div>
