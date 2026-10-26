@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v77 Donma Fix</title>
+<title>Mırtı TV v78 Üst Renk Fix</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -11,14 +11,14 @@ body{background:#070b14;color:#e8e6df;font-family:Arial,sans-serif;height:100vh;
 header{height:38px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44;flex-shrink:0}
 .logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:13px}
 .logo img{height:26px;width:26px;object-fit:cover;border-radius:5px}
-.top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:4px;align-items:center;padding:5px 6px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto}
-.top button{border:1px solid #1e2a44;color:#5a6a8a;background:#0f1726;padding:5px 10px;border-radius:14px;font-size:9px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;opacity:0.6;transition:all 0.2s}
-.top button.on{opacity:1;color:#fff}
-.top button[data-tab="live"].on{background:#ff3b30;border-color:#ff3b30}
-.top button[data-tab="movie"].on{background:#007aff;border-color:#007aff}
-.top button[data-tab="series"].on{background:#af52de;border-color:#af52de}
-.top button[data-tab="radio"].on{background:#ff9500;border-color:#ff9500;color:#111}
-.top button[data-tab="fav"].on{background:#ffcc00;border-color:#ffcc00;color:#111}
+.top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:6px;align-items:center;padding:6px 8px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto}
+.top button{border:1px solid #2a5a9a;color:#c8d8ff;background:#1e3a5f;padding:6px 12px;border-radius:14px;font-size:10px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;opacity:1;transition:all 0.2s}
+.top button.on{opacity:1;color:#fff;box-shadow:0 0 10px rgba(0,0,0,.5);transform:scale(1.05);font-weight:900}
+.top button[data-tab="live"].on{background:#ff3b30;border-color:#ff3b30;box-shadow:0 0 12px rgba(255,59,48,.6)}
+.top button[data-tab="movie"].on{background:#007aff;border-color:#007aff;box-shadow:0 0 12px rgba(0,122,255,.6)}
+.top button[data-tab="series"].on{background:#af52de;border-color:#af52de;box-shadow:0 0 12px rgba(175,82,222,.6)}
+.top button[data-tab="radio"].on{background:#ff9500;border-color:#ff9500;color:#111;box-shadow:0 0 12px rgba(255,149,0,.6);font-weight:900}
+.top button[data-tab="fav"].on{background:#ffcc00;border-color:#ffcc00;color:#111;box-shadow:0 0 12px rgba(255,204,0,.6)}
 #playerCol{height:36vh;min-height:180px;max-height:36vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
 #playerCol.fullscreen{height:100vh;min-height:100vh;max-height:100vh;position:fixed;inset:0;z-index:80;background:#000}
 #player{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
@@ -33,8 +33,8 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
   body{background:#050a14}
   #list{max-width:1100px;margin:0 auto;width:100%;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a}
   #groupsWrap{max-width:1100px;margin:0 auto;width:100%;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a;height:52px!important;padding:0 10px!important;gap:8px!important;background:#0f2440!important;border-bottom:1px solid #2a5a9a!important}
-  .top{max-width:1100px;margin:0 auto;width:100%;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a;padding:8px 10px!important;gap:8px!important}
-  .top button{font-size:12px!important;padding:7px 14px!important;border-radius:16px!important}
+  .top{max-width:1100px;margin:0 auto;width:100%;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a;padding:8px 12px!important;gap:8px!important;background:#0d1a33!important}
+  .top button{font-size:12px!important;padding:7px 16px!important;border-radius:16px!important}
   .gChip{font-size:13px!important;padding:8px 18px!important;border-radius:16px!important;background:#1e3a5f!important;border:1px solid #2a5a9a!important;color:#c8d8ff!important;font-weight:700!important}
   .gChip.on{background:#ff9500!important;color:#111!important;border-color:#ff9500!important;font-weight:900!important}
   #groupsWrap button.arrow{width:28px!important;height:28px!important;font-size:13px!important;background:#1e3a5f!important;border:1px solid #2a5a9a!important}
@@ -60,7 +60,7 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 #groupsWrap{height:34px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 3px;gap:3px;flex-shrink:0}
 #groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:20px;height:20px;border-radius:50%;font-size:9px;cursor:pointer;flex-shrink:0}
 #groups{flex:1;display:flex;gap:4px;overflow:auto;scroll-behavior:smooth}
-.gChip{padding:3px 9px;background:#101c33;border:1px solid #1e2e51;border-radius:10px;font-size:8px;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.gChip{padding:3px 9px;background:#101c33;border:1px solid #1e2e51;border-radius:10px;font-size:8px;white-space:nowrap;cursor:pointer;flex-shrink:0;color:#8a9bb8}
 .gChip.on{background:#d4b78f;color:#111;font-weight:800;border-color:#d4b78f}
 #list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden;min-height:0}
 #playerCol.fullscreen ~ #groupsWrap, #playerCol.fullscreen ~ #list, #playerCol.fullscreen ~ .top, #playerCol.fullscreen ~ header{display:none!important;max-width:none!important}
@@ -85,7 +85,6 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 .radioItem.on{border-color:#ff9500;box-shadow:0 0 10px rgba(255,149,0,.4)}
 .radioItem .logoBox{width:56px;height:56px;background:#fff;border-radius:50%}
 .radioItem b{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%;color:#fff}
-.radioItem .rg{font-size:8px;color:#ffcc88}
 .posterCard{background:#121e33;border:1px solid #1e2e51;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:280px;position:relative}
 .posterImg{height:210px;min-height:210px;background:#0d1525;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .posterImg img{width:100%;height:100%;object-fit:contain;display:block;background:#0d1525}
@@ -98,7 +97,7 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 #radioInfo b{font-size:11px;color:#ffcc33;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99}
 .box{background:#101b30;border:1px solid #22365e;width:360px;max-width:92vw;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.box input,.box textarea{background:#0a1222;border:1px solid #22365e;color:#fff;padding:8px;border-radius:6px;width:100%;font-size:11px}
+.box textarea{background:#0a1222;border:1px solid #22365e;color:#fff;padding:8px;border-radius:6px;width:100%;font-size:11px}
 #speedModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
 .speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .speedVal{font-size:42px;font-weight:300}
@@ -111,7 +110,7 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 <div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
 <div id="list"><div id="grid" class="live"></div></div>
 
-<div id="speedModal" class="hidden"><div class="speedBox"><b>SPEEDTEST</b><div id="speedNum" class="speedVal">0.00</div><div style="display:flex;gap:16px;font-size:11px"><span>Ping <b id="pingVal">-</b></span><span>↓ <b id="downVal">-</b></span><span><b id="sizeVal">-</b></span></div><div id="speedInfo" style="font-size:10px;color:#666">BAŞLAT'a bas</div><div style="display:flex;gap:6px;width:100%"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div></div></div>
+<div id="speedModal" class="hidden"><div class="speedBox"><b>SPEEDTEST</b><div id="speedNum" class="speedVal">0.00</div><div id="speedInfo" style="font-size:10px;color:#666">BAŞLAT'a bas</div><div style="display:flex;gap:6px;width:100%"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div></div></div>
 <div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U Yükle</b><textarea id="m3uIn" placeholder="M3U Linki veya içeriği" style="min-height:80px"></textarea><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div style="display:flex;gap:4px"><button id="addTest" style="flex:1;background:#ff9500;color:#111;border:none;padding:8px;border-radius:6px;font-size:10px;font-weight:800">+ SZC KOZA KRT</button><button id="fixM3U" style="flex:1;background:#ff3b30;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">YAYIN GERİ</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
 
 <script>
@@ -143,7 +142,7 @@ function getTypeByGroup(g,url,raw,tvgId){
   return "live";
 }
 function parseM3U(t){
-  var list=[]; var seenGroup={}; var cur=null, curLine="", curId="", curTitle="", curUA=""; var newOrder=[];
+  var list=[]; var seenGroup={}; var cur=null, curLine="", curId="", curUA=""; var newOrder=[];
   t=t.replace(/\r/g,""); var lines=t.split("\n");
   for(var i=0;i<lines.length;i++){
     var l=lines[i].trim(); if(!l) continue;
@@ -152,7 +151,7 @@ function parseM3U(t){
       var id=l.match(/tvg-id="([^"]+)"/i); if(id){cur.tvgId=id[1]; curId=id[1];} else curId="";
       var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel";
       var ua=l.match(/http-user-agent="([^"]+)"/i); if(ua) curUA=ua[1];
-      var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1); curTitle=cur.title;
+      var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1);
       if(!seenGroup[cur.group]){seenGroup[cur.group]=1; newOrder.push(cur.group);}
     } else if(l.toUpperCase().indexOf("#EXTVLCOPT:")==0){
       var um=l.match(/http-user-agent=(.+)/i); if(um){ curUA=um[1].replace(/^"/,"").replace(/"$/,"").trim(); }
@@ -166,4 +165,125 @@ function parseM3U(t){
   groupOrder=newOrder;
   return list;
 }
-function parseEPG(xmlText){ try{ var p=new DOMParser(),
+function parseEPG(xmlText){ try{ var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}, mn={}; var progs=d.querySelectorAll("programme"); progs.forEach(function(pr){ var ch=pr.getAttribute("channel"); var ti=pr.querySelector("title"); var title=ti?ti.textContent:""; if(!m[ch])m[ch]=[]; m[ch].push({title:title}); var cn=cleanName(ch); if(cn&&!mn[cn]) mn[cn]=ch; }); epgNorm=mn; return m; }catch(e){return {};} }
+function getEPGNowNext(ch){ if(!ch)return {now:null,found:false}; var list=null; if(ch.tvgId&&epg[ch.tvgId]) list=epg[ch.tvgId]; if(!list) return {now:null,found:false}; return {now:list[0],found:true}; }
+function getFiltered(){ var list=[]; for(var i=0;i<channels.length;i++){ var c=channels[i]; if(curTab=="fav"){if(isFav(c.url))list.push(c);} else if(c.type==curTab)list.push(c); } if(curGroup){ var f=[]; for(var j=0;j<list.length;j++) if(list[j].group==curGroup)f.push(list[j]); list=f; } return list; }
+function renderGroups(){
+  var gl=$("groups"); if(!gl)return; gl.innerHTML="";
+  var hasMap={}; for(var j=0;j<channels.length;j++){ var g=channels[j].group; if(!hasMap[g]) hasMap[g]={live:0,movie:0,series:0,radio:0,fav:0}; var t=channels[j].type; if(t=="live") hasMap[g].live++; else if(t=="movie") hasMap[g].movie++; else if(t=="series") hasMap[g].series++; else if(t=="radio") hasMap[g].radio++; if(isFav(channels[j].url)) hasMap[g].fav++; }
+  for(var i=0;i<groupOrder.length;i++){
+    var g=groupOrder[i]; var m=hasMap[g]; if(!m) continue;
+    var ok=false; if(curTab=="live"&&m.live) ok=true; else if(curTab=="movie"&&m.movie) ok=true; else if(curTab=="series"&&m.series) ok=true; else if(curTab=="radio"&&m.radio) ok=true; else if(curTab=="fav"&&m.fav) ok=true;
+    if(!ok) continue;
+    var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); div.textContent=g;
+    div.onclick=(function(gg){return function(){ if(curCh&&curCh.type=="radio"){ var willBeRadio=false; for(var k=0;k<channels.length;k++){ if(channels[k].group==gg&&channels[k].type=="radio"){willBeRadio=true;break;} } if(!willBeRadio) stopRadio(); } curGroup=gg; renderGrid(); renderGroups(); renderFsGrid(); };})(g);
+    gl.appendChild(div);
+  }
+}
+function renderFsGrid(){
+  var fsGrid=$("fsGrid"); if(!fsGrid)return; fsGrid.innerHTML=""; var list=getFiltered();
+  for(var j=0;j<Math.min(list.length, 40);j++){
+    var ch2=list[j]; var row=document.createElement("div"); row.className="item"+(curCh&&curCh.url==ch2.url?" on":"");
+    var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img2=document.createElement("img"); img2.src=ch2.logo||DEFAULT_LOGO; img2.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox.appendChild(img2);
+    var info=document.createElement("div"); info.className="info"; var b=document.createElement("b"); b.textContent=ch2.title; var s=document.createElement("div"); s.className="epg1"; s.textContent=ch2.group; info.appendChild(b); info.appendChild(s);
+    row.appendChild(logoBox); row.appendChild(info); row.onclick=(function(c){return function(){ play(c); var fsList=$("fsChannelList"); if(fsList) fsList.classList.remove("show"); fsListOpen=false; };})(ch2); fsGrid.appendChild(row);
+  }
+}
+function renderGrid(){
+  var grid=$("grid"); if(!grid)return; grid.innerHTML=""; var list=getFiltered();
+  if(list.length==0&&channels.length==0){ var d=document.createElement("div"); d.style.cssText="color:#ff9a3d;padding:20px;text-align:center;font-size:11px"; d.textContent="Liste boş"; grid.appendChild(d); return; }
+  if(list.length==0){ var d2=document.createElement("div"); d2.style.cssText="color:#888;padding:20px;text-align:center;font-size:11px"; d2.textContent=curTab=="fav"?"Fav yok":"Bu grupta kanal yok"; grid.appendChild(d2); return; }
+  if(curTab=="radio"){
+    grid.className="radioGrid";
+    for(var j=0;j<list.length;j++){
+      var ch2=list[j]; var row=document.createElement("div"); row.className="radioItem"+(curCh&&curCh.url==ch2.url?" on":"");
+      var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img2=document.createElement("img"); img2.src=ch2.logo||DEFAULT_LOGO; logoBox.appendChild(img2);
+      var b=document.createElement("b"); b.textContent=ch2.title; var rg=document.createElement("div"); rg.className="rg"; rg.textContent=ch2.group;
+      var favBtn2=document.createElement("button"); favBtn2.className="favBtn"+(isFav(ch2.url)?" on":""); favBtn2.textContent=isFav(ch2.url)?"★":"☆"; favBtn2.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch2.url);
+      row.appendChild(logoBox); row.appendChild(b); row.appendChild(rg); row.appendChild(favBtn2); row.onclick=(function(c){return function(){play(c);};})(ch2); grid.appendChild(row);
+    }
+  } else if(curTab=="movie"||curTab=="series"){
+    grid.className="poster";
+    for(var i=0;i<list.length;i++){
+      var ch=list[i]; var card=document.createElement("div"); card.className="posterCard"; var p=document.createElement("div"); p.className="posterImg"; var img=document.createElement("img"); img.src=ch.logo||DEFAULT_LOGO; img.loading="lazy"; img.onerror=function(){this.src=DEFAULT_LOGO;}; p.appendChild(img);
+      var favBtn=document.createElement("button"); favBtn.className="favBtnCard"+(isFav(ch.url)?" on":""); favBtn.textContent=isFav(ch.url)?"★":"☆"; favBtn.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch.url); p.appendChild(favBtn);
+      var m=document.createElement("div"); m.className="posterTitle"; var t1=document.createElement("div"); t1.textContent=ch.title; var t2=document.createElement("small"); t2.textContent=ch.group; m.appendChild(t1); m.appendChild(t2); card.appendChild(p); card.appendChild(m); card.onclick=(function(c){return function(){play(c);};})(ch); grid.appendChild(card);
+    }
+  } else {
+    grid.className="live";
+    for(var j2=0;j2<list.length;j2++){
+      var ch2b=list[j2]; var row2=document.createElement("div"); row2.className="item"+(curCh&&curCh.url==ch2b.url?" on":"");
+      var logoBox2=document.createElement("div"); logoBox2.className="logoBox"; var img2b=document.createElement("img"); img2b.src=ch2b.logo||DEFAULT_LOGO; img2b.onerror=function(){this.src=DEFAULT_LOGO;}; logoBox2.appendChild(img2b);
+      var info=document.createElement("div"); info.className="info"; var b2=document.createElement("b"); b2.textContent=ch2b.title; var s=document.createElement("div"); s.className="epg1"; s.textContent=ch2b.group; info.appendChild(b2); info.appendChild(s);
+      var favBtn2b=document.createElement("button"); favBtn2b.className="favBtn"+(isFav(ch2b.url)?" on":""); favBtn2b.textContent=isFav(ch2b.url)?"★":"☆"; favBtn2b.onclick=(function(url){return function(ev){ev.stopPropagation(); toggleFav(url);};})(ch2b.url);
+      row2.appendChild(logoBox2); row2.appendChild(info); row2.appendChild(favBtn2b); row2.onclick=(function(c){return function(){play(c);};})(ch2b); grid.appendChild(row2);
+    }
+  }
+  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;}
+  if($("bLive"))$("bLive").innerHTML="📺 Canlı "+lc; if($("bMovie"))$("bMovie").innerHTML="🎬 Film "+mc; if($("bSeries"))$("bSeries").innerHTML="🎞️ Dizi "+sc; if($("bRadio"))$("bRadio").innerHTML="📻 Radyo "+rc; if($("bFav"))$("bFav").innerHTML="⭐ Fav "+favs.length;
+  renderFsGrid();
+}
+function stopRadio(){ var v=$("video"); if(v) v.pause(); var a=$("audioEl"); if(a){ a.pause(); a.src=""; } if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;} var idle=$("idle"); if(idle) idle.style.display="flex"; var rInfo=$("radioInfo"); if(rInfo) rInfo.style.display="none"; var idleImg=$("idleImg"); if(idleImg) idleImg.src=MAIN_SCREEN; curCh=null; if($("epgNow")) $("epgNow").textContent="Radyo durdu"; }
+function startRadioImages(ch){ var idleImg=$("idleImg"); if(idleImg) idleImg.src=RADIO_BG; var rInfo=$("radioInfo"); if(rInfo){ rInfo.style.display="block"; $("rTitle").textContent=ch.title; $("rSub").textContent="📻 "+ch.group; } }
+function playWithUrl(a, url, ch){ if(url.indexOf(".m3u8")!=-1){ if(Hls.isSupported()){ var cfg={}; if(ch.userAgent){ cfg.xhrSetup=function(xhr){ try{ xhr.setRequestHeader("User-Agent", ch.userAgent); }catch(e){} } } hlsAudio=new Hls(cfg); hlsAudio.loadSource(url); hlsAudio.attachMedia(a); hlsAudio.on(Hls.Events.MANIFEST_PARSED,function(){ a.play().catch(function(){}); }); }else{ a.src=url; a.play().catch(function(){}); } }else{ a.src=url; a.play().catch(function(){}); } }
+function play(ch){
+  if(!ch||!ch.url) return;
+  if(ch.type=="radio"){ var v=$("video"), idle=$("idle"), a=$("audioEl"); curCh=ch; if(idle)idle.style.display="flex"; if(v){ v.pause(); v.style.display="none"; } a.controls=false; a.style.position="absolute"; a.style.left="-9999px"; if($("epgNow")) $("epgNow").textContent="📻 "+ch.title; if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;} startRadioImages(ch); playWithUrl(a, ch.url, ch); renderGrid(); return; }
+  if(curCh&&curCh.type=="radio") stopRadio();
+  var rInfo2=$("radioInfo"); if(rInfo2) rInfo2.style.display="none";
+  curCh=ch; var v=$("video"), idle=$("idle"), a2=$("audioEl"); if(a2) a2.pause(); if(idle)idle.style.display="none"; if(v){v.style.display="block"; v.pause(); v.currentTime=0; v.volume=curVol;}
+  if($("epgNow")) $("epgNow").textContent=ch.group+" | "+ch.title;
+  if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;}
+  if(ch.url.indexOf(".m3u8")!=-1){ if(Hls.isSupported()){ var cfg={enableWorker:true}; if(ch.userAgent){ cfg.xhrSetup=function(xhr){ try{ xhr.setRequestHeader("User-Agent", ch.userAgent); }catch(e){} }; } hls=new Hls(cfg); hls.loadSource(ch.url); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); hls.on(Hls.Events.ERROR,function(ev,data){ if(data.fatal){ try{hls.destroy();}catch(e){} var prox="https://api.allorigins.win/raw?url="+encodeURIComponent(ch.url); $("epgNow").textContent="Proxy deneniyor..."; setTimeout(function(){ if(Hls.isSupported()){ var h2=new Hls(); h2.loadSource(prox); h2.attachMedia(v); h2.on(Hls.Events.MANIFEST_PARSED,function(){ v.play(); }); } },500); } }); }else if(v.canPlayType('application/vnd.apple.mpegurl')){ v.src=ch.url; v.play().catch(function(){}); } }else{ v.src=ch.url; v.play().catch(function(){ $("epgNow").textContent="TS yayın - VLC deneyin"; }); } renderGrid();
+}
+function findUlusalGroup(){ for(var i=0;i<groupOrder.length;i++){ var g=groupOrder[i]; if(norm(g).indexOf("ulusal")!=-1) return g; } return groupOrder[0]||null; }
+function changeChannel(offset){ var list=getFiltered(); if(!list.length) return; if(!curCh){ play(list[0]); return; } var idx=-1; for(var i=0;i<list.length;i++){ if(list[i].url==curCh.url){ idx=i; break; } } if(idx==-1) idx=0; var newIdx=idx+offset; if(newIdx<0) newIdx=list.length-1; if(newIdx>=list.length) newIdx=0; play(list[newIdx]); }
+function changeVolume(delta){ curVol+=delta; if(curVol<0) curVol=0; if(curVol>1) curVol=1; var v=$("video"), a=$("audioEl"); if(v) v.volume=curVol; if(a) a.volume=curVol; var volOsd=$("volOsd"), volFill=$("volFill"), volTxt=$("volTxt"); if(volOsd){ volOsd.style.display="flex"; volFill.style.height=(curVol*100)+"%"; volTxt.textContent=Math.round(curVol*100)+"%"; clearTimeout(volOsd._t); volOsd._t=setTimeout(function(){ volOsd.style.display="none"; },1500); } }
+function loadFallback(){ channels=[]; groupOrder=["ULUSAL"]; for(var i=0;i<FALLBACK_CHANNELS.length;i++) channels.push(FALLBACK_CHANNELS[i]); curGroup="ULUSAL"; curTab="live"; renderGroups(); renderGrid(); setLoad(100,"Yedek yayın"); var lw=$("loadWrap"); if(lw) lw.style.display="none"; }
+function measureSpeed(url){ return new Promise(function(resolve,reject){ var start=performance.now(); fetch(url+"?t="+Date.now(),{cache:"no-store"}).then(function(r){ return r.blob(); }).then(function(blob){ var end=performance.now(); var ms=end-start; var sec=ms/1000; if(sec<0.01) sec=0.01; var mbps=(blob.size*8/1000000)/sec; resolve({mbps:mbps,ms:ms,bytes:blob.size}); }).catch(function(e){reject(e);}); }); }
+function doSpeedTest(){ var num=$("speedNum"), infoEl=$("speedInfo"); if(!num) return; num.textContent="..."; measureSpeed(SPEED_TEST_URL).then(function(res){ num.textContent=res.mbps.toFixed(2); if(infoEl) infoEl.textContent="OK"; $("netSpeed").textContent="Net: "+res.mbps.toFixed(1)+" Mbps"; }).catch(function(e){ if(infoEl) infoEl.textContent="Hata"; num.textContent="0.00"; }); }
+function loadM3UFromUrls(idx){ if(idx==null) idx=0; if(idx>=M3U_URLS.length){ setLoad(0,"Yedek yükleniyor"); loadFallback(); return; } var url=M3U_URLS[idx]; setLoad(10+Math.floor(idx/M3U_URLS.length*30),"Deneniyor "+(idx+1)); fetch(url,{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }).then(function(t){ if(t.length<100) throw new Error("boş"); setLoad(50,t.length+" bayt"); var parsed=parseM3U(t); if(parsed.length==0) throw new Error("0 kanal"); channels=parsed; var ul=findUlusalGroup(); if(ul) curGroup=ul; else curGroup=groupOrder[0]; setLoad(70,channels.length+" kanal"); renderGroups(); renderGrid(); setLoad(80,"EPG..."); fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); setLoad(100,channels.length+" kanal - v78 üst renk fix"); setTimeout(function(){var lw=$("loadWrap"); if(lw)lw.style.display="none";},600); renderGrid(); }).catch(function(){ setLoad(90,channels.length+" kanal"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; renderGrid(); }); }).catch(function(e){ setLoad(3,"Link "+(idx+1)+" hata"); setTimeout(function(){loadM3UFromUrls(idx+1);},250); }); }
+function toggleFS(){ var pc=$("playerCol"); isFS=!isFS; if(isFS){ pc.classList.add("fullscreen"); } else{ pc.classList.remove("fullscreen"); var fsList=$("fsChannelList"); if(fsList) fsList.classList.remove("show"); fsListOpen=false; } }
+function init(){
+  setLoad(5,"Başlıyor...");
+  $("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
+  $("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
+  $("leftArrow").onclick=function(){$("groups").scrollBy({left:-140,behavior:"smooth"});};
+  $("rightArrow").onclick=function(){$("groups").scrollBy({left:140,behavior:"smooth"});};
+  $("netSpeed").onclick=function(){$("speedModal").classList.remove("hidden"); doSpeedTest();};
+  $("closeSpeed").onclick=function(){$("speedModal").classList.add("hidden");};
+  $("startTest").onclick=function(){doSpeedTest();};
+  $("fsBtn").onclick=function(e){ e.stopPropagation(); toggleFS(); };
+  $("fsExit").onclick=function(e){ e.stopPropagation(); toggleFS(); };
+  $("fsClose").onclick=function(e){ e.stopPropagation(); var fsList=$("fsChannelList"); if(fsList) fsList.classList.remove("show"); fsListOpen=false; };
+  $("fsPrev").onclick=function(e){ e.stopPropagation(); changeChannel(-1); };
+  $("fsNext").onclick=function(e){ e.stopPropagation(); changeChannel(1); };
+  var player=$("player");
+  player.addEventListener("click", function(e){
+    if(!isFS) return; if(e.target.id=="fsBtn"||e.target.id=="fsExit"||e.target.id=="fsClose"||e.target.id=="fsPrev"||e.target.id=="fsNext") return; if(e.target.closest&&e.target.closest("#fsChannelList")) return;
+    var fsList=$("fsChannelList"); if(!fsList) return; if(fsListOpen){ fsList.classList.remove("show"); fsListOpen=false; } else{ renderFsGrid(); fsList.classList.add("show"); fsListOpen=true; }
+  });
+  player.addEventListener("dblclick", function(){ toggleFS(); });
+  document.addEventListener("keydown", function(e){
+    if(!isFS) return; if(e.key=="ArrowRight"){ e.preventDefault(); changeChannel(1); } else if(e.key=="ArrowLeft"){ e.preventDefault(); changeChannel(-1); } else if(e.key=="ArrowUp"){ e.preventDefault(); changeVolume(0.1); } else if(e.key=="ArrowDown"){ e.preventDefault(); changeVolume(-0.1); } else if(e.key=="Enter"){ e.preventDefault(); var fsList=$("fsChannelList"); if(fsList){ if(fsListOpen) fsList.classList.remove("show"); else { renderFsGrid(); fsList.classList.add("show"); } fsListOpen=!fsListOpen; } } else if(e.key=="Escape"){ toggleFS(); }
+  });
+  player.addEventListener("touchstart", function(e){ if(!isFS) return; var t=e.touches[0]; touchStartX=t.clientX; touchStartY=t.clientY; }, {passive:true});
+  player.addEventListener("touchend", function(e){
+    if(!isFS) return; var t=e.changedTouches[0]; var dx=t.clientX-touchStartX; var dy=t.clientY-touchStartY;
+    if(Math.abs(dx)>Math.abs(dy)){ if(Math.abs(dx)>50){ if(dx>0) changeChannel(-1); else changeChannel(1); } } else{ if(Math.abs(dy)>50){ if(dy<0) changeVolume(0.1); else changeVolume(-0.1); } }
+  }, {passive:true});
+  $("addTest").onclick=function(){
+    var txt="#EXTINF:-1 group-title=\"📰 HABER\",SZC TV\nhttp://204.52.191.254:80/play/live.php?mac=00:1A:79:76:D0:D3&stream=475740&extension=ts&play_token=B5YhbAYy6D\n#EXTINF:-1 group-title=\"📰 HABER\" http-user-agent=\"Mozilla/5.0\",KOZA\nhttp://176.65.153.12:6001/play/a04m/index.m3u8";
+    var add=parseM3U(txt); for(var i=0;i<add.length;i++){ if(groupOrder.indexOf(add[i].group)==-1) groupOrder.push(add[i].group); channels.push(add[i]); } renderGroups(); renderGrid(); $("modal").classList.add("hidden"); curGroup="📰 HABER"; curTab="live"; renderGroups(); renderGrid();
+  };
+  $("fixM3U").onclick=function(){ loadFallback(); $("modal").classList.add("hidden"); };
+  var tabs=document.querySelectorAll(".top button"); for(var i=0;i<tabs.length;i++){ tabs[i].addEventListener("click",(function(btn){return function(){ var newTab=btn.dataset.tab; if(curCh&&curCh.type=="radio"&&newTab!="radio"&&newTab!="fav") stopRadio(); for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on"); btn.classList.add("on"); curTab=newTab; if(curTab=="live"){var ul=findUlusalGroup(); if(ul) curGroup=ul; else curGroup=null;} else curGroup=null; renderGroups(); renderGrid(); };})(tabs[i])); }
+  $("loadBtn").onclick=function(){ var raw=$("m3uIn").value.trim(); if(!raw) return; if(raw.indexOf("http")==0&&raw.indexOf("#EXTINF")==-1){ fetch(raw).then(function(r){return r.text();}).then(function(t){ groupOrder=[]; var add=parseM3U(t); channels=add; renderGroups(); renderGrid(); setLoad(100,channels.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; }).catch(function(e){$("stat").textContent="Hata: "+e.message;}); } else { var add=parseM3U(raw); for(var i=0;i<add.length;i++){ if(groupOrder.indexOf(add[i].group)==-1) groupOrder.push(add[i].group); channels.push(add[i]); } renderGroups(); renderGrid(); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; } };
+  $("fileIn").addEventListener("change",function(e){ var file=e.target.files[0]; if(!file)return; var reader=new FileReader(); reader.onload=function(ev){ var txt=ev.target.result; groupOrder=[]; var add=parseM3U(txt); channels=add; renderGroups(); renderGrid(); setLoad(100,channels.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; }; reader.readAsText(file); });
+  loadM3UFromUrls(0);
+  var v=$("video"); if(v) v.volume=curVol; var a=$("audioEl"); if(a) a.volume=curVol;
+}
+init();
+</script>
+</body>
+</html>
