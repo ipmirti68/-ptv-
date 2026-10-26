@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v57 EPG Fix</title>
+<title>Mırtı TV v58 Görüntülü Radyo Canlıda</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -48,7 +48,6 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 .item{position:relative;display:flex;align-items:center;gap:6px;background:#13203a;border:1px solid #1e2e51;border-radius:8px;padding:4px 6px;cursor:pointer;height:68px;overflow:hidden;flex-shrink:0}
 .item.ulusal{background:#1a2f5a;border-color:#2a4a8a}
 .item.on{border-color:#d4b78f;box-shadow:0 0 6px rgba(212,183,143,.25)}
-.item.noepg{opacity:.85;border-style:dashed}
 .logoBox{width:42px;height:42px;min-width:42px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;padding:1px}
 .logoBox img{width:100%;height:100%;object-fit:contain;background:#fff}
 .info{flex:1;overflow:hidden;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding-right:14px}
@@ -110,12 +109,13 @@ M3U_URLS.push("https://api.allorigins.win/raw?url="+encodeURIComponent("https://
 var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
 var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
 var SPEED_TEST_URL="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
+// ==== BURASI SENİN DÖNECEK RESİMLER - KENDİ RESİMLERİNİ EKLE ====
 var RADIO_IMAGES=[
 "https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg",
 "https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg",
-"https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600",
-"https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600",
-"https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600"
+// Kendi Mırtı TV uyumlu resimlerini buraya ekle baba:
+"https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg",
+"https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg"
 ];
 var channels=[],epg={},epgNorm={},curGroup=null,curTab="live",hls=null,groupOrder=[],favs=[],curCh=null,radioTimer=null,radioImgIdx=0;
 try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
@@ -133,23 +133,58 @@ function norm(s){
   t=t.replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c");
   return t;
 }
-// EPG için temiz isim - HD, TR gibi ekleri at
 function cleanName(s){
   if(!s)return "";
   var t=norm(s);
   t=t.replace(/\btr\b/g,"").replace(/\btr\|/g,"").replace(/\|tr/g,"").replace(/tr:/g,"").replace(/\|/g," ");
   t=t.replace(/\b(uhd|fhd|hd|sd|4k|8k)\b/g,"");
-  t=t.replace(/\b(atv|show|star|kanal|tv)\b.*\b(hd|fhd)\b/g,function(m){return m.replace(/\b(hd|fhd|uhd)\b/g,"");});
   t=t.replace(/[^a-z0-9]/g,"");
   t=t.trim();
   return t;
 }
+// Görüntülü radyo mu ses radyosu mu?
+function isVideoRadio(group,title,raw){
+  var n=norm(group+" "+title);
+  var r=(raw||"").toLowerCase();
+  // Görüntülü, video, tv kelimesi varsa görüntülü
+  if(n.indexOf("goruntulu")!=-1) return true;
+  if(n.indexOf("video")!=-1) return true;
+  if(n.indexOf("radyo tv")!=-1) return true;
+  if(n.indexOf("tv radyo")!=-1) return true;
+  if(n.indexOf("muzik tv")!=-1) return true;
+  // radio=true ama grupta sadece RADYO varsa ses, GÖRÜNTÜLÜ varsa video
+  if(r.indexOf('radio="true"')!=-1){
+    if(n.indexOf("goruntulu")!=-1) return true;
+    // Eğer grup sadece RADYO değil de başka kelime de varsa (örn: RADYO TV) video say
+    if(n.indexOf("radyo")!=-1 && (n.indexOf("tv")!=-1 || n.indexOf("muzik")!=-1)) return true;
+    return false; // sadece radyo = ses
+  }
+  return false;
+}
 function getTypeByGroup(g,url,raw){
   var n=norm(g);
   var r=(raw||"").toLowerCase();
-  if(r.indexOf('radio="true"')!=-1) return "radio";
-  if(n.indexOf("radyo")!=-1) return "radio";
-  if(n.indexOf("radio")!=-1) return "radio";
+  // 1. Önce görüntülü radyo kontrol - canlıya gitsin
+  if(isVideoRadio(g,"",raw) || (g && isVideoRadio(g,"",raw))){
+    return "live";
+  }
+  // Başlıkta da görüntülü var mı?
+  // Bu fonksiyon grup + url alıyor, başlık yok - raw içinde başlık var mı kontrol
+  // 2. Ses radyosu - sadece radyo=true ve görüntülü değilse
+  if(r.indexOf('radio="true"')!=-1){
+    // tekrar kontrol - görüntülü değilse radyo
+    if(!isVideoRadio(g,"",raw)) return "radio";
+  }
+  if(n.indexOf("radyo")!=-1 && n.indexOf("goruntulu")==-1 && n.indexOf("tv")==-1 && n.indexOf("video")==-1){
+    // sadece radyo kelimesi varsa ve görüntülü/tv yoksa ses radyosu
+    if(n=="radyo" || n.indexOf("radyo")!=-1){
+      // Eğer grup tam radyo ise ses
+      if(n.length<=10) return "radio";
+    }
+  }
+  if(n.indexOf("radio")!=-1 && n.indexOf("goruntulu")==-1 && n.indexOf("tv")==-1){
+    return "radio";
+  }
   if(n.indexOf("sinema")!=-1) return "live";
   if(n.indexOf("yerli dizi")!=-1) return "series";
   if(n.indexOf("guncel dizi")!=-1) return "series";
@@ -173,7 +208,7 @@ function parseM3U(t){
   var list=[]; var seen={}; groupOrder=[];
   t=t.replace(/\r/g,"");
   var lines=t.split("\n");
-  var cur=null, curLine="";
+  var cur=null, curLine="", curTitle="";
   for(var i=0;i<lines.length;i++){
     var l=lines[i].trim();
     if(!l)continue;
@@ -183,14 +218,24 @@ function parseM3U(t){
       var id=l.match(/tvg-id="([^"]+)"/i); if(id)cur.tvgId=id[1];
       var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel";
       var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1);
+      curTitle=cur.title;
       if(!seen[cur.group]){seen[cur.group]=1; groupOrder.push(cur.group);}
     }else{
       if(cur && l.charAt(0)!="#"){
         var url=l.split("|")[0].trim();
         cur.url=url;
-        cur.type=getTypeByGroup(cur.group, url, curLine);
+        // Görüntülü radyo kontrol için başlığı da gönder
+        if(isVideoRadio(cur.group, curTitle, curLine)){
+          cur.type="live";
+        }else{
+          cur.type=getTypeByGroup(cur.group, url, curLine);
+          // Başlıkla tekrar kontrol
+          if(isVideoRadio(cur.group, curTitle, curLine) && cur.type=="radio"){
+            cur.type="live";
+          }
+        }
         cur.rawLine=curLine;
-        list.push(cur); cur=null; curLine="";
+        list.push(cur); cur=null; curLine=""; curTitle="";
       }
     }
   }
@@ -207,7 +252,6 @@ function parseEPG(xmlText){
       var ti=pr.querySelector("title"); var title=ti?ti.textContent:"";
       if(!m[ch])m[ch]=[];
       m[ch].push({title:title,start:st,stop:en});
-      // normalize index
       var cn=cleanName(ch);
       if(cn && !mn[cn]) mn[cn]=ch;
       var cn2=norm(ch).replace(/\.tr|\.com|\.tv/g,"").replace(/[^a-z0-9]/g,"");
@@ -224,65 +268,26 @@ function parseEPGDate(s){
 }
 function getEPGNowNext(ch){
   if(!ch)return {now:null,next:null,found:false};
-  var list=null, key=null;
-  // 1. tvg-id tam
-  if(ch.tvgId && epg[ch.tvgId]){ list=epg[ch.tvgId]; key=ch.tvgId; }
-  // 2. title tam
-  if(!list && epg[ch.title]){ list=epg[ch.title]; key=ch.title; }
-  // 3. cleanName ile
+  var list=null;
+  if(ch.tvgId && epg[ch.tvgId]){ list=epg[ch.tvgId]; }
+  if(!list && epg[ch.title]){ list=epg[ch.title]; }
   if(!list){
     var cn=cleanName(ch.title);
-    if(cn && epgNorm[cn] && epg[epgNorm[cn]]){ list=epg[epgNorm[cn]]; key=epgNorm[cn]; }
+    if(cn && epgNorm[cn] && epg[epgNorm[cn]]){ list=epg[epgNorm[cn]]; }
   }
-  // 4. norm ile ara
   if(!list){
-    var cn2=norm(ch.title).replace(/[^a-z0-9]/g,"");
-    cn2=cn2.replace(/hd|fhd|uhd|4k/g,"");
-    if(cn2 && epgNorm[cn2] && epg[epgNorm[cn2]]){ list=epg[epgNorm[cn2]]; key=epgNorm[cn2]; }
+    var cn2=norm(ch.title).replace(/[^a-z0-9]/g,"").replace(/hd|fhd|uhd|4k/g,"");
+    if(cn2 && epgNorm[cn2] && epg[epgNorm[cn2]]){ list=epg[epgNorm[cn2]]; }
   }
-  // 5. içinde geçen
   if(!list){
     var low=norm(ch.title);
     for(var k in epg){
       var nk=norm(k);
-      if(nk.indexOf(low)!=-1 || low.indexOf(nk)!=-1){ list=epg[k]; key=k; break; }
+      if(nk.indexOf(low)!=-1 || low.indexOf(nk)!=-1){ list=epg[k]; break; }
     }
   }
-  // 6. clean içinde geçen
   if(!list){
-    var cc=cleanName(ch.title);
-    for(var k2 in epgNorm){
-      if(k2.indexOf(cc)!=-1 || cc.indexOf(k2)!=-1){
-        var real=epgNorm[k2];
-        if(epg[real]){ list=epg[real]; key=real; break; }
-      }
-    }
-  }
-  if(!list||!list.length)return {now:null,next:null,found:false};
-  var now=new Date();
-  var nowProg=null,nextProg=null;
-  for(var i=0;i<list.length;i++){
-    var p=list[i]; var st=parseEPGDate(p.start); var en=parseEPGDate(p.stop);
-    if(st&&en){ if(now>=st&&now<en){nowProg=p; if(i+1<list.length)nextProg=list[i+1]; break;} if(now<st && !nowProg){nextProg=p; if(i>0)nowProg=list[i-1]; break;} }
-    else{ if(i==0)nowProg=p; if(i==1)nextProg=p; }
-  }
-  if(!nowProg&&list.length){nowProg=list[0]; if(list.length>1)nextProg=list[1];}
-  return {now:nowProg,next:nextProg,found:true,key:key};
-}
-function getFiltered(){
-  var list=[];
-  for(var i=0;i<channels.length;i++){ var c=channels[i]; if(curTab=="fav"){if(isFav(c.url))list.push(c);} else if(c.type==curTab)list.push(c); }
-  if(curGroup){ var f=[]; for(var j=0;j<list.length;j++) if(list[j].group==curGroup)f.push(list[j]); list=f; }
-  return list;
-}
-function renderGroups(){
-  var gl=$("groups"); if(!gl)return; gl.innerHTML="";
-  for(var i=0;i<groupOrder.length;i++){
-    var g=groupOrder[i];
-    var has=false, cnt=0;
-    for(var j=0;j<channels.length;j++){ if(channels[j].group==g){ if(curTab=="fav"){if(isFav(channels[j].url)){has=true;cnt++;}} else if(channels[j].type==curTab){has=true;cnt++;} } }
-    if(!has)continue;
-    var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); divx"><svg viewBox="0 0 200 120"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#e5e5e5" stroke-width="12" stroke-linecap="round"/><path id="arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#00d2e0" stroke-width="12" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/><line id="needle" x1="100" y1="100" x2="40" y2="40" stroke="#333" stroke-width="3" stroke-linecap="round"/></svg></div>
+    vax"><svg viewBox="0 0 200 120"><path d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#e5e5e5" stroke-width="12" stroke-linecap="round"/><path id="arc" d="M20 100 A80 80 0 0 1 180 100" fill="none" stroke="#00d2e0" stroke-width="12" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="251"/><line id="needle" x1="100" y1="100" x2="40" y2="40" stroke="#333" stroke-width="3" stroke-linecap="round"/></svg></div>
 <div id="speedNum" class="speedVal">0.00</div>
 <div style="font-size:10px;color:#00a8b5">Mbps</div>
 <div style="display:flex;gap:16px;font-size:11px;margin-top:6px"><span>Ping <b id="pingVal">-</b></span><span>↓ <b id="downVal">-</b></span><span><b id="sizeVal">-</b></span></div>
