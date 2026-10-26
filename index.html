@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v78 Üst Renk Fix</title>
+<title>Mırtı TV v79 Eski Oynatıcı</title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -12,12 +12,12 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 .logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:13px}
 .logo img{height:26px;width:26px;object-fit:cover;border-radius:5px}
 .top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:6px;align-items:center;padding:6px 8px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto}
-.top button{border:1px solid #2a5a9a;color:#c8d8ff;background:#1e3a5f;padding:6px 12px;border-radius:14px;font-size:10px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;opacity:1;transition:all 0.2s}
-.top button.on{opacity:1;color:#fff;box-shadow:0 0 10px rgba(0,0,0,.5);transform:scale(1.05);font-weight:900}
+.top button{border:1px solid #2a5a9a;color:#c8d8ff;background:#1e3a5f;padding:6px 12px;border-radius:14px;font-size:10px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;transition:all 0.2s}
+.top button.on{color:#fff;transform:scale(1.05);font-weight:900}
 .top button[data-tab="live"].on{background:#ff3b30;border-color:#ff3b30;box-shadow:0 0 12px rgba(255,59,48,.6)}
 .top button[data-tab="movie"].on{background:#007aff;border-color:#007aff;box-shadow:0 0 12px rgba(0,122,255,.6)}
 .top button[data-tab="series"].on{background:#af52de;border-color:#af52de;box-shadow:0 0 12px rgba(175,82,222,.6)}
-.top button[data-tab="radio"].on{background:#ff9500;border-color:#ff9500;color:#111;box-shadow:0 0 12px rgba(255,149,0,.6);font-weight:900}
+.top button[data-tab="radio"].on{background:#ff9500;border-color:#ff9500;color:#111;box-shadow:0 0 12px rgba(255,149,0,.6)}
 .top button[data-tab="fav"].on{background:#ffcc00;border-color:#ffcc00;color:#111;box-shadow:0 0 12px rgba(255,204,0,.6)}
 #playerCol{height:36vh;min-height:180px;max-height:36vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
 #playerCol.fullscreen{height:100vh;min-height:100vh;max-height:100vh;position:fixed;inset:0;z-index:80;background:#000}
@@ -79,6 +79,7 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 .info{flex:1;overflow:hidden;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding-right:14px}
 .info b{font-size:12px;line-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;color:#fff}
 .info .epg1{font-size:10px;line-height:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:600;color:#c8d8ff}
+.info .epg2{font-size:9px;line-height:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#7a8aaa}
 .favBtn{position:absolute;right:2px;bottom:2px;width:16px;height:16px;border:none;background:rgba(0,0,0,.3);border-radius:50%;color:#666;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .favBtn.on{color:#ffcc33;background:rgba(255,204,51,.25)}
 .radioItem{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:linear-gradient(180deg,#1a2f5a 0%,#0f1f3a 100%);border:1px solid #2a4a8a;border-radius:14px;padding:10px 6px;cursor:pointer;height:110px;overflow:hidden;flex-shrink:0;text-align:center}
@@ -86,6 +87,88 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 .radioItem .logoBox{width:56px;height:56px;background:#fff;border-radius:50%}
 .radioItem b{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90%;color:#fff}
 .posterCard{background:#121e33;border:1px solid #1e2e51;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:280px;position:relative}
+.posterImg{height:210px;min-height:210px;background:#0d1525;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.posterImg img{width:100%;height:100%;object-fit:contain;display:block;background:#0d1525}
+.posterTitle{padding:5px 6px;font-size:9px;background:#121e33;font-weight:700;height:70px;display:flex;flex-direction:column;justify-content:center;gap:1px}
+.posterTitle small{font-size:8px;color:#7ec8ff;white-space:normal;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.favBtnCard{position:absolute;top:4px;right:4px;width:18px;height:18px;background:rgba(0,0,0,.55);border-radius:50%;border:none;color:#888;font-size:9px;cursor:pointer;z-index:2;display:flex;align-items:center;justify-content:center}
+.favBtnCard.on{color:#ffcc33}
+.hidden{display:none!important}
+#radioInfo{position:absolute;bottom:30px;left:10px;right:10px;z-index:5;background:rgba(0,0,0,.7);padding:6px 10px;border-radius:8px;text-align:center;display:none}
+#radioInfo b{font-size:11px;color:#ffcc33;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99}
+.box{background:#101b30;border:1px solid #22365e;width:360px;max-width:92vw;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.box textarea{background:#0a1222;border:1px solid #22365e;color:#fff;padding:8px;border-radius:6px;width:100%;font-size:11px}
+#speedModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
+.speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.speedVal{font-size:42px;font-weight:300}
+</style>
+</head>
+<body>
+<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:4px"><span id="netSpeed" style="font-size:7px;background:#101c33;border:1px solid #1e2f52;padding:3px 6px;border-radius:8px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:3px 8px;border-radius:4px;font-weight:800;font-size:10px">AYAR</button></div></header>
+<div class="top"><button data-tab="live" class="on" id="bLive">📺 Canlı</button><button data-tab="movie" id="bMovie">🎬 Film</button><button data-tab="series" id="bSeries">🎞️ Dizi</button><button data-tab="radio" id="bRadio">📻 Radyo</button><button data-tab="fav" id="bFav">⭐ Fav</button></div>
+<div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><audio id="audioEl" controls preload="none"></audio><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><span id="rSub">📻 Canlı Radyo</span></div></div><button id="fsBtn">⛶</button><button id="fsExit">✕</button><div id="fsHint">Dokun: liste | Sağ/Sol: kanal | Yukarı/Aşağı: ses</div><div id="volOsd"><div style="font-size:9px">Ses</div><div id="volBar"><div id="volFill" style="height:80%"></div></div><div id="volTxt" style="font-size:10px;font-weight:800">80%</div></div><div id="fsChannelList"><div class="fsHead"><b style="font-size:10px">📺 Kanal Listesi</b><div style="display:flex;gap:4px"><button id="fsPrev" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">◀ Önceki</button><button id="fsNext" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Sonraki ▶</button><button id="fsClose" style="background:#ff3b30;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Kapat</button></div></div><div id="fsGrid"></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
+<div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
+<div id="list"><div id="grid" class="live"></div></div>
+
+<div id="speedModal" class="hidden"><div class="speedBox"><b>SPEEDTEST</b><div id="speedNum" class="speedVal">0.00</div><div id="speedInfo" style="font-size:10px;color:#666">BAŞLAT'a bas</div><div style="display:flex;gap:6px;width:100%"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div></div></div>
+<div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U Yükle - Eski Oynatıcı</b><textarea id="m3uIn" placeholder="M3U Linki veya içeriği - SZC KOZA KRT için VLC önerilir" style="min-height:80px"></textarea><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div style="display:flex;gap:4px"><button id="addTest" style="flex:1;background:#ff9500;color:#111;border:none;padding:8px;border-radius:6px;font-size:10px;font-weight:800">+ SZC KOZA KRT (VLC)</button><button id="fixM3U" style="flex:1;background:#ff3b30;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">YAYIN GERİ</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
+
+<script>
+var M3U_FILES=["mırtı68.m3u","mirti68.m3u"];
+var M3U_BASES=["https://raw.githubusercontent.com/ipmirti68/-p/main/","https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/"];
+var M3U_URLS=[]; for(var bi=0;bi<M3U_BASES.length;bi++){ for(var fi=0;fi<M3U_FILES.length;fi++){ try{ M3U_URLS.push(M3U_BASES[bi]+encodeURIComponent(M3U_FILES[fi])); }catch(e){} try{ M3U_URLS.push(encodeURI(M3U_BASES[bi]+M3U_FILES[fi])); }catch(e){} } }
+var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
+var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
+var MAIN_SCREEN="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg";
+var RADIO_BG="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/file_000000003b08820a96dea4b438a874d6.png";
+var SPEED_TEST_URL=MAIN_SCREEN;
+var FALLBACK_CHANNELS=[{title:"TRT 1",group:"ULUSAL",url:"https://tv-trt1.medya.trt.com.tr/master.m3u8",logo:DEFAULT_LOGO,type:"live"}];
+var channels=[],epg={},epgNorm={},curGroup=null,curTab="live",hls=null,hlsAudio=null,groupOrder=[],favs=[],curCh=null,isFS=false,fsListOpen=false,curVol=0.8,touchStartX=0,touchStartY=0;
+try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
+
+function $(id){return document.getElementById(id);}
+function setLoad(p,t){ var f=$("loadFill"), tx=$("loadText"); if(f)f.style.width=p+"%"; if(tx)tx.textContent="%"+p+" "+t; var en=$("epgNow"); if(en)en.textContent=t; }
+function saveFav(){try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){}}
+function isFav(url){return favs.indexOf(url)!=-1;}
+function toggleFav(url){ var i=favs.indexOf(url); if(i==-1)favs.push(url); else favs.splice(i,1); saveFav(); renderGrid(); renderGroups(); renderFsGrid(); }
+function norm(s){ if(!s)return ""; var t=s+""; t=t.replace(/İ/g,"i").replace(/I/g,"i"); t=t.normalize("NFD").replace(/[\u0300-\u036f]/g,""); t=t.toLowerCase(); t=t.replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c"); return t; }
+function cleanName(s){ if(!s)return ""; var t=norm(s); t=t.replace(/\btr\b/g,"").replace(/[^a-z0-9]/g,""); return t; }
+function getTypeByGroup(g,url){
+  var n=norm(g);
+  if(n.indexOf("dizi")!=-1) return "series";
+  if(n.indexOf("film")!=-1) return "movie";
+  if(n.indexOf("radio")!=-1||n.indexOf("radyo")!=-1) return "radio";
+  var u=(url||"").toLowerCase(); if(u.indexOf(".mp4")!=-1||u.indexOf(".mkv")!=-1) return "movie";
+  return "live";
+}
+function parseM3U(t){
+  var list=[]; var seenGroup={}; var cur=null, curLine=""; var newOrder=[];
+  t=t.replace(/\r/g,""); var lines=t.split("\n");
+  for(var i=0;i<lines.length;i++){
+    var l=lines[i].trim(); if(!l) continue;
+    if(l.toUpperCase().indexOf("#EXTINF")==0){
+      cur={}; curLine=l; var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo) cur.logo=lo[1];
+      var id=l.match(/tvg-id="([^"]+)"/i); if(id) cur.tvgId=id[1];
+      var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel";
+      var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1);
+      if(!seenGroup[cur.group]){seenGroup[cur.group]=1; newOrder.push(cur.group);}
+    } else {
+      if(cur && l.charAt(0)!="#"){
+        var url=l.split("|")[0].trim().split(/\s+/)[0];
+        cur.url=url; cur.type=getTypeByGroup(cur.group, url); list.push(cur); cur=null;
+      }
+    }
+  }
+  groupOrder=newOrder;
+  return list;
+}
+function parseEPG(xmlText){
+  try{
+    var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}, mn={};
+    var progs=d.querySelectorAll("programme");
+    progs.forEach(function(pr){
+      var ch=pr.getAttribute("channel"); var st=pr.getAttribute("start"); var en=pr.getA1e2e51;border-radius:8px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;height:280px;position:relative}
 .posterImg{height:210px;min-height:210px;background:#0d1525;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .posterImg img{width:100%;height:100%;object-fit:contain;display:block;background:#0d1525}
 .posterTitle{padding:5px 6px;font-size:9px;background:#121e33;font-weight:700;height:70px;display:flex;flex-direction:column;justify-content:center;gap:1px}
