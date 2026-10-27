@@ -93,10 +93,15 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 <div id="speedModal" class="hidden"><div class="speedBox"><b>SPEEDTEST</b><div id="speedNum" class="speedVal">0.00</div><div style="font-size:10px;color:#00a8b5">Mbps</div><div style="display:flex;gap:16px;font-size:11px;margin-top:6px"><span>Ping <b id="pingVal">-</b></span><span>↓ <b id="downVal">-</b></span><span><b id="sizeVal">-</b></span></div><div id="speedInfo" style="font-size:10px;color:#666;margin-top:8px">BAŞLAT'a bas</div><div style="display:flex;gap:6px;width:100%;margin-top:10px"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div></div></div>
 <div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U / EPG Yükle</b><input id="m3uIn" placeholder="M3U Linki"><input id="epgIn" placeholder="EPG Linki"><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div style="display:flex;gap:4px"><button id="addRadyo7" style="flex:1;background:#ff9500;color:#111;border:none;padding:8px;border-radius:6px;font-size:10px;font-weight:800">+ RADYO 7 TEST</button><button id="testRadyo" style="flex:1;background:#1a2a4a;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">LİSTEYİ GÖR</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
 <script>
+// === MIRTI APK ÇOKLU OYNATICI ENTEGRASYONU ===
 var IPTV_PROXY="https://iptv.axaray69.workers.dev/?url=";
+function isNativeApp(){
+  return (typeof window.MirtiApp !== 'undefined' && window.MirtiApp.playVideo) || (typeof window.AndroidPlayer !== 'undefined');
+}
 function getPlayableUrl(raw){
   if(!raw) return raw;
   var u=raw.trim().split(/\s+/)[0].split("|")[0].trim();
+  if(isNativeApp()){ return u; }
   if(u.startsWith("https://")) return u;
   if(u.startsWith("http://")) return IPTV_PROXY+encodeURIComponent(u);
   return u;
@@ -158,6 +163,18 @@ function playWithUrl(a, url, ch){
   }else{ a.src=playable; a.play().catch(function(){}); }
 }
 function play(ch){
+  if(isNativeApp()){
+    var rawUrl = ch.url;
+    try{
+      if(window.MirtiApp && window.MirtiApp.playVideo){
+        window.MirtiApp.playVideo(rawUrl, ch.title || "");
+        curCh = ch;
+        renderGrid();
+        if($("epgNow")) $("epgNow").textContent = "▶ APK Player: " + ch.title;
+        return;
+      }
+    }catch(e){ console.log("Native error", e); }
+  }
   if(ch.type=="radio"){
     var v=$("video"), idle=$("idle"), a=$("audioEl"); curCh=ch; if(idle)idle.style.display="flex"; if(v){ v.pause(); v.style.display="none"; } if($("epgNow")) $("epgNow").textContent="📻 Bağlanıyor "+ch.title+"..."; if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;} playWithUrl(a, ch.url, ch); renderGrid(); return;
   }
@@ -166,7 +183,7 @@ function play(ch){
   var epgNN=getEPGNowNext(ch); if($("epgNow")){ if(epgNN.now) $("epgNow").textContent=epgNN.now.title+" | "+ch.title; else $("epgNow").textContent=ch.group+" | "+ch.title; }
   if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;}
   var playable=getPlayableUrl(ch.url);
-  if(Hls.isSupported()){ hls=new Hls(); hls.loadSource(playable); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); }
+  if(Hls.isSupported()){ hls=new Hls({xhrSetup:function(xhr,url){xhr.withCredentials=false;}}); hls.loadSource(playable); hls.attachMedia(v); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v.play().catch(function(){}); }); }
   else{ v.src=playable; v.play().catch(function(){}); }
   renderGrid();
 }
@@ -175,7 +192,7 @@ function changeChannel(offset){ var list=getFiltered(); if(!list.length) return;
 function changeVolume(delta){ curVol+=delta; if(curVol<0) curVol=0; if(curVol>1) curVol=1; var v=$("video"), a=$("audioEl"); if(v) v.volume=curVol; if(a) a.volume=curVol; var volOsd=$("volOsd"), volFill=$("volFill"), volTxt=$("volTxt"); if(volOsd && volFill && volTxt){ volOsd.style.display="flex"; volFill.style.height=(curVol*100)+"%"; volTxt.textContent=Math.round(curVol*100)+"%"; clearTimeout(volOsd._t); volOsd._t=setTimeout(function(){ volOsd.style.display="none"; }, 2000); } }
 function measureSpeed(url){ return new Promise(function(resolve,reject){ var start=performance.now(); fetch(url+"?t="+Date.now(),{cache:"no-store"}).then(function(r){ return r.blob(); }).then(function(blob){ var end=performance.now(); var durationMs=end-start; var durationSec=durationMs/1000; if(durationSec<0.01)durationSec=0.01; var bytes=blob.size; var mbps=(bytes*8/1000000)/durationSec; resolve({mbps:mbps,ms:durationMs,bytes:bytes}); }).catch(function(e){reject(e);}); }); }
 function doSpeedTest(){ var num=$("speedNum"), pingEl=$("pingVal"), downEl=$("downVal"); measureSpeed(SPEED_TEST_URL).then(function(res){ var mbps=res.mbps; if(pingEl)pingEl.textContent=Math.round(res.ms); if(downEl)downEl.textContent=mbps.toFixed(1); if(num)num.textContent=mbps.toFixed(2); $("netSpeed").textContent="Net: "+mbps.toFixed(1)+" Mbps"; }); }
-function loadM3UFromUrls(idx){ if(idx==null)idx=0; if(idx>=M3U_URLS.length){ setLoad(0,"Tüm linkler başarısız"); $("modal").classList.remove("hidden"); return; } var url=M3U_URLS[idx]; var fetchUrl=url; if(fetchUrl.startsWith("http://")) fetchUrl=IPTV_PROXY+encodeURIComponent(fetchUrl); setLoad(5+Math.floor(idx/M3U_URLS.length*30),"Deneniyor "+(idx+1)+"/"+M3U_URLS.length); fetch(fetchUrl,{cache:"no-store"}).then(function(r){ if(!r.ok)throw new Error("HTTP "+r.status); return r.text(); }).then(function(t){ if(t.length<100)throw new Error("boş"); setLoad(50,t.length+" bayt"); channels=parseM3U(t); if(channels.length==0)throw new Error("0 kanal"); var ul=findUlusalGroup(); if(ul){curGroup=ul;} else{curGroup=groupOrder[0];} renderGroups(); renderGrid(); setLoad(80,"EPG yükleniyor..."); fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); setLoad(100,channels.length+" kanal - v73 LG fix"); var lw=$("loadWrap"); if(lw) setTimeout(function(){lw.style.display="none";},800); renderGrid(); }).catch(function(e){setLoad(90,channels.length+" kanal"); renderGrid();}); }).catch(function(e){ setLoad(3,"Link "+(idx+1)+" hata: "+e.message); setTimeout(function(){loadM3UFromUrls(idx+1);},300); }); }
+function loadM3UFromUrls(idx){ if(idx==null)idx=0; if(idx>=M3U_URLS.length){ setLoad(0,"Tüm linkler başarısız"); $("modal").classList.remove("hidden"); return; } var url=M3U_URLS[idx]; var fetchUrl=url; if(!isNativeApp() && fetchUrl.startsWith("http://")) fetchUrl=IPTV_PROXY+encodeURIComponent(fetchUrl); setLoad(5+Math.floor(idx/M3U_URLS.length*30),"Deneniyor "+(idx+1)+"/"+M3U_URLS.length); fetch(fetchUrl,{cache:"no-store"}).then(function(r){ if(!r.ok)throw new Error("HTTP "+r.status); return r.text(); }).then(function(t){ if(t.length<100)throw new Error("boş"); setLoad(50,t.length+" bayt"); channels=parseM3U(t); if(channels.length==0)throw new Error("0 kanal"); var ul=findUlusalGroup(); if(ul){curGroup=ul;} else{curGroup=groupOrder[0];} renderGroups(); renderGrid(); setLoad(80,"EPG yükleniyor..."); fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); setLoad(100,channels.length+" kanal - v78 APK MultiPlayer"); var lw=$("loadWrap"); if(lw) setTimeout(function(){lw.style.display="none";},800); renderGrid(); }).catch(function(e){setLoad(90,channels.length+" kanal"); renderGrid();}); }).catch(function(e){ setLoad(3,"Link "+(idx+1)+" hata: "+e.message); setTimeout(function(){loadM3UFromUrls(idx+1);},300); }); }
 function toggleFS(){ var pc=$("playerCol"); isFS=!isFS; if(isFS){ pc.classList.add("fullscreen"); } else{ pc.classList.remove("fullscreen"); var fsList=$("fsChannelList"); if(fsList)fsList.classList.remove("show"); fsListOpen=false; } }
 function init(){
   setLoad(5,"Başlıyor...");
