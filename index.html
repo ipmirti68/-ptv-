@@ -7,90 +7,83 @@
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#050a16;color:#e8e6df;font-family:Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;overflow-x:hidden}
+body{background:#050a16;color:#e8e6df;font-family:Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column}
 #mainLayout{display:flex;justify-content:center;width:100%;flex:1}
-.adSide{width:120px;min-width:120px;background:#080d16;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a;display:none;align-items:flex-start;justify-content:center;padding:10px;color:#3a4a6a;font-size:10px;text-align:center}
+.adSide{width:120px;min-width:120px;background:#080d16;border:1px solid #1c2b4a;display:none;align-items:flex-start;justify-content:center;padding:10px;color:#3a4a6a;font-size:10px;text-align:center}
 #centerCol{flex:1;max-width:100%;display:flex;flex-direction:column;height:100vh;overflow:hidden}
-@media(min-width:1000px){ .adSide{display:flex} #centerCol{max-width:920px;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a} }
+@media(min-width:1000px){.adSide{display:flex}#centerCol{max-width:920px;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a}}
 header{height:42px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #1e2a44;flex-shrink:0}
 .logo{display:flex;align-items:center;gap:8px;font-weight:900;font-size:14px}
-.logo img{height:28px;width:28px;object-fit:cover;border-radius:6px}
-.top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:6px;align-items:center;padding:8px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto;scrollbar-width:none}
+.logo img{height:28px;width:28px;border-radius:6px}
+.top{background:#0d1525;display:flex;gap:6px;padding:8px;border-bottom:1px solid #1c2b4a;overflow:auto;flex-shrink:0;scrollbar-width:none}
 .top::-webkit-scrollbar{display:none}
-.top button{border:1px solid #2a3a5a;color:#7a8aaa;background:#101c33;padding:7px 16px;border-radius:18px;font-size:11px;font-weight:900;white-space:nowrap;cursor:pointer;flex-shrink:0;opacity:0.7;transition:all .2s}
-.top button.on{opacity:1;color:#fff;transform:scale(1.05);border-width:2px}
+.top button{border:1px solid #2a3a5a;color:#7a8aaa;background:#101c33;padding:7px 16px;border-radius:18px;font-size:11px;font-weight:900;white-space:nowrap;cursor:pointer;opacity:.7}
+.top button.on{opacity:1;color:#fff;border-width:2px}
 .top button[data-tab="live"].on{background:#ff3b30;border-color:#ff5a52}
 .top button[data-tab="movie"].on{background:#007aff;border-color:#4da1ff}
 .top button[data-tab="series"].on{background:#af52de;border-color:#c88aeb}
 .top button[data-tab="radio"].on{background:#ff9500;border-color:#ffb143;color:#111}
 .top button[data-tab="fav"].on{background:#ffcc00;border-color:#ffe066;color:#111}
-#playerCol{height:42vh;min-height:260px;max-height:42vh;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
+#playerCol{height:42vh;min-height:260px;background:#000;position:relative;display:flex;flex-direction:column;flex-shrink:0}
 #player{flex:1;position:relative;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
 #video{width:100%;height:100%;object-fit:contain;background:#000;z-index:2}
-#audioEl{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px}
-#idle{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000}
-#idle img{width:auto;height:auto;max-width:100%;max-height:100%;object-fit:contain;background:#000}
-#fsBtn{position:absolute;top:8px;right:8px;z-index:10;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.3);width:30px;height:30px;border-radius:6px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-#fsExit{position:absolute;top:8px;right:8px;z-index:90;background:rgba(0,0,0,.7);color:#fff;border:1px solid rgba(255,255,255,.4);width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer;display:none;align-items:center;justify-content:center}
-#playerCol.fullscreen #fsBtn{display:none}
-#playerCol.fullscreen #fsExit{display:flex}
+#audioEl{position:absolute;left:-9999px;width:1px;height:1px}
+#idle{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:#000}
+#idle img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+#fsBtn{position:absolute;top:8px;right:8px;z-index:10;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.3);width:30px;height:30px;border-radius:6px;cursor:pointer}
 #loadWrap{position:absolute;bottom:8px;left:8%;right:8%;z-index:4;display:flex;flex-direction:column;align-items:center;gap:3px}
 #loadBar{width:100%;height:4px;background:rgba(255,255,255,.25);border-radius:3px;overflow:hidden}
 #loadFill{height:100%;width:0%;background:#d4b78f;transition:width .3s}
 #loadText{font-size:8px;color:#fff;background:rgba(0,0,0,.75);padding:2px 8px;border-radius:8px}
-#epgBar{height:26px;background:#101c33;padding:2px 10px;font-size:11px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0}
+#epgBar{height:26px;background:#101c33;padding:2px 10px;font-size:11px;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0}
 #groupsWrap{height:42px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 4px;gap:4px;flex-shrink:0}
-#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:26px;height:26px;border-radius:50%;font-size:12px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer}
 #groups{flex:1;display:flex;gap:6px;overflow:auto;scrollbar-width:none}
 #groups::-webkit-scrollbar{display:none}
-.gChip{padding:6px 14px;background:#101c33;border:1px solid #253a63;border-radius:14px;font-size:11px;white-space:nowrap;cursor:pointer;flex-shrink:0;font-weight:700;color:#9ab0d0;transition:all .2s}
-.gChip.on{background:#ffdf9e;color:#111;font-weight:900;border-color:#ffdf9e;box-shadow:0 0 10px rgba(255,223,158,.5);transform:scale(1.05)}
-#list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden;min-height:0}
+.gChip{padding:6px 14px;background:#101c33;border:1px solid #253a63;border-radius:14px;font-size:11px;white-space:nowrap;cursor:pointer;font-weight:700;color:#9ab0d0}
+.gChip.on{background:#ffdf9e;color:#111;border-color:#ffdf9e}
+#list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden}
 #grid{flex:1;overflow:auto;padding:6px}
 #grid.live{display:grid;grid-template-columns:1fr 1fr;gap:6px;grid-auto-rows:76px}
-#grid.poster{display:grid;grid-template-columns:1fr 1fr;gap:6px;grid-auto-rows:290px}
 #grid.radioGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;grid-auto-rows:120px}
-.item{position:relative;display:flex;align-items:center;gap:8px;background:#13203a;border:1px solid #1e2e51;border-radius:10px;padding:5px 8px;cursor:pointer;height:76px;overflow:hidden}
+.item{display:flex;align-items:center;gap:8px;background:#13203a;border:1px solid #1e2e51;border-radius:10px;padding:5px 8px;cursor:pointer;height:76px;position:relative;overflow:hidden}
 .item.on{border-color:#d4b78f}
 .logoBox{width:56px;height:56px;min-width:56px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:2px}
 .logoBox img{width:100%;height:100%;object-fit:contain}
-.info{flex:1;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:2px;padding-right:16px}
+.info{flex:1;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding-right:16px}
 .info b{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff}
-.info .epg1{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#c8d8ff}
-.radioItem{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:linear-gradient(180deg,#1a2f5a 0%,#0f1f3a 100%);border:1px solid #2a4a8a;border-radius:14px;padding:10px 6px;cursor:pointer;height:120px;text-align:center}
+.info .epg1{font-size:10px;color:#c8d8ff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.radioItem{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:linear-gradient(180deg,#1a2f5a,#0f1f3a);border:1px solid #2a4a8a;border-radius:14px;padding:10px;cursor:pointer;height:120px;text-align:center}
 .radioItem .logoBox{width:64px;height:64px;border-radius:50%}
-.favBtn{position:absolute;right:3px;bottom:3px;width:18px;height:18px;border:none;background:rgba(0,0,0,.35);border-radius:50%;color:#888;font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.favBtn{position:absolute;right:3px;bottom:3px;width:18px;height:18px;border:none;background:rgba(0,0,0,.35);border-radius:50%;color:#888;font-size:10px;cursor:pointer}
 .favBtn.on{color:#ffcc33}
 .hidden{display:none!important}
-#radioInfo{position:absolute;bottom:18px;left:10px;right:10px;z-index:5;background:rgba(0,0,0,.75);padding:8px 10px;border-radius:10px;text-align:center;display:none}
+#radioInfo{position:absolute;bottom:20px;left:10px;right:10px;z-index:5;background:rgba(0,0,0,.75);padding:8px;border-radius:10px;text-align:center;display:none}
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99}
 .box{background:#101b30;border:1px solid #22365e;width:380px;max-width:92vw;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:10px}
 .box input{background:#0a1222;border:1px solid #22365e;color:#fff;padding:10px;border-radius:8px;width:100%}
-#speedModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
-.speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
 </style>
 </head>
 <body>
 <div id="mainLayout">
 <div class="adSide">REKLAM<br>120x600</div>
 <div id="centerCol">
-<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:6px"><span id="netSpeed" style="font-size:8px;background:#101c33;border:1px solid #1e2f52;padding:4px 8px;border-radius:10px;color:#7ec8ff;cursor:pointer;font-weight:800">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 10px;border-radius:6px;font-weight:900;font-size:11px">AYAR</button></div></header>
+<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;gap:6px"><span id="netSpeed" style="font-size:8px;background:#101c33;border:1px solid #1e2f52;padding:4px 8px;border-radius:10px;color:#7ec8ff">Net: -</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:4px 10px;border-radius:6px;font-weight:900;font-size:11px">AYAR</button></div></header>
 <div class="top"><button data-tab="live" class="on" id="bLive">📺 Canlı</button><button data-tab="movie" id="bMovie">🎬 Film</button><button data-tab="series" id="bSeries">🎞️ Dizi</button><button data-tab="radio" id="bRadio">📻 Radyo</button><button data-tab="fav" id="bFav">⭐ Fav</button></div>
-<div id="playerCol"><div id="player"><video id="video" controls playsinline style="width:100%;height:100%;display:none"></video><audio id="audioEl" controls preload="none"></audio><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><div id="rSub" style="font-size:10px">📻 Canlı Radyo</div></div></div><button id="fsBtn">⛶</button><button id="fsExit">✕</button></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow" style="margin-left:6px">Başlıyor...</span></div></div>
+<div id="playerCol"><div id="player"><video id="video" controls playsinline style="width:100%;height:100%;display:none"></video><audio id="audioEl" preload="none"></audio><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><div style="font-size:10px">📻 Canlı Radyo</div></div></div><button id="fsBtn">⛶</button></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow" style="margin-left:6px">Başlıyor...</span></div></div>
 <div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
 <div id="list"><div id="grid" class="live"></div></div>
 </div>
 <div class="adSide">REKLAM<br>120x600</div>
 </div>
-<div id="modal" class="hidden"><div class="box"><b>M3U / EPG Yükle</b><input id="m3uIn" placeholder="M3U Linki"><input id="epgIn" placeholder="EPG Linki"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:12px;border-radius:8px;font-weight:900">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px 14px;border-radius:8px">KAPAT</button></div></div></div>
+<div id="modal" class="hidden"><div class="box"><b>M3U / EPG</b><input id="m3uIn" placeholder="M3U Linki - https://tinyurl.com/mirtitv68"><input id="epgIn" placeholder="EPG Linki"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:12px;border-radius:8px;font-weight:900">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px 14px;border-radius:8px">KAPAT</button></div><div id="stat" style="font-size:10px;color:#8fb0ff"></div></div></div>
 <script>
 var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
 var MAIN_SCREEN="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg";
 var RADIO_BG="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/file_000000003b08820a96dea4b438a874d6.png";
+var M3U_URLS=["https://tinyurl.com/mirtitv68"];
 var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
-// --- BURAYA KENDİ M3U LİSTENİ EKLE ---
-var M3U_URLS = []; // Örn: ["https://.../liste.m3u"]
-
+var IPTV_PROXY="https://iptv.axaray69.workers.dev/?url=";
 var channels=[],epg={},epgNorm={},curGroup=null,curTab="live",hls=null,hlsAudio=null,groupOrder=[],favs=[],curCh=null,curVol=0.8;
 try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
 function $(id){return document.getElementById(id);}
@@ -98,26 +91,25 @@ function setLoad(p,t){ var f=$("loadFill"), tx=$("loadText"); if(f)f.style.width
 function saveFav(){try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){}}
 function isFav(url){return favs.indexOf(url)!=-1;}
 function toggleFav(url){ var i=favs.indexOf(url); if(i==-1)favs.push(url); else favs.splice(i,1); saveFav(); renderGrid(); renderGroups(); }
-function norm(s){ if(!s)return ""; var t=s+""; t=t.replace(/İ/g,"i").replace(/I/g,"i"); t=t.normalize("NFD").replace(/[\u0300-\u036f]/g,""); t=t.toLowerCase(); return t; }
-function cleanName(s){ if(!s)return ""; var t=norm(s); t=t.replace(/\btr\b/g,"").replace(/[^a-z0-9]/g,""); return t; }
-function getTypeByGroup(g,url,raw,tvgId,title){var n=norm(g+" "+(tvgId||"")+" "+(title||"")); var r=(raw||"").toLowerCase(); if(r.indexOf('radio="true"')!=-1){ if(n.indexOf("goruntulu")!=-1) return "live"; return "radio"; } if(tvgId && norm(tvgId).indexOf("radyo")==0) return "radio"; if(n.indexOf("dizi")!=-1) return "series"; if(n.indexOf("film")!=-1||n.indexOf("movie")!=-1) return "movie"; return "live";}
-function parseM3U(t){var list=[]; var seen={}; groupOrder=[]; t=t.replace(/\r/g,""); var lines=t.split("\n"); var cur=null, curLine=""; for(var i=0;i<lines.length;i++){ var l=lines[i].trim(); if(!l)continue; if(l.toUpperCase().indexOf("#EXTINF")==0){ cur={}; curLine=l; var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo)cur.logo=lo[1]; var id=l.match(/tvg-id="([^"]+)"/i); if(id)cur.tvgId=id[1]; var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel"; var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1); if(!seen[cur.group]){seen[cur.group]=1; groupOrder.push(cur.group);} } else{ if(cur && l.charAt(0)!="#"){ var url=l.trim().split(/\s+/)[0].split("|")[0].trim(); cur.url=url; cur.type=getTypeByGroup(cur.group, url, curLine, cur.tvgId, cur.title); list.push(cur); cur=null; } } } return list;}
-function parseEPG(xmlText){ try{ var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}, mn={}; var progs=d.querySelectorAll("programme"); progs.forEach(function(pr){ var ch=pr.getAttribute("channel"); var ti=pr.querySelector("title"); var title=ti?ti.textContent:""; if(!m[ch])m[ch]=[]; m[ch].push({title:title,start:pr.getAttribute("start"),stop:pr.getAttribute("stop")}); var cn=cleanName(ch); if(cn && !mn[cn]) mn[cn]=ch; }); epgNorm=mn; return m; }catch(e){return {};} }
+function norm(s){ if(!s)return ""; var t=s+""; t=t.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase(); return t; }
+function cleanName(s){ if(!s)return ""; var t=norm(s); t=t.replace(/[^a-z0-9]/g,""); return t; }
+function getTypeByGroup(g,url,raw,tvgId){var n=norm(g+" "+(tvgId||"")); var r=(raw||"").toLowerCase(); if(r.indexOf('radio="true"')!=-1) return "radio"; if(tvgId&&norm(tvgId).indexOf("radyo")==0) return "radio"; if(n.indexOf("dizi")!=-1) return "series"; if(n.indexOf("film")!=-1||n.indexOf("movie")!=-1) return "movie"; return "live";}
+function parseM3U(t){var list=[]; var seen={}; groupOrder=[]; t=t.replace(/\r/g,""); var lines=t.split("\n"); var cur=null, curLine=""; for(var i=0;i<lines.length;i++){ var l=lines[i].trim(); if(!l)continue; if(l.toUpperCase().indexOf("#EXTINF")==0){ cur={}; curLine=l; var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo)cur.logo=lo[1]; var id=l.match(/tvg-id="([^"]+)"/i); if(id)cur.tvgId=id[1]; var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel"; var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal"; if(!seen[cur.group]){seen[cur.group]=1; groupOrder.push(cur.group);} } else{ if(cur && l.charAt(0)!="#"){ var url=l.trim().split(/\s+/)[0].split("|")[0].trim(); cur.url=url; cur.type=getTypeByGroup(cur.group, url, curLine, cur.tvgId); list.push(cur); cur=null; } } } return list;}
+function parseEPG(xmlText){ try{ var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}; var progs=d.querySelectorAll("programme"); progs.forEach(function(pr){ var ch=pr.getAttribute("channel"); var ti=pr.querySelector("title"); if(!m[ch])m[ch]=[]; m[ch].push({title:ti?ti.textContent:"",start:pr.getAttribute("start"),stop:pr.getAttribute("stop")}); }); return m; }catch(e){return {};} }
 function parseEPGDate(s){ if(!s)return null; try{ return new Date(s.substr(0,4), s.substr(4,2)-1, s.substr(6,2), s.substr(8,2), s.substr(10,2), s.substr(12,2)); }catch(e){return null;} }
-function getEPGNowNext(ch){ if(!ch)return {now:null,next:null,found:false}; var list=null; if(ch.tvgId && epg[ch.tvgId]) list=epg[ch.tvgId]; if(!list) return {now:null,next:null,found:false}; var now=new Date(); for(var i=0;i<list.length;i++){ var st=parseEPGDate(list[i].start); var en=parseEPGDate(list[i].stop); if(st&&en&&now>=st&&now<en){ return {now:list[i],next:list[i+1]||null,found:true}; } } return {now:list[0]||null,next:list[1]||null,found:list.length>0}; }
+function getEPGNowNext(ch){ if(!ch||!ch.tvgId||!epg[ch.tvgId]) return {now:null,found:false}; var list=epg[ch.tvgId]; var now=new Date(); for(var i=0;i<list.length;i++){ var st=parseEPGDate(list[i].start); var en=parseEPGDate(list[i].stop); if(st&&en&&now>=st&&now<en){ return {now:list[i],next:list[i+1]||null,found:true}; } } return {now:list[0]||null,found:list.length>0}; }
 function getFiltered(){ var list=[]; for(var i=0;i<channels.length;i++){ var c=channels[i]; if(curTab=="fav"){if(isFav(c.url))list.push(c);} else if(c.type==curTab)list.push(c); } if(curGroup){ var f=[]; for(var j=0;j<list.length;j++) if(list[j].group==curGroup)f.push(list[j]); list=f; } return list; }
 function renderGroups(){ var gl=$("groups"); if(!gl)return; gl.innerHTML=""; for(var i=0;i<groupOrder.length;i++){ var g=groupOrder[i]; var has=false; for(var j=0;j<channels.length;j++){ if(channels[j].group==g && (curTab=="fav"?isFav(channels[j].url):channels[j].type==curTab)){has=true;break;}} if(!has)continue; var div=document.createElement("div"); div.className="gChip"+(g==curGroup?" on":""); div.textContent=g; div.onclick=(function(gg){return function(){ curGroup=gg; renderGrid(); renderGroups(); };})(g); gl.appendChild(div); } }
 function renderGrid(){
   var grid=$("grid"); if(!grid)return; grid.innerHTML=""; var list=getFiltered();
-  if(curTab=="radio"){ grid.className="radioGrid"; list.forEach(function(ch2){ var row=document.createElement("div"); row.className="radioItem"+(curCh&&curCh.url==ch2.url?" on":""); var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img2=document.createElement("img"); img2.src=ch2.logo||DEFAULT_LOGO; logoBox.appendChild(img2); var b=document.createElement("b"); b.textContent=ch2.title; b.style.fontSize="11px"; b.style.color="#fff"; var rg=document.createElement("div"); rg.textContent=ch2.group; rg.style.fontSize="8px"; rg.style.color="#ffcc88"; var fav=document.createElement("button"); fav.className="favBtn"+(isFav(ch2.url)?" on":""); fav.textContent=isFav(ch2.url)?"★":"☆"; fav.onclick=function(ev){ev.stopPropagation(); toggleFav(ch2.url);}; row.appendChild(logoBox); row.appendChild(b); row.appendChild(rg); row.appendChild(fav); row.onclick=function(){play(ch2);}; grid.appendChild(row); }); }
+  if(curTab=="radio"){ grid.className="radioGrid"; list.forEach(function(ch2){ var row=document.createElement("div"); row.className="radioItem"; var logoBox=document.createElement("div"); logoBox.className="logoBox"; var img2=document.createElement("img"); img2.src=ch2.logo||DEFAULT_LOGO; logoBox.appendChild(img2); var b=document.createElement("b"); b.textContent=ch2.title; b.style.fontSize="11px"; b.style.color="#fff"; var fav=document.createElement("button"); fav.className="favBtn"+(isFav(ch2.url)?" on":""); fav.textContent=isFav(ch2.url)?"★":"☆"; fav.onclick=function(ev){ev.stopPropagation(); toggleFav(ch2.url);}; row.appendChild(logoBox); row.appendChild(b); row.appendChild(fav); row.onclick=function(){play(ch2);}; grid.appendChild(row); }); }
   else{ grid.className="live"; list.forEach(function(ch2b){ var row2=document.createElement("div"); row2.className="item"+(curCh&&curCh.url==ch2b.url?" on":""); var logoBox2=document.createElement("div"); logoBox2.className="logoBox"; var img2b=document.createElement("img"); img2b.src=ch2b.logo||DEFAULT_LOGO; logoBox2.appendChild(img2b); var info=document.createElement("div"); info.className="info"; var b2=document.createElement("b"); b2.textContent=ch2b.title; var s=document.createElement("div"); s.className="epg1"; var epgCheck=getEPGNowNext(ch2b); s.textContent=epgCheck.found&&epgCheck.now?epgCheck.now.title:ch2b.group; info.appendChild(b2); info.appendChild(s); var fav2=document.createElement("button"); fav2.className="favBtn"+(isFav(ch2b.url)?" on":""); fav2.textContent=isFav(ch2b.url)?"★":"☆"; fav2.onclick=function(ev){ev.stopPropagation(); toggleFav(ch2b.url);}; row2.appendChild(logoBox2); row2.appendChild(info); row2.appendChild(fav2); row2.onclick=function(){play(ch2b);}; grid.appendChild(row2); }); }
-  var lc=0,mc=0,sc=0,rc=0; for(var k=0;k<channels.length;k++){if(channels[k].type=="live")lc++; else if(channels[k].type=="movie")mc++; else if(channels[k].type=="series")sc++; else if(channels[k].type=="radio")rc++;} if($("bLive"))$("bLive").innerHTML="📺 Canlı "+lc; if($("bMovie"))$("bMovie").innerHTML="🎬 Film "+mc; if($("bSeries"))$("bSeries").innerHTML="🎞️ Dizi "+sc; if($("bRadio"))$("bRadio").innerHTML="📻 Radyo "+rc; if($("bFav"))$("bFav").innerHTML="⭐ Fav "+favs.length;
 }
 function stopRadio(){ var v=$("video"); if(v) v.pause(); var a=$("audioEl"); if(a){ a.pause(); a.src=""; } if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;} var idle=$("idle"); if(idle) idle.style.display="flex"; var img=$("idleImg"); if(img) img.src=MAIN_SCREEN; var ri=$("radioInfo"); if(ri) ri.style.display="none"; curCh=null; }
-function getPlayableUrl(raw){ if(!raw) return raw; var u=raw.trim().split(/\s+/)[0].split("|")[0].trim(); if(typeof window.MirtiApp!=="undefined"&&window.MirtiApp.playVideo) return u; if(u.startsWith("http://")){ return "https://iptv.axaray69.workers.dev/?url="+encodeURIComponent(u); } return u; }
+function getPlayableUrl(raw){ if(!raw) return raw; var u=raw.trim().split(/\s+/)[0].split("|")[0].trim(); if(typeof window.MirtiApp!=="undefined"&&window.MirtiApp.playVideo) return u; if(u.indexOf("http://")==0){ return IPTV_PROXY+encodeURIComponent(u); } return u; }
 function playWithUrl(a, url){ var playable=getPlayableUrl(url); if(playable.indexOf(".m3u8")!=-1){ if(Hls.isSupported()){ hlsAudio=new Hls(); hlsAudio.loadSource(playable); hlsAudio.attachMedia(a); hlsAudio.on(Hls.Events.MANIFEST_PARSED,function(){ a.play().catch(function(){}); }); } else{ a.src=playable; a.play().catch(function(){}); } }else{ a.src=playable; a.play().catch(function(){}); } }
 function play(ch){
-  if(typeof window.MirtiApp!=="undefined"&&window.MirtiApp.playVideo){ try{ window.MirtiApp.playVideo(ch.url, ch.title||""); curCh=ch; renderGrid(); if($("epgNow")) $("epgNow").textContent="▶ APK: "+ch.title; return; }catch(e){} }
+  if(typeof window.MirtiApp!=="undefined"&&window.MirtiApp.playVideo){ try{ window.MirtiApp.playVideo(ch.url, ch.title||""); curCh=ch; renderGrid(); return; }catch(e){} }
   if(ch.type=="radio"){
     var v=$("video"), idle=$("idle"), a=$("audioEl");
     var img=$("idleImg"); if(img) img.src=RADIO_BG;
@@ -126,33 +118,45 @@ function play(ch){
     curCh=ch; if(idle) idle.style.display="flex";
     if(v){ v.pause(); v.style.display="none"; }
     if($("epgNow")) $("epgNow").textContent="📻 "+ch.title;
-    if(hls){try{hls.destroy();}catch(e){} hls=null;}
-    if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;}
+    if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;}
     playWithUrl(a, ch.url); renderGrid(); return;
   }
   var img2=$("idleImg"); if(img2) img2.src=MAIN_SCREEN;
   var ri2=$("radioInfo"); if(ri2) ri2.style.display="none";
-  if(curCh && curCh.type=="radio"){ stopRadio(); }
-  curCh=ch; var v2=$("video"), idle2=$("idle"), a2=$("audioEl");
-  if(a2){ a2.pause(); } if(idle2) idle2.style.display="none";
-  if(v2){v2.style.display="block"; v2.pause(); v2.currentTime=0; v2.volume=curVol;}
-  var epgNN=getEPGNowNext(ch);
-  if($("epgNow")){ if(epgNN.now) $("epgNow").textContent=epgNN.now.title+" | "+ch.title; else $("epgNow").textContent=ch.group+" | "+ch.title; }
+  if(curCh && curCh.type=="radio") stopRadio();
+  curCh=ch; var v2=$("video"), idle2=$("idle"); if(idle2) idle2.style.display="none"; if(v2){v2.style.display="block"; v2.volume=curVol;}
   if(hls){try{hls.destroy();}catch(e){} hls=null;} if(hlsAudio){try{hlsAudio.destroy();}catch(e){} hlsAudio=null;}
   var playable=getPlayableUrl(ch.url);
-  if(Hls.isSupported()){ hls=new Hls(); hls.loadSource(playable); hls.attachMedia(v2); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v2.play().catch(function(){}); }); }
-  else{ v2.src=playable; v2.play().catch(function(){}); }
+  if(Hls.isSupported()){ hls=new Hls(); hls.loadSource(playable); hls.attachMedia(v2); hls.on(Hls.Events.MANIFEST_PARSED,function(){ v2.play().catch(function(){}); }); } else{ v2.src=playable; v2.play().catch(function(){}); }
   renderGrid();
 }
-function loadM3UFromUrls(idx){ if(idx==null)idx=0; if(idx>=M3U_URLS.length){ setLoad(0,"Liste yok - AYAR'dan ekle"); $("modal").classList.remove("hidden"); return; } var url=M3U_URLS[idx]; setLoad(10,"Yükleniyor "+(idx+1)); fetch(url,{cache:"no-store"}).then(function(r){return r.text();}).then(function(t){ channels=parseM3U(t); curGroup=groupOrder[0]||null; renderGroups(); renderGrid(); setLoad(80,"EPG..."); fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); setLoad(100,channels.length+" kanal"); var lw=$("loadWrap"); if(lw) setTimeout(function(){lw.style.display="none";},800); renderGrid(); }).catch(function(){setLoad(90,channels.length+" kanal"); renderGrid();}); }).catch(function(e){ setTimeout(function(){loadM3UFromUrls(idx+1);},300); }); }
+function loadM3UFromUrls(idx){
+  if(idx>=M3U_URLS.length){ setLoad(0,"Liste yok"); return; }
+  var url=M3U_URLS[idx];
+  setLoad(10,"Liste yükleniyor...");
+  fetch(url,{cache:"no-store"}).then(function(r){ if(!r.ok) throw new Error("http "+r.status); return r.text(); }).then(function(t){
+    channels=parseM3U(t);
+    curGroup=groupOrder[0]||null;
+    renderGroups(); renderGrid();
+    setLoad(60,"EPG yükleniyor...");
+    fetch(EPG_URL,{cache:"no-store"}).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); setLoad(100,channels.length+" kanal yüklendi"); setTimeout(function(){ var lw=$("loadWrap"); if(lw) lw.style.display="none"; },800); renderGrid(); }).catch(function(){ setLoad(100,channels.length+" kanal"); renderGrid(); });
+  }).catch(function(e){ setLoad(0,"Hata: "+e.message); var st=$("stat"); if(st) st.textContent="Hata: "+e.message; });
+}
 function init(){
   $("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
   $("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
   $("leftArrow").onclick=function(){$("groups").scrollBy({left:-160,behavior:"smooth"});};
   $("rightArrow").onclick=function(){$("groups").scrollBy({left:160,behavior:"smooth"});};
-  $("loadBtn").onclick=function(){ var m3u=$("m3uIn").value.trim(); if(m3u){ M3U_URLS=[m3u]; loadM3UFromUrls(0); $("modal").classList.add("hidden"); } };
+  $("loadBtn").onclick=function(){
+    var m3u=$("m3uIn").value.trim();
+    var epg=$("epgIn").value.trim();
+    if(epg) EPG_URL=epg;
+    if(m3u){ M3U_URLS=[m3u]; loadM3UFromUrls(0); $("modal").classList.add("hidden"); }
+    else if(epg){ fetch(epg).then(r=>r.text()).then(x=>{ epg=parseEPG(x); renderGrid(); setLoad(100,"EPG güncellendi"); $("modal").classList.add("hidden"); }); }
+  };
   var tabs=document.querySelectorAll(".top button");
   for(var i=0;i<tabs.length;i++){ tabs[i].addEventListener("click",(function(btn){return function(){ var newTab=btn.dataset.tab; if(curCh&&curCh.type=="radio"&&newTab!="radio") stopRadio(); for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on"); btn.classList.add("on"); curTab=newTab; curGroup=null; renderGroups(); renderGrid(); };})(tabs[i])); }
+  $("fsBtn").onclick=function(){ var pc=$("playerCol"); if(pc.classList.contains("fullscreen")) pc.classList.remove("fullscreen"); else pc.classList.add("fullscreen"); };
   loadM3UFromUrls(0);
 }
 init();
