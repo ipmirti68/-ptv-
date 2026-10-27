@@ -1,0 +1,9 @@
+{
+  "id": "com.mirti.tv",
+  "version": "1.0.0",
+  "vendor": "Mirti",
+  "type": "web",
+  "main": "index.html",
+  "title": "Mirti TV",
+  "icon": "icon.png"
+}
