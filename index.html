@@ -8,15 +8,10 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#070b14;color:#e8e6df;font-family:Arial,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-#mainLayout{display:flex;justify-content:center;width:100%;height:100vh}
-.adSide{width:160px;min-width:160px;background:#080d16;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a;display:none;align-items:flex-start;justify-content:center;padding:10px;color:#3a4a6a;font-size:11px;text-align:center}
-#centerCol{flex:1;max-width:100%;display:flex;flex-direction:column;height:100vh;overflow:hidden;background:#080d16}
-@media(min-width:1100px){.adSide{display:flex}#centerCol{max-width:780px;border-left:1px solid #1c2b4a;border-right:1px solid #1c2b4a}}
 header{height:38px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44;flex-shrink:0}
 .logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:13px}
 .logo img{height:26px;width:26px;object-fit:cover;border-radius:5px}
-.top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:4px;align-items:center;padding:5px 6px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto;scrollbar-width:none}
-.top::-webkit-scrollbar{display:none}
+.top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:4px;align-items:center;padding:5px 6px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto}
 .top button{border:1px solid #1e2a44;color:#5a6a8a;background:#0f1726;padding:5px 10px;border-radius:14px;font-size:9px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;opacity:0.6;transition:all 0.2s}
 .top button.on{opacity:1;color:#fff;box-shadow:0 0 8px rgba(0,0,0,.4)}
 .top button[data-tab="live"].on{background:#ff3b30;border-color:#ff3b30}
@@ -30,7 +25,7 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 #video{width:100%;height:100%;object-fit:contain;background:#000;z-index:2}
 #audioEl{position:absolute;left:-9999px;top:-9999px;width:1px;height:1px}
 #idle{position:absolute;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000}
-#idle img{width:100%;height:100%;object-fit:contain;display:block;background:#000}
+#idle img{width:100%;height:100%;object-fit:cover;display:block;background:#000}
 #fsBtn{position:absolute;top:8px;right:8px;z-index:10;background:rgba(0,0,0,.6);color:#fff;border:1px solid rgba(255,255,255,.3);width:28px;height:28px;border-radius:6px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 #fsExit{position:absolute;top:8px;right:8px;z-index:90;background:rgba(0,0,0,.7);color:#fff;border:1px solid rgba(255,255,255,.4);width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:none;align-items:center;justify-content:center}
 #playerCol.fullscreen #fsBtn{display:none}
@@ -43,24 +38,23 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 #loadFill{height:100%;width:0%;background:#d4b78f;transition:width .3s}
 #loadText{font-size:8px;color:#fff;background:rgba(0,0,0,.75);padding:2px 8px;border-radius:8px;text-align:center}
 #epgBar{height:24px;background:#101c33;padding:2px 8px;font-size:10px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0}
-#groupsWrap{height:44px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 4px;gap:6px;flex-shrink:0}
-#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:28px;height:28px;border-radius:50%;font-size:12px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-#groups{flex:1;display:flex;gap:8px;overflow:auto;scrollbar-width:none;-ms-overflow-style:none}
-#groups::-webkit-scrollbar{display:none;width:0;height:0}
-.gChip{padding:7px 16px;background:#101c33;border:1px solid #253a63;border-radius:16px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;flex-shrink:0;color:#8da0c0;transition:all .2s}
-.gChip.on{background:#ffdf9e;color:#111;font-weight:900;border-color:#ffdf9e;box-shadow:0 0 14px rgba(255,223,158,.6);transform:scale(1.08)}
+#groupsWrap{height:34px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 3px;gap:3px;flex-shrink:0}
+#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:20px;height:20px;border-radius:50%;font-size:9px;cursor:pointer;flex-shrink:0}
+#groups{flex:1;display:flex;gap:4px;overflow:auto}
+.gChip{padding:3px 9px;background:#101c33;border:1px solid #1e2f52;border-radius:10px;font-size:8px;white-space:nowrap;cursor:pointer;flex-shrink:0}
+.gChip.on{background:#d4b78f;color:#111;font-weight:800;border-color:#d4b78f}
 #list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden;min-height:0}
 #fsChannelList{position:absolute;bottom:0;left:0;right:0;height:52%;background:rgba(8,13,22,.96);border-top:2px solid #ff3b30;z-index:75;display:none;flex-direction:column;overflow:hidden}
 #fsChannelList.show{display:flex}
 #fsChannelList .fsHead{height:36px;background:#0b1320;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #1c2b4a;flex-shrink:0}
 #fsGrid{flex:1;overflow:auto;padding:6px;display:grid;grid-template-columns:1fr 1fr;gap:6px;grid-auto-rows:72px}
 #grid{flex:1;overflow:auto;padding:5px}
-#grid.live{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:72px}
+#grid.live{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:68px}
 #grid.poster{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:280px}
 #grid.radioGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px;grid-auto-rows:110px}
-.item{position:relative;display:flex;align-items:center;gap:8px;background:#13203a;border:1px solid #1e2e51;border-radius:8px;padding:4px 8px;cursor:pointer;height:72px;overflow:hidden;flex-shrink:0}
+.item{position:relative;display:flex;align-items:center;gap:6px;background:#13203a;border:1px solid #1e2e51;border-radius:8px;padding:4px 6px;cursor:pointer;height:68px;overflow:hidden;flex-shrink:0}
 .item.on{border-color:#d4b78f}
-.logoBox{width:54px;height:54px;min-width:54px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;padding:2px}
+.logoBox{width:42px;height:42px;min-width:42px;background:#fff;border-radius:6px;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;padding:1px}
 .logoBox img{width:100%;height:100%;object-fit:contain;background:#fff}
 .info{flex:1;overflow:hidden;min-width:0;display:flex;flex-direction:column;justify-content:center;gap:1px;padding-right:14px}
 .info b{font-size:12px;line-height:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:800;color:#fff}
@@ -86,6 +80,71 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 .box{background:#101b30;border:1px solid #22365e;width:360px;max-width:92vw;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
 .box input{background:#0a1222;border:1px solid #22365e;color:#fff;padding:8px;border-radius:6px;width:100%;font-size:11px}
 #speedModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
+.speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.speedVal{font-size:42px;font-weight:300;color:#111;margin-top:-10px}
+</style>
+</head>
+<body>
+<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:4px"><span id="netSpeed" style="font-size:7px;background:#101c33;border:1px solid #1e2f52;padding:3px 6px;border-radius:8px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:3px 8px;border-radius:4px;font-weight:800;font-size:10px">AYAR</button></div></header>
+<div class="top"><button data-tab="live" class="on" id="bLive">📺 Canlı</button><button data-tab="movie" id="bMovie">🎬 Film</button><button data-tab="series" id="bSeries">🎞️ Dizi</button><button data-tab="radio" id="bRadio">📻 Radyo</button><button data-tab="fav" id="bFav">⭐ Fav</button></div>
+<div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><audio id="audioEl" controls preload="none"></audio><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><span id="rSub">📻 Canlı Radyo</span></div></div><button id="fsBtn">⛶</button><button id="fsExit">✕</button><div id="volOsd"><div style="font-size:9px">Ses</div><div id="volBar"><div id="volFill" style="height:80%"></div></div><div id="volTxt" style="font-size:10px;font-weight:800">80%</div></div><div id="fsChannelList"><div class="fsHead"><b style="font-size:10px">📺 Kanal Listesi</b><div style="display:flex;gap:4px"><button id="fsPrev" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">◀ Önceki</button><button id="fsNext" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Sonraki ▶</button><button id="fsClose" style="background:#ff3b30;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Kapat</button></div></div><div id="fsGrid"></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
+<div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
+<div id="list"><div id="grid" class="live"></div></div>
+<div id="speedModal" class="hidden"><div class="speedBox"><b>SPEEDTEST</b><div id="speedNum" class="speedVal">0.00</div><div style="font-size:10px;color:#00a8b5">Mbps</div><div style="display:flex;gap:16px;font-size:11px;margin-top:6px"><span>Ping <b id="pingVal">-</b></span><span>↓ <b id="downVal">-</b></span><span><b id="sizeVal">-</b></span></div><div id="speedInfo" style="font-size:10px;color:#666;margin-top:8px">BAŞLAT'a bas</div><div style="display:flex;gap:6px;width:100%;margin-top:10px"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div></div></div>
+<div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U / EPG Yükle</b><input id="m3uIn" placeholder="M3U Linki"><input id="epgIn" placeholder="EPG Linki"><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div style="display:flex;gap:4px"><button id="addRadyo7" style="flex:1;background:#ff9500;color:#111;border:none;padding:8px;border-radius:6px;font-size:10px;font-weight:800">+ RADYO 7 TEST</button><button id="testRadyo" style="flex:1;background:#1a2a4a;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">LİSTEYİ GÖR</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
+<script>
+// === MIRTI APK ÇOKLU OYNATICI ENTEGRASYONU ===
+var IPTV_PROXY="https://iptv.axaray69.workers.dev/?url=";
+function isNativeApp(){
+  return (typeof window.MirtiApp !== 'undefined' && window.MirtiApp.playVideo) || (typeof window.AndroidPlayer !== 'undefined');
+}
+function getPlayableUrl(raw){
+  if(!raw) return raw;
+  var u=raw.trim().split(/\s+/)[0].split("|")[0].trim();
+  if(isNativeApp()){ return u; }
+  if(u.startsWith("https://")) return u;
+  if(u.startsWith("http://")) return IPTV_PROXY+encodeURIComponent(u);
+  return u;
+}
+var M3U_FILES=["mırtı68.m3u","mirti68.m3u","Mırtı68.m3u","mirti.m3u"];
+var M3U_BASES=["https://raw.githubusercontent.com/ipmirti68/-p/main/","https://raw.githubusercontent.com/ipmirti68/-p/refs/heads/main/","https://cdn.jsdelivr.net/gh/ipmirti68/-p@main/"];
+var M3U_URLS=[];
+for(var bi=0;bi<M3U_BASES.length;bi++){ for(var fi=0;fi<M3U_FILES.length;fi++){ var file=M3U_FILES[fi]; try{ M3U_URLS.push(M3U_BASES[bi]+encodeURIComponent(file)); }catch(e){} try{ M3U_URLS.push(encodeURI(M3U_BASES[bi]+file)); }catch(e){} } }
+M3U_URLS.push(IPTV_PROXY+encodeURIComponent("https://raw.githubusercontent.com/ipmirti68/-p/main/m%C4%B1rt%C4%B168.m3u"));
+var EPG_URL="https://raw.githubusercontent.com/ipmirti68/epg/refs/heads/main/epg.xml";
+var DEFAULT_LOGO="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg";
+var MAIN_SCREEN="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg";
+var RADIO_BG="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/file_000000003b08820a96dea4b438a874d6.png";
+var SPEED_TEST_URL=MAIN_SCREEN;
+var channels=[],epg={},epgNorm={},curGroup=null,curTab="live",hls=null,hlsAudio=null,groupOrder=[],favs=[],curCh=null,isFS=false,fsListOpen=false,curVol=0.8,touchStartX=0,touchStartY=0;
+try{favs=JSON.parse(localStorage.getItem("mirti_fav")||"[]");}catch(e){favs=[];}
+function $(id){return document.getElementById(id);}
+function setLoad(p,t){ var f=$("loadFill"), tx=$("loadText"); if(f)f.style.width=p+"%"; if(tx)tx.textContent="%"+p+" "+t; var en=$("epgNow"); if(en)en.textContent=t; }
+function saveFav(){try{localStorage.setItem("mirti_fav",JSON.stringify(favs));}catch(e){}}
+function isFav(url){return favs.indexOf(url)!=-1;}
+function toggleFav(url){ var i=favs.indexOf(url); if(i==-1)favs.push(url); else favs.splice(i,1); saveFav(); renderGrid(); renderGroups(); renderFsGrid(); }
+function norm(s){ if(!s)return ""; var t=s+""; t=t.replace(/İ/g,"i").replace(/I/g,"i"); t=t.normalize("NFD").replace(/[\u0300-\u036f]/g,""); t=t.toLowerCase(); t=t.replace(/ı/g,"i").replace(/ş/g,"s").replace(/ğ/g,"g").replace(/ü/g,"u").replace(/ö/g,"o").replace(/ç/g,"c"); return t; }
+function cleanName(s){ if(!s)return ""; var t=norm(s); t=t.replace(/\btr\b/g,"").replace(/[^a-z0-9]/g,""); return t; }
+function getTypeByGroup(g,url,raw,tvgId,title){
+  var n=norm(g+" "+(tvgId||"")+" "+(title||""));
+  var r=(raw||"").toLowerCase();
+  if(r.indexOf('radio="true"')!=-1){ if(n.indexOf("goruntulu")!=-1) return "live"; return "radio"; }
+  if(tvgId && norm(tvgId).indexOf("radyo")==0){ if(n.indexOf("goruntulu")!=-1) return "live"; return "radio"; }
+  if(n.indexOf("yerli dizi")!=-1) return "series"; if(n.indexOf("dizi")!=-1) return "series"; if(n.indexOf("film")!=-1) return "movie"; if(n.indexOf("movie")!=-1) return "movie";
+  var u=(url||"").toLowerCase(); if((u.indexOf(".mp4")!=-1 || u.indexOf(".mkv")!=-1) && n.indexOf("dizi")==-1) return "movie";
+  return "live";
+}
+function parseM3U(t){
+  var list=[]; var seen={}; groupOrder=[]; t=t.replace(/\r/g,""); var lines=t.split("\n"); var cur=null, curLine="", curId="", curTitle="";
+  for(var i=0;i<lines.length;i++){ var l=lines[i].trim(); if(!l)continue;
+    if(l.toUpperCase().indexOf("#EXTINF")==0){ cur={}; curLine=l; var lo=l.match(/tvg-logo="([^"]+)"/i); if(lo)cur.logo=lo[1]; var id=l.match(/tvg-id="([^"]+)"/i); if(id){cur.tvgId=id[1]; curId=id[1];} else curId=""; var gr=l.match(/group-title="([^"]+)"/i); cur.group=gr?gr[1].trim():"Genel"; var c=l.lastIndexOf(","); cur.title=c!=-1?l.slice(c+1).trim():"Kanal "+(list.length+1); curTitle=cur.title; if(!seen[cur.group]){seen[cur.group]=1; groupOrder.push(cur.group);} }
+    else{ if(cur && l.charAt(0)!="#"){ var rawUrl=l.trim(); var url=rawUrl.split(/\s+/)[0].split("|")[0].trim(); cur.url=url; cur.type=getTypeByGroup(cur.group, url, curLine, curId, curTitle); list.push(cur); cur=null; } }
+  } return list;
+}
+function parseEPG(xmlText){ try{ var p=new DOMParser(), d=p.parseFromString(xmlText,"text/xml"), m={}, mn={}; var progs=d.querySelectorAll("programme"); progs.forEach(function(pr){ var ch=pr.getAttribute("channel"); var st=pr.getAttribute("start"); var en=pr.getAttribute("stop"); var ti=pr.querySelector("title"); var title=ti?ti.textContent:""; if(!m[ch])m[ch]=[]; m[ch].push({title:title,start:st,stop:en}); var cn=cleanName(ch); if(cn && !mn[cn]) mn[cn]=ch; }); for(var k in m){ m[k].sort(function(a,b){ if(!a.start||!b.start)return 0; return a.start.localeCompare(b.start); }); } epgNorm=mn; return m; }catch(e){return {};} }
+function parseEPGDate(s){ if(!s)return null; try{ var y=s.substr(0,4), mo=s.substr(4,2)-1, d=s.substr(6,2), h=s.substr(8,2), mi=s.substr(10,2), sec=s.substr(12,2); return new Date(y,mo,d,h,mi,sec); }catch(e){return null;} }
+function getEPGNowNext(ch){ if(!ch)return {now:null,next:null,found:false}; var list=null; if(ch.tvgId && epg[ch.tvgId]){ list=epg[ch.tvgId]; } if(!list && epg[ch.title]){ list=epg[ch.title]; } if(!list){ var cn=cleanName(ch.title); if(cn && epgNorm[cn] && epg[epgNorm[cn]]){ list=epg[epgNorm[cn]]; } } if(!list||!list.length)return {now:null,next:null,found:false}; var now=new Date(); var nowProg=null,nextProg=null; for(var i=0;i<list.length;i++){ var p=list[i]; var st=parseEPGDate(p.start); var en=parseEPGDate(p.stop); if(st&&en){ if(now>=st&&now<en){nowProg=p; if(i+1<list.length)nextProg=list[i+1]; break;} if(now<st && !nowProg){nextProg=p; if(i>0)nowProg=list[i-1]; break;} } } if(!nowProg&&list.length){nowProg=list[0]; if(list.length>1)nextProg=list[1];} return {now:nowProg,next:nextProg,found:true}; }
+function getFiltered(){ var list=[]; for(var i=0;i<channels.length;i++){ var c=channels[i]; if(curTabt:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
 .speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .speedVal{font-size:42px;font-weight:300;color:#111;margin-top:-10px}
 </style>
