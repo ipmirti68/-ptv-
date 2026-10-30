@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mırtı TV v72 Bilgisayar Radyo Boyut Fix</title>
+<title>Mırtı TV </title>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#070b14;color:#e8e6df;font-family:Arial,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-header{height:38px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44;flex-shrink:0}
+header{height:42px;background:#0f1726;display:flex;align-items:center;justify-content:space-between;padding:0 8px;border-bottom:1px solid #1e2a44;flex-shrink:0}
 .logo{display:flex;align-items:center;gap:6px;font-weight:900;font-size:13px}
 .logo img{height:26px;width:26px;object-fit:cover;border-radius:5px}
 .top{background:#0d1525;display:flex;flex-wrap:nowrap;gap:4px;align-items:center;padding:5px 6px;border-bottom:1px solid #1c2b4a;flex-shrink:0;overflow:auto}
-.top button{border:1px solid #1e2a44;color:#5a6a8a;background:#0f1726;padding:5px 10px;border-radius:14px;font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;opacity:0.6;transition:all 0.2s}
+.top button{border:1px solid #2a3a5a;color:#e8e6df;background:#1a2a4a;padding:6px 12px;border-radius:14px;font-size:13px;font-weight:800;white-space:nowrap;cursor:pointer;display:flex;align-items:center;gap:4px;flex-shrink:0;opacity:1;transition:all 0.2s}
 .top button.on{opacity:1;color:#fff;box-shadow:0 0 8px rgba(0,0,0,.4)}
 .top button[data-tab="live"].on{background:#ff3b30;border-color:#ff3b30;box-shadow:0 0 10px rgba(255,59,48,.5)}
 .top button[data-tab="movie"].on{background:#007aff;border-color:#007aff;box-shadow:0 0 10px rgba(0,122,255,.5)}
@@ -54,10 +54,10 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 #loadText{font-size:8px;color:#fff;background:rgba(0,0,0,.75);padding:2px 8px;border-radius:8px;text-align:center}
 #epgBar{height:24px;background:#101c33;padding:2px 8px;font-size:10px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0}
 #epgNow{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#groupsWrap{height:34px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 3px;gap:3px;flex-shrink:0}
-#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:20px;height:20px;border-radius:50%;font-size:9px;cursor:pointer;flex-shrink:0}
-#groups{flex:1;display:flex;gap:4px;overflow:auto;scroll-behavior:smooth}
-.gChip{padding:3px 9px;background:#101c33;border:1px solid #1e2f52;border-radius:10px;font-size:11px;white-space:nowrap;cursor:pointer;flex-shrink:0}
+#groupsWrap{height:48px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 4px;gap:4px;flex-shrink:0}
+#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:28px;height:28px;border-radius:50%;font-size:11px;cursor:pointer;flex-shrink:0}
+#groups{flex:1;display:flex;gap:6px;overflow:auto;scroll-behavior:smooth;padding:4px 0}
+.gChip{padding:8px 14px;background:#1a2a4a;border:1px solid #2a4a8a;border-radius:12px;font-size:13px;white-space:nowrap;cursor:pointer;flex-shrink:0;color:#fff;font-weight:600}
 .gChip.on{background:#d4b78f;color:#111;font-weight:800;border-color:#d4b78f}
 #list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden;min-height:0;transition:all 0.3s}
 #playerCol.fullscreen ~ #groupsWrap, #playerCol.fullscreen ~ #list, #playerCol.fullscreen ~ .top, #playerCol.fullscreen ~ header{display:none!important;max-width:none!important}
@@ -98,15 +98,16 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 #radioInfo b{font-size:11px;color:#ffcc33;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #radioInfo span{font-size:9px;color:#aaa}
 #modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:99}
-.box{background:#101b30;border:1px solid #22365e;width:360px;max-width:92vw;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.box input{background:#0a1222;border:1px solid #22365e;color:#fff;padding:8px;border-radius:6px;width:100%;font-size:11px}
+.box{background:#101b30;border:1px solid #22365e;width:380px;max-width:94vw;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+.box input{background:#0a1222;border:1px solid #22365e;color:#fff;padding:10px;border-radius:6px;width:100%;font-size:12px}
+.box textarea{background:#0a1222;border:1px solid #22365e;color:#fff;padding:10px;border-radius:6px;width:100%;font-size:11px;height:80px}
 #speedModal{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:100;display:flex;align-items:center;justify-content:center}
 .speedBox{background:#fff;color:#111;width:360px;max-width:92vw;border-radius:12px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:10px}
 .speedVal{font-size:42px;font-weight:300;color:#111;margin-top:-10px}
 </style>
 </head>
 <body>
-<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:4px"><span id="netSpeed" style="font-size:7px;background:#101c33;border:1px solid #1e2f52;padding:3px 6px;border-radius:8px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:3px 8px;border-radius:4px;font-weight:800;font-size:10px">AYAR</button></div></header>
+<header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:4px"><a href="https://tinyurl.com/mirtitv68" target="_blank" style="font-size:10px;background:#ff3b30;color:#fff;padding:4px 8px;border-radius:6px;text-decoration:none;font-weight:800">KAYIT</a><span id="netSpeed" style="font-size:7px;background:#101c33;border:1px solid #1e2f52;padding:3px 6px;border-radius:8px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:5px 10px;border-radius:6px;font-weight:800;font-size:11px">AYAR</button></div></header>
 <div class="top"><button data-tab="live" class="on" id="bLive">📺 Canlı</button><button data-tab="movie" id="bMovie">🎬 Film</button><button data-tab="series" id="bSeries">🎞️ Dizi</button><button data-tab="radio" id="bRadio">📻 Radyo</button><button data-tab="fav" id="bFav">⭐ Fav</button></div>
 <div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><audio id="audioEl" controls preload="none"></audio><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><span id="rSub">📻 Canlı Radyo</span></div></div><button id="fsBtn">⛶</button><button id="fsExit">✕</button><div id="fsHint">Dokun: liste | Sağ/Sol: kanal | Yukarı/Aşağı: ses</div><div id="volOsd"><div style="font-size:9px">Ses</div><div id="volBar"><div id="volFill" style="height:80%"></div></div><div id="volTxt" style="font-size:10px;font-weight:800">80%</div></div><div id="fsChannelList"><div class="fsHead"><b style="font-size:10px">📺 Kanal Listesi</b><div style="display:flex;gap:4px"><button id="fsPrev" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">◀ Önceki</button><button id="fsNext" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Sonraki ▶</button><button id="fsClose" style="background:#ff3b30;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Kapat</button></div></div><div id="fsGrid"></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
 <div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
@@ -123,7 +124,7 @@ header{height:38px;background:#0f1726;display:flex;align-items:center;justify-co
 <div style="display:flex;gap:6px;width:100%;margin-top:10px"><button id="startTest" style="flex:1;background:#00b5c8;color:#fff;border:none;padding:12px;border-radius:8px;font-weight:800">BAŞLAT</button><button id="closeSpeed" style="background:#eee;border:none;padding:10px 14px;border-radius:8px">Kapat</button></div>
 </div></div>
 
-<div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U / EPG Yükle</b><input id="m3uIn" placeholder="M3U Linki"><input id="epgIn" placeholder="EPG Linki"><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:10px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:10px;border-radius:8px">KAPAT</button></div><div style="display:flex;gap:4px"><button id="addRadyo7" style="flex:1;background:#ff9500;color:#111;border:none;padding:8px;border-radius:6px;font-size:10px;font-weight:800">+ RADYO 7 TEST</button><button id="testRadyo" style="flex:1;background:#1a2a4a;color:#fff;border:none;padding:8px;border-radius:6px;font-size:10px">LİSTEYİ GÖR</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto"></div></div></div>
+<div id="modal" class="hidden"><div class="box"><b style="font-size:13px">M3U / EPG Yükle</b><input id="m3uIn" placeholder="M3U Linki (https://...m3u)"><input id="epgIn" placeholder="EPG Linki (https://...xml)"><textarea id="pasteIn" placeholder="M3U içeriğini buraya yapıştır"></textarea><input type="file" id="fileIn" accept=".m3u,.m3u8,.txt,.xml"><div style="display:flex;gap:6px"><button id="loadBtn" style="flex:1;background:#d4b78f;color:#111;border:none;padding:12px;border-radius:8px;font-weight:800">YÜKLE</button><button id="closeBtn" style="background:transparent;border:1px solid #33486f;color:#fff;padding:12px;border-radius:8px">KAPAT</button></div><div id="stat" style="font-size:10px;color:#8fb0ff;white-space:pre-wrap;max-height:120px;overflow:auto;background:#0a1222;padding:6px;border-radius:6px">Henüz liste yok</div></div></div>
 
 <script>
 var M3U_FILES=["mırtı68.m3u","mirti68.m3u","Mırtı68.m3u","mirti.m3u"];
@@ -374,7 +375,7 @@ function changeVolume(delta){
 }
 function measureSpeed(url){ return new Promise(function(resolve,reject){ var start=performance.now(); fetch(url+"?t="+Date.now(),{cache:"no-store"}).then(function(r){ if(!r.ok)throw new Error("HTTP "+r.status); return r.blob(); }).then(function(blob){ var end=performance.now(); var durationMs=end-start; var durationSec=durationMs/1000; if(durationSec<0.01)durationSec=0.01; var bytes=blob.size; var mbps=(bytes*8/1000000)/durationSec; resolve({mbps:mbps,ms:durationMs,bytes:bytes}); }).catch(function(e){reject(e);}); }); }
 function doSpeedTest(){ var arc=$("arc"), needle=$("needle"), num=$("speedNum"), pingEl=$("pingVal"), downEl=$("downVal"), sizeEl=$("sizeVal"), infoEl=$("speedInfo"); if(!arc)return; num.textContent="..."; pingEl.textContent="..."; downEl.textContent="..."; if(sizeEl)sizeEl.textContent="..."; if(infoEl)infoEl.textContent="Ölçülüyor..."; measureSpeed(SPEED_TEST_URL).then(function(res){ var mbps=res.mbps; pingEl.textContent=Math.round(res.ms); downEl.textContent=mbps.toFixed(1); if(sizeEl)sizeEl.textContent=Math.round(res.bytes/1024)+" KB"; num.textContent=mbps.toFixed(2); if(infoEl)infoEl.textContent="Gerçek: "+Math.round(res.bytes/1024)+" KB "+Math.round(res.ms)+"ms"; $("netSpeed").textContent="Net: "+mbps.toFixed(1)+" Mbps"; var pct=Math.min(mbps,100); var dash=251-pct/100*251; arc.style.strokeDashoffset=dash; var angle=-90+ (pct/100*180); var rad=angle*Math.PI/180; var x=100+60*Math.cos(rad); var y=100+60*Math.sin(rad); needle.setAttribute("x2",x); needle.setAttribute("y2",y); }).catch(function(e){ pingEl.textContent="hata"; if(infoEl)infoEl.textContent="Hata: "+e.message; num.textContent="0.00"; }); }
-function loadM3UFromUrls(idx){ if(idx==null)idx=0; if(idx>=M3U_URLS.length){ setLoad(0,"Tüm linkler başarısız"); $("modal").classList.remove("hidden"); return; } var url=M3U_URLS[idx]; setLoad(5+Math.floor(idx/M3U_URLS.length*30),"Deneniyor "+(idx+1)+"/"+M3U_URLS.length); fetch(url,{cache:"no-store"}).then(function(r){ if(!r.ok)throw new Error("HTTP "+r.status); return r.text(); }).then(function(t){ if(t.length<100)throw new Error("boş "+t.length); setLoad(50,t.length+" bayt"); channels=parseM3U(t); if(channels.length==0)throw new Error("0 kanal"); var ul=findUlusalGroup(); if(ul){curGroup=ul; setLoad(70,"Ulusal: "+ul+" - "+channels.length+" kanal");} else{curGroup=groupOrder[0]; setLoad(70,channels.length+" kanal");} renderGroups(); renderGrid(); setLoad(80,"EPG yükleniyor..."); fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); var keys=Object.keys(epg); setLoad(100,keys.length+" EPG | "+channels.length+" kanal - v72 bilgisayar fix"); setTimeout(function(){var lw=$("loadWrap"); if(lw)lw.style.display="none";},800); renderGrid(); }).catch(function(e){setLoad(90,channels.length+" kanal"); renderGrid(); var lw=$("loadWrap"); if(lw)lw.style.display="none";}); }).catch(function(e){ setLoad(3,"Link "+(idx+1)+" hata: "+e.message); setTimeout(function(){loadM3UFromUrls(idx+1);},300); }); }
+function loadM3UFromUrls(idx){ if(idx==null)idx=0; if(idx>=M3U_URLS.length){ setLoad(0,"Tüm linkler başarısız"); $("modal").classList.remove("hidden"); $("stat").textContent="Tüm linkler başarısız. AYAR'dan elle M3U linki yapıştır veya dosya seç."; return; } var url=M3U_URLS[idx]; setLoad(5+Math.floor(idx/M3U_URLS.length*30),"Deneniyor "+(idx+1)+"/"+M3U_URLS.length); fetch(url,{cache:"no-store"}).then(function(r){ if(!r.ok)throw new Error("HTTP "+r.status); return r.text(); }).then(function(t){ if(t.length<100)throw new Error("boş "+t.length); setLoad(50,t.length+" bayt"); channels=parseM3U(t); if(channels.length==0)throw new Error("0 kanal"); var ul=findUlusalGroup(); if(ul){curGroup=ul; setLoad(70,"Ulusal: "+ul+" - "+channels.length+" kanal");} else{curGroup=groupOrder[0]; setLoad(70,channels.length+" kanal");} renderGroups(); renderGrid(); setLoad(80,"EPG yükleniyor..."); fetch(EPG_URL).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); var keys=Object.keys(epg); setLoad(100,keys.length+" EPG | "+channels.length+" kanal - v72 bilgisayar fix"); setTimeout(function(){var lw=$("loadWrap"); if(lw)lw.style.display="none";},800); renderGrid(); }).catch(function(e){setLoad(90,channels.length+" kanal"); renderGrid(); var lw=$("loadWrap"); if(lw)lw.style.display="none";}); }).catch(function(e){ setLoad(3,"Link "+(idx+1)+" hata: "+e.message); setTimeout(function(){loadM3UFromUrls(idx+1);},300); }); }
 function toggleFS(){
   var pc=$("playerCol"); isFS=!isFS;
   if(isFS){ pc.classList.add("fullscreen"); $("epgNow").textContent="Tam ekran - Dokun liste, Sağ/Sol kanal, Yukarı/Aşağı ses"; }
@@ -382,7 +383,7 @@ function toggleFS(){
 }
 function init(){
   setLoad(5,"Başlıyor...");
-  $("setBtn").onclick=function(){$("modal").classList.remove("hidden");};
+  $("setBtn").onclick=function(){$("modal").classList.remove("hidden"); $("stat").textContent="AYAR açıldı. M3U linki gir veya dosya seç veya içeriği yapıştır.";};
   $("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
   $("leftArrow").onclick=function(){$("groups").scrollBy({left:-140,behavior:"smooth"});};
   $("rightArrow").onclick=function(){$("groups").scrollBy({left:140,behavior:"smooth"});};
@@ -431,23 +432,51 @@ function init(){
       }
     }
   }, {passive:true});
-  $("addRadyo7").onclick=function(){
-    var sample="#EXTINF:-1 tvg-id=\"radyo 7\" tvg-name=\"radyo 7\" tvg-logo=\"https://i.imgur.com/qXVln0D.jpeg\" group-title=\"📻 RADYO 🎵 MÜZIK\" radio=\"true\",RADYO 7\nhttps://moondigitaledge.radyotvonline.net/radyo7/playlist.m3u8";
-    var add=parseM3U(sample);
-    for(var i=0;i<add.length;i++){ channels.push(add[i]); if(groupOrder.indexOf(add[i].group)==-1) groupOrder.push(add[i].group); }
-    setLoad(100,channels.length+" kanal - RADYO 7 eklendi"); renderGroups(); renderGrid();
-    $("stat").textContent="RADYO 7 eklendi - CORS engelli olabilir";
-    var lw=$("loadWrap"); if(lw)lw.style.display="none";
-    curTab="radio"; curGroup=null; var tabs=document.querySelectorAll(".top button"); for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on"); document.querySelector('[data-tab="radio"]').classList.add("on"); renderGroups(); renderGrid();
-  };
-  $("testRadyo").onclick=function(){ var rc=0, list=[]; for(var k=0;k<channels.length;k++){ if(channels[k].type=="radio"){ rc++; if(list.length<15) list.push(channels[k].title); } } $("stat").textContent="Radyo: "+rc+"\n"+list.join("\n"); };
   var tabs=document.querySelectorAll(".top button");
   for(var i=0;i<tabs.length;i++){ tabs[i].addEventListener("click",(function(btn){return function(){
     var newTab=btn.dataset.tab; if(curCh && curCh.type=="radio" && newTab!="radio" && newTab!="fav"){ stopRadio(); }
     for(var j=0;j<tabs.length;j++)tabs[j].classList.remove("on"); btn.classList.add("on"); curTab=newTab; if(curTab=="live"){var ul=findUlusalGroup(); if(ul)curGroup=ul; else curGroup=null;} else curGroup=null; renderGroups(); renderGrid();
   };})(tabs[i])); }
-  $("loadBtn").onclick=function(){ var m3u=$("m3uIn").value.trim(); if(m3u){ setLoad(20,"Elle yükleniyor..."); fetch(m3u).then(function(r){return r.text();}).then(function(t){ var add=parseM3U(t); channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; renderGroups(); renderGrid(); setLoad(100,add.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none"; }).catch(function(e){$("stat").textContent="Hata: "+e.message;}); } };
-  $("fileIn").addEventListener("change",function(e){ var file=e.target.files[0]; if(!file)return; var reader=new FileReader(); reader.onload=function(ev){ var txt=ev.target.result; if(file.name.endsWith(".xml")){var newEpg=parseEPG(txt); for(var k in newEpg)epg[k]=newEpg[k]; $("stat").textContent="EPG ok"; renderGrid();} else{var add=parseM3U(txt); channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; renderGroups(); renderGrid(); setLoad(100,"Dosyadan "+add.length+" kanal"); $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none";} }; reader.readAsText(file); });
+  $("loadBtn").onclick=function(){ 
+    var stat=$("stat");
+    var paste=$("pasteIn").value.trim();
+    if(paste){
+      stat.textContent="Yapıştırılan içerik işleniyor...";
+      try{
+        var add=parseM3U(paste);
+        if(add.length==0){ stat.textContent="Hata: 0 kanal bulundu. M3U formatı yanlış."; return; }
+        channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; else curGroup=groupOrder[0];
+        renderGroups(); renderGrid(); setLoad(100,add.length+" kanal (yapıştırıldı)");
+        stat.textContent="OK: "+add.length+" kanal yüklendi";
+        setTimeout(function(){$("modal").classList.add("hidden");},800);
+        var lw=$("loadWrap"); if(lw)lw.style.display="none";
+        return;
+      }catch(e){ stat.textContent="Hata: "+e.message; return; }
+    }
+    var m3u=$("m3uIn").value.trim(); 
+    var epgIn=$("epgIn").value.trim();
+    if(m3u){ 
+      stat.textContent="M3U linki çekiliyor: "+m3u;
+      setLoad(20,"Elle yükleniyor...");
+      fetch(m3u).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }).then(function(t){ 
+        var add=parseM3U(t); 
+        if(add.length==0) throw new Error("0 kanal");
+        channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; else curGroup=groupOrder[0];
+        renderGroups(); renderGrid(); setLoad(100,add.length+" kanal");
+        stat.textContent="OK: "+add.length+" kanal yüklendi";
+        if(epgIn){
+          fetch(epgIn).then(function(re){return re.text();}).then(function(xe){ epg=parseEPG(xe); renderGrid(); stat.textContent+=" | EPG yüklendi"; }).catch(function(e){ stat.textContent+=" | EPG hata: "+e.message; });
+        }
+        setTimeout(function(){$("modal").classList.add("hidden");},800);
+        var lw=$("loadWrap"); if(lw)lw.style.display="none";
+      }).catch(function(e){
+        stat.textContent="Hata: "+e.message+" - Link CORS engelli olabilir, dosyayı indirip seç veya içeriği yapıştır.";
+      }); 
+    } else {
+      stat.textContent="Önce M3U linki gir veya dosya seç veya içeriği yapıştır.";
+    }
+  };
+  $("fileIn").addEventListener("change",function(e){ var file=e.target.files[0]; if(!file)return; var reader=new FileReader(); reader.onload=function(ev){ var txt=ev.target.result; if(file.name.endsWith(".xml")){var newEpg=parseEPG(txt); for(var k in newEpg)epg[k]=newEpg[k]; $("stat").textContent="EPG ok: "+Object.keys(newEpg).length+" kanal"; renderGrid();} else{var add=parseM3U(txt); if(add.length==0){$("stat").textContent="Hata: 0 kanal"; return;} channels=add; var ul=findUlusalGroup(); if(ul)curGroup=ul; renderGroups(); renderGrid(); setLoad(100,"Dosyadan "+add.length+" kanal"); $("stat").textContent="OK: "+add.length+" kanal dosyadan yüklendi"; $("modal").classList.add("hidden"); var lw=$("loadWrap"); if(lw)lw.style.display="none";} }; reader.readAsText(file); });
   loadM3UFromUrls(0); setTimeout(function(){doSpeedTest();},1200);
   var v=$("video"); if(v) v.volume=curVol; var a=$("audioEl"); if(a) a.volume=curVol;
 }
