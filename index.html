@@ -55,8 +55,8 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 #epgBar{height:24px;background:#101c33;padding:2px 8px;font-size:10px;font-weight:600;border-top:1px solid #1c2b4a;display:flex;align-items:center;flex-shrink:0}
 #epgNow{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #groupsWrap{height:48px;background:#0b1320;border-bottom:1px solid #1c2b4a;display:flex;align-items:center;padding:0 4px;gap:4px;flex-shrink:0}
-#groups{flex:1;display:flex;gap:6px;overflow:auto;scroll-behavior:smooth;padding:4px 0;scrollbar-width:none;-ms-overflow-style:none}
-#groups::-webkit-scrollbar{display:none}
+#groupsWrap button.arrow{background:#1e2f52;color:#fff;border:none;width:28px;height:28px;border-radius:50%;font-size:11px;cursor:pointer;flex-shrink:0}
+#groups{flex:1;display:flex;gap:6px;overflow:auto;scroll-behavior:smooth;padding:4px 0}
 .gChip{padding:8px 14px;background:#1a2a4a;border:1px solid #2a4a8a;border-radius:12px;font-size:13px;white-space:nowrap;cursor:pointer;flex-shrink:0;color:#fff;font-weight:600}
 .gChip.on{background:#d4b78f;color:#111;font-weight:800;border-color:#d4b78f}
 #list{flex:1;background:#080d16;display:flex;flex-direction:column;overflow:hidden;min-height:0;transition:all 0.3s}
@@ -64,10 +64,8 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 #fsChannelList{position:absolute;bottom:0;left:0;right:0;height:52%;background:rgba(8,13,22,.96);border-top:2px solid #ff3b30;z-index:75;display:none;flex-direction:column;overflow:hidden;box-shadow:0 -4px 20px rgba(0,0,0,.8)}
 #fsChannelList.show{display:flex}
 #fsChannelList .fsHead{height:36px;background:#0b1320;display:flex;align-items:center;justify-content:space-between;padding:0 10px;border-bottom:1px solid #1c2b4a;flex-shrink:0}
-#fsGrid{flex:1;overflow:auto;padding:6px;display:grid;grid-template-columns:1fr 1fr;gap:6px;grid-auto-rows:72px;scrollbar-width:none;-ms-overflow-style:none}
-#fsGrid::-webkit-scrollbar{display:none}
-#grid{flex:1;overflow:auto;padding:5px;scrollbar-width:none;-ms-overflow-style:none}
-#grid::-webkit-scrollbar{display:none}
+#fsGrid{flex:1;overflow:auto;padding:6px;display:grid;grid-template-columns:1fr 1fr;gap:6px;grid-auto-rows:72px}
+#grid{flex:1;overflow:auto;padding:5px}
 #grid.live{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:68px}
 #grid.poster{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px;grid-auto-rows:280px}
 #grid.radioGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:8px;grid-auto-rows:110px}
@@ -112,7 +110,7 @@ header{height:42px;background:#0f1726;display:flex;align-items:center;justify-co
 <header><div class="logo"><img src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261025-WA5328.jpg">Mırtı TV</div><div style="display:flex;align-items:center;gap:4px"><span id="netSpeed" style="font-size:7px;background:#101c33;border:1px solid #1e2f52;padding:3px 6px;border-radius:8px;color:#7ec8ff;cursor:pointer;font-weight:700">Net: Ölçülüyor...</span><button id="setBtn" style="background:#d4b78f;color:#111;border:none;padding:5px 10px;border-radius:6px;font-weight:800;font-size:11px">AYAR</button></div></header>
 <div class="top"><button data-tab="live" class="on" id="bLive">📺 Canlı</button><button data-tab="movie" id="bMovie">🎬 Film</button><button data-tab="series" id="bSeries">🎞️ Dizi</button><button data-tab="radio" id="bRadio">📻 Radyo</button><button data-tab="fav" id="bFav">⭐ Fav</button></div>
 <div id="playerCol"><div id="player"><video id="video" controls playsinline preload="metadata" style="width:100%;height:100%;display:none"></video><audio id="audioEl" controls preload="none"></audio><div id="idle"><img id="idleImg" src="https://raw.githubusercontent.com/ipmirti68/-ptv-/refs/heads/main/IMG-20261017-WA0045.jpg"><div id="loadWrap"><div id="loadBar"><div id="loadFill"></div></div><div id="loadText">Başlıyor...</div></div><div id="radioInfo"><b id="rTitle"></b><span id="rSub">📻 Canlı Radyo</span></div></div><button id="fsBtn">⛶</button><button id="fsExit">✕</button><div id="fsHint">Dokun: liste | Sağ/Sol: kanal | Yukarı/Aşağı: ses</div><div id="volOsd"><div style="font-size:9px">Ses</div><div id="volBar"><div id="volFill" style="height:80%"></div></div><div id="volTxt" style="font-size:10px;font-weight:800">80%</div></div><div id="fsChannelList"><div class="fsHead"><b style="font-size:10px">📺 Kanal Listesi</b><div style="display:flex;gap:4px"><button id="fsPrev" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">◀ Önceki</button><button id="fsNext" style="background:#1a2a4a;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Sonraki ▶</button><button id="fsClose" style="background:#ff3b30;color:#fff;border:none;padding:4px 8px;border-radius:6px;font-size:10px">Kapat</button></div></div><div id="fsGrid"></div></div></div><div id="epgBar"><span style="color:#7ec8ff">EPG:</span><span id="epgNow">Başlıyor...</span></div></div>
-<div id="groupsWrap"><div id="groups"></div></div>
+<div id="groupsWrap"><button class="arrow" id="leftArrow">◀</button><div id="groups"></div><button class="arrow" id="rightArrow">▶</button></div>
 <div id="list"><div id="grid" class="live"></div></div>
 
 <div id="speedModal" class="hidden"><div class="speedBox">
@@ -378,6 +376,8 @@ function init(){
   setLoad(5,"Başlıyor...");
   $("setBtn").onclick=function(){$("modal").classList.remove("hidden"); $("stat").textContent="AYAR açıldı. M3U linki gir veya dosya seç veya içeriği yapıştır.";};
   $("closeBtn").onclick=function(){$("modal").classList.add("hidden");};
+  $("leftArrow").onclick=function(){$("groups").scrollBy({left:-140,behavior:"smooth"});};
+  $("rightArrow").onclick=function(){$("groups").scrollBy({left:140,behavior:"smooth"});};
   $("netSpeed").onclick=function(){$("speedModal").classList.remove("hidden"); doSpeedTest();};
   $("closeSpeed").onclick=function(){$("speedModal").classList.add("hidden");};
   $("startTest").onclick=function(){doSpeedTest();};
