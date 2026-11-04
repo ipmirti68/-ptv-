@@ -1,83 +1,60 @@
 import requests
-from bs4 import BeautifulSoup
 import re
-import os
+from urllib.parse import urljoin
 
 BASE_URL = "https://cimcime179.live"
 HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36",
-    "Referer": f"{BASE_URL}/"
+    "Referer": "https://cimcime179.live/"
 }
 
-def get_video_pages():
-    print(f"Ana sayfa taranıyor: {BASE_URL}")
+def get_prime_links():
+    # 1. Ana sayfadaki video linklerini al
     r = requests.get(BASE_URL, headers=HEADERS, timeout=20)
-    soup = BeautifulSoup(r.text, 'lxml')
-    links = set()
-    # Sitedeki video linkleri genelde /video/ , /izle/ , /bolum/ gibi olur - hepsini topla
-    for a in soup.find_all('a', href=True):
-        href = a['href']
-        if '/video' in href or '/izle' in href or '/bolum' in href or '/episode' in href:
-            if href.startswith('/'):
-                href = BASE_URL + href
-            if BASE_URL in href:
-                links.add(href.split('?')[0])
-    
-    print(f"{len(links)} video sayfası bulundu")
-    return list(links)[:100] # ilk 100 tanesini al, GitHub limitine takılmamak için
+    video_pages = re.findall(r'href="(/video/[^"]+|/izle/[^"]+)"', r.text)
+    video_pages = list(set(video_pages))[:20] # test için ilk 20
+    print(f"{len(video_pages)} video sayfası bulundu")
 
-def extract_m3u8(page_url):
-    try:
-        r = requests.get(page_url, headers=HEADERS, timeout=15)
-        html = r.text
-        
-        # Tüm m3u8 patternlerini dene
-        patterns = [
-            r'https?://[^\s\'"<>]+\.m3u8[^\s\'"<>]*',
-            r'file:\s*["\'](https?://[^"\']+\.m3u8[^"\']*)',
-            r'source:\s*["\'](https?://[^"\']+\.m3u8[^"\']*)',
-            r'src:\s*["\'](https?://[^"\']+\.m3u8[^"\']*)',
-        ]
-        
-        found = []
-        for pat in patterns:
-            found += re.findall(pat, html)
-        
-        # Base64 içinde gizlenmişse çöz
-        b64_m3u8 = re.findall(r'atob\(["\']([^"\']+\.m3u8[^"\']*)', html)
-        found += b64_m3u8
+    all_masters = []
 
-        return list(set(found))
-    except Exception as e:
-        print(f"Hata {page_url}: {e}")
-        return []
+    for path in video_pages:
+        page_url = BASE_URL + path
+        try:
+            print(f"Taranıyor: {page_url}")
+            html = requests.get(page_url, headers=HEADERS, timeout=15).text
+            
+            # Senin attığın gibi primeembed linkini yakala
+            # https://primeembedpanel.com/cdn/hls/xxxx/master.txt
+            primes = re.findall(r'https?://primeembedpanel\.com/cdn/hls/[^"\']+/master\.txt', html)
+            # bazen embed kodu base64'lü oluyor
+            primes += re.findall(r'https?://primeembedpanel\.com[^\s"\'<>]+', html)
 
-def create_m3u():
-    video_pages = get_video_pages()
+            for p in primes:
+                if "master.txt" in p:
+                    # master.txt -> gerçek m3u8 içeriğini al
+                    # Bu link kalıcı değil, o yüzden m3u'ya direkt bunu yazıyoruz
+                    title = path.replace("/video/", "").replace("-", " ").title()
+                    all_masters.append((title, p))
+                    print(f"  -> Bulundu: {p}")
+
+        except Exception as e:
+            print(f"Hata {page_url}: {e}")
+
+    return all_masters
+
+def main():
+    links = get_prime_links()
     
     with open("playlist.m3u", "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
-        
-        for page in video_pages:
-            print(f"Taranıyor: {page}")
-            m3u8_list = extract_m3u8(page)
-            if not m3u8_list:
-                continue
-            
-            # Başlık olarak sayfa başlığını al
-            try:
-                title = page.split('/')[-1].replace('-', ' ').title()
-            except:
-                title = page
-
-            for m3u8 in m3u8_list:
-                # En kaliteli link genelde master.m3u8 olur
-                f.write(f'#EXTINF:-1,{title}\n')
-                f.write(f'{m3u8}\n')
-                print(f" -> Eklendi: {m3u8}")
-
-    # GitHub için raw linkin olacak: https://raw.githubusercontent.com/KULLANICI_ADIN/REPO_ADI/main/playlist.m3u
-    print("\nplaylist.m3u oluşturuldu!")
+        for title, url in links:
+            # VLC master.txt'yi m3u8 gibi okur, uzantıyı değiştirsek daha iyi çalışır
+            # ama orijinali de çalışır
+            f.write(f'#EXTINF:-1,{title}\n')
+            f.write(f'{url}\n')
+    
+    print(f"\nBitti! {len(links)} adet link ile playlist.m3u oluşturuldu")
+    print("Örnek linkin: " + links[0][1] if links else "Link bulunamadı")
 
 if __name__ == "__main__":
-    create_m3u()
+    main()
