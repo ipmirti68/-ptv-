@@ -2,8 +2,6 @@ name: M3U Guncelle
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
 
 jobs:
   build:
@@ -12,24 +10,20 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Python Kur
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-          
-      - name: Kurulum
-        run: pip install requests beautifulsoup4 lxml
-        
-      - name: Scraper Calistir
+      - name: Kur
         run: |
-          if [ -f scraper.py ]; then python scraper.py; else echo "scraper.py yok!"; exit 1; fi
-          ls -la
-          
+          pip install -r requirements.txt
+          playwright install chromium
+          playwright install-deps chromium
+      - name: Calistir
+        run: python scraper.py
       - name: Kaydet
         run: |
-          git config --global user.name "github-actions"
+          git config --global user.name "actions-user"
           git config --global user.email "actions@github.com"
-          git add playlist.m3u || echo "m3u yok"
-          git commit -m "playlist guncellendi" || echo "degisiklik yok"
+          git add playlist.m3u
+          git commit -m "playlist guncellendi" || echo "yok"
           git push
