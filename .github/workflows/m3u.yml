@@ -21,7 +21,7 @@ jobs:
       - name: Calistir
         run: python scraper.py
       - name: Debug yukle
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: debug-screenshot
           path: debug.png
