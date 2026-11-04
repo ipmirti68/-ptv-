@@ -1,7 +1,7 @@
 import re
 from playwright.sync_api import sync_playwright
 
-BASE_URL = "https://cimcime179.live"
+BASE_URL = "https://turkifsa20.best/kategori/turk-ifsa"
 
 def main():
     all_masters = []
