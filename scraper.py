@@ -1,60 +1,71 @@
-import requests
 import re
-from urllib.parse import urljoin
+from playwright.sync_api import sync_playwright
 
 BASE_URL = "https://cimcime179.live"
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36",
-    "Referer": "https://cimcime179.live/"
-}
-
-def get_prime_links():
-    # 1. Ana sayfadaki video linklerini al
-    r = requests.get(BASE_URL, headers=HEADERS, timeout=20)
-    video_pages = re.findall(r'href="(/video/[^"]+|/izle/[^"]+)"', r.text)
-    video_pages = list(set(video_pages))[:20] # test için ilk 20
-    print(f"{len(video_pages)} video sayfası bulundu")
-
-    all_masters = []
-
-    for path in video_pages:
-        page_url = BASE_URL + path
-        try:
-            print(f"Taranıyor: {page_url}")
-            html = requests.get(page_url, headers=HEADERS, timeout=15).text
-            
-            # Senin attığın gibi primeembed linkini yakala
-            # https://primeembedpanel.com/cdn/hls/xxxx/master.txt
-            primes = re.findall(r'https?://primeembedpanel\.com/cdn/hls/[^"\']+/master\.txt', html)
-            # bazen embed kodu base64'lü oluyor
-            primes += re.findall(r'https?://primeembedpanel\.com[^\s"\'<>]+', html)
-
-            for p in primes:
-                if "master.txt" in p:
-                    # master.txt -> gerçek m3u8 içeriğini al
-                    # Bu link kalıcı değil, o yüzden m3u'ya direkt bunu yazıyoruz
-                    title = path.replace("/video/", "").replace("-", " ").title()
-                    all_masters.append((title, p))
-                    print(f"  -> Bulundu: {p}")
-
-        except Exception as e:
-            print(f"Hata {page_url}: {e}")
-
-    return all_masters
 
 def main():
-    links = get_prime_links()
+    all_masters = []
     
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36"
+        )
+        page = context.new_page()
+
+        # Network'te primeembedpanel yakala
+        def handle_response(response):
+            url = response.url
+            if "primeembedpanel.com" in url and "master.txt" in url:
+                print(f"YAKALANDI: {url}")
+                if url not in [x[1] for x in all_masters]:
+                    all_masters.append(("Video", url))
+
+        page.on("response", handle_response)
+
+        print(f"Gidiliyor: {BASE_URL}")
+        page.goto(BASE_URL, timeout=90000)
+        page.wait_for_timeout(8000)
+
+        # Ana sayfadaki tüm linkleri al
+        hrefs = page.eval_on_selector_all("a", "els => els.map(e => e.href)")
+        video_links = [h for h in hrefs if "/video/" in h or "/izle/" in h][:15] # ilk 15'i test
+        print(f"{len(video_links)} video bulundu: {video_links[:3]}")
+
+        # Her videoya gir ve m3u8 yakala
+        for vlink in video_links:
+            try:
+                print(f"\nGiriliyor: {vlink}")
+                page.goto(vlink, timeout=60000)
+                page.wait_for_timeout(7000)
+                # play'e tıkla
+                try:
+                    page.click("video, .jwplayer, .play-button, .plyr", timeout=3000)
+                except: 
+                    page.mouse.click(300, 300)
+                page.wait_for_timeout(5000)
+                
+                # html içinden de ara
+                html = page.content()
+                primes = re.findall(r'https?://primeembedpanel\.com/cdn/hls/[^"\']+/master\.txt', html)
+                for pr in primes:
+                    if pr not in [x[1] for x in all_masters]:
+                        title = vlink.split("/")[-1].replace("-", " ")
+                        all_masters.append((title, pr))
+                        print(f"  HTML'den bulundu: {pr}")
+
+            except Exception as e:
+                print(f"Hata {vlink}: {e}")
+
+        browser.close()
+
+    # M3U yaz
     with open("playlist.m3u", "w", encoding="utf-8") as f:
         f.write("#EXTM3U\n")
-        for title, url in links:
-            # VLC master.txt'yi m3u8 gibi okur, uzantıyı değiştirsek daha iyi çalışır
-            # ama orijinali de çalışır
-            f.write(f'#EXTINF:-1,{title}\n')
-            f.write(f'{url}\n')
+        for title, url in set(all_masters):
+            f.write(f'#EXTINF:-1,{title}\n{url}\n')
     
-    print(f"\nBitti! {len(links)} adet link ile playlist.m3u oluşturuldu")
-    print("Örnek linkin: " + links[0][1] if links else "Link bulunamadı")
+    print(f"\nBİTTİ! Toplam {len(all_masters)} link -> playlist.m3u")
 
 if __name__ == "__main__":
     main()
