@@ -10,25 +10,35 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v5
+
       - uses: actions/setup-python@v6
         with:
           python-version: '3.11'
-      - name: Kur
+
+      - name: Kurulum
         run: |
           pip install playwright
           playwright install chromium
           playwright install-deps chromium
-      - name: Calistir
-        run: python scraper.py
+
+      - name: Scraper Calistir
+        run: |
+          python scraper.py
+          ls -lh
+          cat playlist.m3u || echo "m3u yok"
+
       - name: Debug yukle
+        if: always()
         uses: actions/upload-artifact@v5
         with:
           name: debug-screenshot
           path: debug.png
+          if-no-files-found: ignore
+
       - name: Kaydet
         run: |
           git config --global user.name "actions-user"
           git config --global user.email "actions@github.com"
-          git add playlist.m3u
-          git commit -m "debug" || true
+          git add playlist.m3u || true
+          git commit -m "playlist guncellendi" || true
           git push || true
