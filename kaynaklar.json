@@ -77,12 +77,17 @@
       "aktif": true
     }
   ],
+{
   "ayarlar": {
+    "zaman_asimi_saniye": 20,
+    "kaynak_boyut_limiti_mb": 30,
+    "yayini_dogrula": false,
+    "yalnizca_tr": true,
     "min_canli": 1,
     "min_filmler": 1,
-    "min_diziler": 1,
-    "yayini_dogrula": false,
-    "kaynak_boyut_limiti_mb": 30,
-    "zaman_asimi_saniye": 20
-  }
+    "min_diziler": 1
+  },
+  "canli": [],
+  "filmler": [],
+  "diziler": []
 }
