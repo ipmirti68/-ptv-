@@ -1,9 +1,8 @@
-
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 """
-MEDYA HAVUZU V4
+MEDYA HAVUZU V4 - TR FİLTRELİ
 
 Canlı TV, film ve diziler için otomatik M3U üretici.
 
@@ -14,6 +13,7 @@ Canlı TV, film ve diziler için otomatik M3U üretici.
 - Ulusal kanalları öne alır.
 - Boş listelerde önceki dosyaları korur.
 - Durum raporu üretir.
+- İsteğe bağlı olarak sadece TR kanalları alır.
 
 Yalnızca kullanım izni bulunan kaynakları kullanın.
 """
@@ -30,7 +30,6 @@ import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
-
 
 ROOT = Path(__file__).resolve().parent
 
@@ -85,12 +84,12 @@ SPORT = [
 NEWS = [
     "haber",
     "news",
-    "cnn",
-    "ntv",
-    "habertürk",
-    "haberturk",
-    "tvnet",
-    "bloomberg",
+    "【entity-cnn¦canonical_name=cnn】",
+    "【entity-ntv¦canonical_name=ntv】",
+    "【entity-habertürk¦canonical_name=habertürk】",
+    "【entity-haberturk¦canonical_name=haberturk】",
+    "【entity-tvnet¦canonical_name=tvnet】",
+    "【entity-bloomberg¦canonical_name=bloomberg】",
     "ekotürk",
     "ekoturk",
 ]
@@ -109,7 +108,7 @@ DOC = [
     "discovery",
     "nature",
     "history",
-    "national geographic",
+    "【entity-national geographic¦canonical_name=national geographic】",
 ]
 
 KIDS = [
@@ -120,7 +119,7 @@ KIDS = [
     "minika",
     "baby",
     "nick",
-    "disney",
+    "【entity-disney¦canonical_name=disney】",
 ]
 
 MUSIC = [
@@ -128,7 +127,7 @@ MUSIC = [
     "muzik",
     "music",
     "power",
-    "kral pop",
+    "【entity-kral pop¦canonical_name=kral pop】",
     "number1",
     "dream türk",
     "dream turk",
@@ -142,14 +141,12 @@ LOCAL = [
     "şehir tv",
 ]
 
-
 def clean(value: str) -> str:
     return re.sub(
         r'[\r\n\x00-\x1f"]',
         " ",
         str(value or "")
     ).strip()
-
 
 def http_url(value: str) -> bool:
     try:
@@ -167,7 +164,6 @@ def http_url(value: str) -> bool:
 
     except ValueError:
         return False
-
 
 def fetch(
     url: str,
@@ -213,7 +209,6 @@ def fetch(
         "utf-8-sig",
         errors="replace"
     )
-
 
 def parse_m3u(
     text: str,
@@ -279,6 +274,35 @@ def parse_m3u(
 
     return output
 
+def is_tr(item: dict) -> bool:
+    """
+    Kanal TR mi?
+    Önce tvg-language, sonra group-title, sonra ad.
+    Hiç bilgi yoksa True döner, liste boş kalmasın diye.
+    Sert filtre istersen son return'u False yap.
+    """
+    dil = item.get("dil", "").casefold().strip()
+    grup = item.get("grup", "").casefold()
+    ad = item.get("ad", "").casefold()
+
+    if dil:
+        # tvg-language genelde "tr" veya "tur" olur
+        # Bazen "tr;en" gibi çoklu da olabilir
+        parts = [p.strip() for p in re.split(r'[;,| ]+', dil) if p.strip()]
+        if parts:
+            return any(p in ("tr", "tur", "tr-tr", "turkish", "türkçe", "turkce") for p in parts)
+        return False
+
+    # Dil yoksa grup adına bak
+    if any(x in grup for x in ("tr", "türk", "turk", "turkey", "türkiye", "turkiye", "anatol", "ulusal")):
+        return True
+
+    # Yabancı olduğu bariz grupları ele
+    if any(x in grup for x in ("arab", "france", "germany", "uk ", "usa", "russia", "italy", "spain", "foreign", "international", "world")):
+        return False
+
+    # Bilgi yoksa eleme
+    return True
 
 def category(
     item: dict,
@@ -325,7 +349,6 @@ def category(
 
     return TITLE_GROUPS[8]
 
-
 def order_key(item: dict) -> tuple:
 
     normalized = (
@@ -353,11 +376,11 @@ def order_key(item: dict) -> tuple:
         item["url"],
     )
 
-
 def normalize(
     entries: list[dict],
     kind: str,
-    region: str = "TR"
+    region: str = "TR",
+    yalnizca_tr: bool = False
 ) -> list[dict]:
 
     seen = set()
@@ -366,6 +389,11 @@ def normalize(
     for raw in entries:
 
         item = dict(raw)
+
+        # SADECE TR FİLTRESİ - sadece canlı TV'de uygulanır
+        if kind == "canli" and yalnizca_tr:
+            if not is_tr(item):
+                continue
 
         key = (
             item["ad"].casefold(),
@@ -401,7 +429,6 @@ def normalize(
 
     return result
 
-
 def render(items: list[dict]) -> str:
 
     rows = ["#EXTM3U"]
@@ -423,7 +450,6 @@ def render(items: list[dict]) -> str:
         rows.append(x["url"])
 
     return "\n".join(rows) + "\n"
-
 
 def write_atomic(
     filename: str,
@@ -457,7 +483,6 @@ def write_atomic(
         if os.path.exists(temp):
             os.unlink(temp)
 
-
 def check_stream(
     item: dict,
     timeout: int = 8
@@ -465,7 +490,6 @@ def check_stream(
 
     """
     Hafif HTTP kontrolü.
-
     Bu işlem yayının kesin oynatılacağını
     garanti etmez.
     """
@@ -506,7 +530,6 @@ def check_stream(
     ):
         return False
 
-
 def update() -> None:
 
     config_path = ROOT / "kaynaklar.json"
@@ -543,6 +566,14 @@ def update() -> None:
         settings.get(
             "yayini_dogrula",
             False
+        )
+    )
+
+    # YENİ AYAR
+    yalnizca_tr = bool(
+        settings.get(
+            "yalnizca_tr",
+            True
         )
     )
 
@@ -614,7 +645,8 @@ def update() -> None:
                 items = normalize(
                     items,
                     kind,
-                    region
+                    region,
+                    yalnizca_tr=yalnizca_tr
                 )
 
                 rows[kind].extend(items)
@@ -799,6 +831,8 @@ def update() -> None:
 
         "hatalar": failures,
 
+        "yalnizca_tr": yalnizca_tr,
+
         "uyari": (
             "HTTP kontrolü oynatılabilirlik "
             "garantisi değildir. Bazı bölgesel "
@@ -821,7 +855,6 @@ def update() -> None:
             "UYARI: Hiçbir kaynak indirilemedi. "
             "Önceki listeler korundu."
         )
-
 
 if __name__ == "__main__":
     update()
