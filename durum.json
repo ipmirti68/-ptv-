@@ -1,65 +1,20 @@
 {
-  "guncellendi_utc": "2026-11-12T08:33:53.332394+00:00",
+  "guncellendi_utc": "2026-11-12T08:37:29.909977+00:00",
   "aday_sayilari": {
-    "canli": 205607,
-    "filmler": 114,
-    "diziler": 10121
+    "canli": 99605,
+    "filmler": 0,
+    "diziler": 0
   },
   "dosya_durumlari": {
     "canli": "güncellendi",
-    "filmler": "güncellendi",
-    "diziler": "güncellendi"
+    "filmler": "önceki dosya korundu",
+    "diziler": "önceki dosya korundu"
   },
   "basarili_kaynaklar": [
-    {
-      "tur": "filmler",
-      "kaynak": "PuhuTV Filmler",
-      "kayit": 20
-    },
-    {
-      "tur": "filmler",
-      "kaynak": "NOW Filmler",
-      "kayit": 35
-    },
-    {
-      "tur": "filmler",
-      "kaynak": "Kanal D Evde Sinema",
-      "kayit": 59
-    },
-    {
-      "tur": "diziler",
-      "kaynak": "Kanal D Diziler",
-      "kayit": 2661
-    },
-    {
-      "tur": "diziler",
-      "kaynak": "Show TV Diziler",
-      "kayit": 913
-    },
-    {
-      "tur": "diziler",
-      "kaynak": "NOW Diziler",
-      "kayit": 1915
-    },
-    {
-      "tur": "diziler",
-      "kaynak": "Teve2 Diziler",
-      "kayit": 2600
-    },
-    {
-      "tur": "diziler",
-      "kaynak": "TRT 1 Arşiv",
-      "kayit": 2032
-    },
     {
       "tur": "canli",
       "kaynak": "Rüzgar",
       "kayit": 26218
-    },
-    {
-      "tur": "canli",
-      "kaynak": "Mekan",
-      "kayit": 106002
     },
     {
       "tur": "canli",
@@ -69,6 +24,46 @@
   ],
   "hatalar": [
     {
+      "tur": "filmler",
+      "kaynak": "PuhuTV Filmler",
+      "hata": "HTTP(S) kaynak adresi gerekli"
+    },
+    {
+      "tur": "filmler",
+      "kaynak": "NOW Filmler",
+      "hata": "HTTP(S) kaynak adresi gerekli"
+    },
+    {
+      "tur": "filmler",
+      "kaynak": "Kanal D Evde Sinema",
+      "hata": "HTTP(S) kaynak adresi gerekli"
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "Kanal D Diziler",
+      "hata": "HTTP(S) kaynak adresi gerekli"
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "Show TV Diziler",
+      "hata": "HTTP(S) kaynak adresi gerekli"
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "NOW Diziler",
+      "hata": "HTTP(S) kaynak adresi gerekli"
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "TRT 1 Arşiv",
+      "hata": "HTTP(S) kaynak adresi gerekli"
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "Teve2 Diziler",
+      "hata": "HTTP(S) kaynak adresi gerekli"
+    },
+    {
       "tur": "canli",
       "kaynak": "Emek",
       "hata": "HTTP Error 403: Forbidden"
@@ -77,6 +72,11 @@
       "tur": "canli",
       "kaynak": "falcon",
       "hata": "Kaynak boyut sınırını aştı"
+    },
+    {
+      "tur": "canli",
+      "kaynak": "Mekan",
+      "hata": "HTTP Error 502: Bad Gateway"
     }
   ],
   "yalnizca_tr": true,
