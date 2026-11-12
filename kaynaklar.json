@@ -36,44 +36,44 @@
   "filmler": [
     {
       "ad": "PuhuTV Filmler",
-      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/puhutv-com/filmler.m3u",
+      "url": "",
       "aktif": true
     },
     {
       "ad": "NOW Filmler",
-      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-nowtv-com-tr/filmler.m3u",
+      "url": "",
       "aktif": true
     },
     {
       "ad": "Kanal D Evde Sinema",
-      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-kanald-com-tr/evde-sinema.m3u",
+      "url": "",
       "aktif": true
     }
   ],
   "diziler": [
     {
       "ad": "Kanal D Diziler",
-      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-kanald-com-tr/arsiv-diziler.m3u",
+      "url": "",
       "aktif": true
     },
     {
       "ad": "Show TV Diziler",
-      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-showtv-com-tr/arsiv-diziler.m3u",
+      "url": "",
       "aktif": true
     },
     {
       "ad": "NOW Diziler",
-      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-nowtv-com-tr/dizi-arsivi.m3u",
+      "url": "",
       "aktif": true
     },
     {
       "ad": "TRT 1 Arşiv",
-      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-trt1-com-tr/arsiv.m3u",
+      "url": "",
       "aktif": true
     },
     {
       "ad": "Teve2 Diziler",
-      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-teve2-com-tr/diziler.m3u",
+      "url": "",
       "aktif": true
     }
   ],
