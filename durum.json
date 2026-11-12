@@ -1,0 +1,83 @@
+{
+  "guncellendi_utc": "2026-11-12T08:00:11.522546+00:00",
+  "aday_sayilari": {
+    "canli": 824,
+    "filmler": 114,
+    "diziler": 10121
+  },
+  "dosya_durumlari": {
+    "canli": "güncellendi",
+    "filmler": "güncellendi",
+    "diziler": "güncellendi"
+  },
+  "basarili_kaynaklar": [
+    {
+      "tur": "canli",
+      "kaynak": "IPTV-org Azerbaycan",
+      "kayit": 19
+    },
+    {
+      "tur": "canli",
+      "kaynak": "IPTV-org Türkiye",
+      "kayit": 175
+    },
+    {
+      "tur": "canli",
+      "kaynak": "IPTV-org Almanya",
+      "kayit": 306
+    },
+    {
+      "tur": "filmler",
+      "kaynak": "PuhuTV Filmler",
+      "kayit": 20
+    },
+    {
+      "tur": "canli",
+      "kaynak": "Ömer Denizhan Türkiye",
+      "kayit": 326
+    },
+    {
+      "tur": "filmler",
+      "kaynak": "NOW Filmler",
+      "kayit": 35
+    },
+    {
+      "tur": "filmler",
+      "kaynak": "Kanal D Evde Sinema",
+      "kayit": 59
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "Show TV Diziler",
+      "kayit": 913
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "Kanal D Diziler",
+      "kayit": 2661
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "NOW Diziler",
+      "kayit": 1915
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "TRT 1 Arşiv",
+      "kayit": 2032
+    },
+    {
+      "tur": "diziler",
+      "kaynak": "Teve2 Diziler",
+      "kayit": 2600
+    }
+  ],
+  "hatalar": [
+    {
+      "tur": "canli",
+      "kaynak": "Legal IPTV Türkiye",
+      "hata": "<urlopen error [Errno -2] Name or service not known>"
+    }
+  ],
+  "uyari": "HTTP kontrolü oynatılabilirlik garantisi değildir. Bazı bölgesel ve DRM yayınları çalışmayabilir."
+}
