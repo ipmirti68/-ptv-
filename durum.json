@@ -1,7 +1,7 @@
 {
-  "guncellendi_utc": "2026-11-12T08:37:29.909977+00:00",
+  "guncellendi_utc": "2026-11-12T09:03:20.161348+00:00",
   "aday_sayilari": {
-    "canli": 99605,
+    "canli": 205607,
     "filmler": 0,
     "diziler": 0
   },
@@ -15,6 +15,11 @@
       "tur": "canli",
       "kaynak": "Rüzgar",
       "kayit": 26218
+    },
+    {
+      "tur": "canli",
+      "kaynak": "Mekan",
+      "kayit": 106002
     },
     {
       "tur": "canli",
@@ -72,11 +77,6 @@
       "tur": "canli",
       "kaynak": "falcon",
       "hata": "Kaynak boyut sınırını aştı"
-    },
-    {
-      "tur": "canli",
-      "kaynak": "Mekan",
-      "hata": "HTTP Error 502: Bad Gateway"
     }
   ],
   "yalnizca_tr": true,
