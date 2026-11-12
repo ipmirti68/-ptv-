@@ -36,58 +36,53 @@
   "filmler": [
     {
       "ad": "PuhuTV Filmler",
-      "url": "",
+      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/puhutv-com/filmler.m3u",
       "aktif": true
     },
     {
       "ad": "NOW Filmler",
-      "url": "",
+      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-nowtv-com-tr/filmler.m3u",
       "aktif": true
     },
     {
       "ad": "Kanal D Evde Sinema",
-      "url": "",
+      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-kanald-com-tr/evde-sinema.m3u",
       "aktif": true
     }
   ],
   "diziler": [
     {
       "ad": "Kanal D Diziler",
-      "url": "",
+      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-kanald-com-tr/arsiv-diziler.m3u",
       "aktif": true
     },
     {
       "ad": "Show TV Diziler",
-      "url": ".m3u",
+      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-showtv-com-tr/arsiv-diziler.m3u",
       "aktif": true
     },
     {
       "ad": "NOW Diziler",
-      "url": "",
+      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-nowtv-com-tr/dizi-arsivi.m3u",
       "aktif": true
     },
     {
       "ad": "TRT 1 Arşiv",
-      "url": "",
+      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-trt1-com-tr/arsiv.m3u",
       "aktif": true
     },
     {
       "ad": "Teve2 Diziler",
-      "url": "",
+      "url": "https://raw.githubusercontent.com/UzunMuhalefet/Legal-IPTV/main/lists/video/sources/www-teve2-com-tr/diziler.m3u",
       "aktif": true
     }
   ],
-{
   "ayarlar": {
-    "zaman_asimi_saniye": 20,
-    "kaynak_boyut_limiti_mb": 30,
-    "yayini_dogrula": false,
-    "yalnizca_tr": true,
     "min_canli": 1,
     "min_filmler": 1,
-    "min_diziler": 1
-  },
-  "canli": [],
-  "filmler": [],
-  "diziler": []
+    "min_diziler": 1,
+    "yayini_dogrula": false,
+    "kaynak_boyut_limiti_mb": 30,
+    "zaman_asimi_saniye": 20
+  }
 }
