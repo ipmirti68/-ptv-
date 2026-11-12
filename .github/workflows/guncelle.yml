@@ -1,0 +1,93 @@
+
+name: Medya Havuzu - TV Film Dizi
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "25 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: medya-havuzu-liste
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Depoyu indir
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Python kur
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Dosyalari kontrol et
+        run: |
+          echo "Depodaki dosyalar:"
+          ls -lah
+
+          test -f guncelle.py
+          test -f kaynaklar.json
+
+          python -m py_compile guncelle.py
+          python -m json.tool kaynaklar.json > /dev/null
+
+          echo "Python ve JSON kontrolleri basarili."
+
+      - name: Listeleri guncelle
+        run: |
+          python -u guncelle.py
+
+      - name: Uretilen dosyalari goster
+        if: always()
+        run: |
+          for file in \
+            canli_tv.m3u \
+            filmler.m3u \
+            diziler.m3u \
+            tum_icerikler.m3u \
+            durum.json
+          do
+            if [ -f "$file" ]; then
+              echo "[VAR] $file"
+              wc -l "$file"
+            else
+              echo "[YOK] $file"
+            fi
+          done
+
+      - name: Degisiklikleri kaydet
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for file in \
+            canli_tv.m3u \
+            filmler.m3u \
+            diziler.m3u \
+            tum_icerikler.m3u \
+            durum.json
+          do
+            if [ -f "$file" ]; then
+              git add -- "$file"
+            fi
+          done
+
+          if git diff --cached --quiet; then
+            echo "Yeni degisiklik yok."
+            exit 0
+          fi
+
+          git commit -m "Medya havuzu listeleri guncellendi"
+
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
