@@ -743,11 +743,11 @@ def update() -> None:
             ]
 
     files = {
-        "canli": "canli.m3u",
-        "filmler": "filmler.m3u",
-        "diziler": "diziler.m3u",
-    }
-
+    "canli": "canli_tv.m3u",
+    "filmler": "filmler.m3u",
+    "diziler": "diziler.m3u",
+}
+    
     saved = {}
 
     for kind, filename in files.items():
