@@ -1,5 +1,5 @@
 {
-  "guncellendi_utc": "2026-11-12T08:24:54.313288+00:00",
+  "guncellendi_utc": "2026-11-12T08:33:53.332394+00:00",
   "aday_sayilari": {
     "canli": 205607,
     "filmler": 114,
@@ -43,13 +43,13 @@
     },
     {
       "tur": "diziler",
-      "kaynak": "TRT 1 Arşiv",
-      "kayit": 2032
+      "kaynak": "Teve2 Diziler",
+      "kayit": 2600
     },
     {
       "tur": "diziler",
-      "kaynak": "Teve2 Diziler",
-      "kayit": 2600
+      "kaynak": "TRT 1 Arşiv",
+      "kayit": 2032
     },
     {
       "tur": "canli",
@@ -58,13 +58,13 @@
     },
     {
       "tur": "canli",
-      "kaynak": "Tom",
-      "kayit": 73387
+      "kaynak": "Mekan",
+      "kayit": 106002
     },
     {
       "tur": "canli",
-      "kaynak": "Mekan",
-      "kayit": 106002
+      "kaynak": "Tom",
+      "kayit": 73387
     }
   ],
   "hatalar": [
