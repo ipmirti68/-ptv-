@@ -743,7 +743,7 @@ def update() -> None:
             ]
 
     files = {
-        "canli": "canli_tv.m3u",
+        "canli": "canli.m3u",
         "filmler": "filmler.m3u",
         "diziler": "diziler.m3u",
     }
