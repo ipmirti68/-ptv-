@@ -1,5 +1,5 @@
 {
-  "guncellendi_utc": "2026-11-13T07:45:50.652532+00:00",
+  "guncellendi_utc": "2026-11-13T13:37:37.965957+00:00",
   "aday_sayilari": {
     "canli": 99835,
     "filmler": 0,
@@ -70,12 +70,12 @@
     },
     {
       "tur": "canli",
-      "kaynak": "Mekan",
+      "kaynak": "falcon",
       "hata": "Kaynak boyut sınırını aştı"
     },
     {
       "tur": "canli",
-      "kaynak": "falcon",
+      "kaynak": "Mekan",
       "hata": "Kaynak boyut sınırını aştı"
     }
   ],
