@@ -1,7 +1,7 @@
 {
-  "guncellendi_utc": "2026-11-12T19:24:14.384497+00:00",
+  "guncellendi_utc": "2026-11-13T01:36:28.055882+00:00",
   "aday_sayilari": {
-    "canli": 206644,
+    "canli": 206878,
     "filmler": 0,
     "diziler": 0
   },
@@ -14,17 +14,17 @@
     {
       "tur": "canli",
       "kaynak": "Rüzgar",
-      "kayit": 26212
-    },
-    {
-      "tur": "canli",
-      "kaynak": "Tom",
-      "kayit": 73387
+      "kayit": 26422
     },
     {
       "tur": "canli",
       "kaynak": "Mekan",
       "kayit": 107045
+    },
+    {
+      "tur": "canli",
+      "kaynak": "Tom",
+      "kayit": 73411
     }
   ],
   "hatalar": [
