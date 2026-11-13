@@ -1,7 +1,7 @@
 {
-  "guncellendi_utc": "2026-11-13T01:36:28.055882+00:00",
+  "guncellendi_utc": "2026-11-13T07:45:50.652532+00:00",
   "aday_sayilari": {
-    "canli": 206878,
+    "canli": 99835,
     "filmler": 0,
     "diziler": 0
   },
@@ -14,12 +14,7 @@
     {
       "tur": "canli",
       "kaynak": "Rüzgar",
-      "kayit": 26422
-    },
-    {
-      "tur": "canli",
-      "kaynak": "Mekan",
-      "kayit": 107045
+      "kayit": 26424
     },
     {
       "tur": "canli",
@@ -72,6 +67,11 @@
       "tur": "canli",
       "kaynak": "Emek",
       "hata": "HTTP Error 403: Forbidden"
+    },
+    {
+      "tur": "canli",
+      "kaynak": "Mekan",
+      "hata": "Kaynak boyut sınırını aştı"
     },
     {
       "tur": "canli",
