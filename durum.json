@@ -1,7 +1,7 @@
 {
-  "guncellendi_utc": "2026-11-13T19:23:59.148291+00:00",
+  "guncellendi_utc": "2026-11-14T01:30:57.993029+00:00",
   "aday_sayilari": {
-    "canli": 99842,
+    "canli": 99851,
     "filmler": 0,
     "diziler": 0
   },
@@ -14,12 +14,12 @@
     {
       "tur": "canli",
       "kaynak": "Rüzgar",
-      "kayit": 26424
+      "kayit": 26427
     },
     {
       "tur": "canli",
       "kaynak": "Tom",
-      "kayit": 73418
+      "kayit": 73424
     }
   ],
   "hatalar": [
@@ -70,12 +70,12 @@
     },
     {
       "tur": "canli",
-      "kaynak": "Mekan",
+      "kaynak": "falcon",
       "hata": "Kaynak boyut sınırını aştı"
     },
     {
       "tur": "canli",
-      "kaynak": "falcon",
+      "kaynak": "Mekan",
       "hata": "Kaynak boyut sınırını aştı"
     }
   ],
