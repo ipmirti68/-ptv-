@@ -1,5 +1,5 @@
 {
-  "guncellendi_utc": "2026-11-15T13:23:29.198713+00:00",
+  "guncellendi_utc": "2026-11-15T19:13:07.310796+00:00",
   "aday_sayilari": {
     "canli": 99876,
     "filmler": 0,
@@ -71,7 +71,7 @@
     {
       "tur": "canli",
       "kaynak": "falcon",
-      "hata": "Kaynak boyut sınırını aştı"
+      "hata": "HTTP Error 404: Not Found"
     },
     {
       "tur": "canli",
