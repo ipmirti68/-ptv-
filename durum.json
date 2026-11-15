@@ -1,7 +1,7 @@
 {
-  "guncellendi_utc": "2026-11-15T01:38:07.889411+00:00",
+  "guncellendi_utc": "2026-11-15T07:34:34.424712+00:00",
   "aday_sayilari": {
-    "canli": 99873,
+    "canli": 99876,
     "filmler": 0,
     "diziler": 0
   },
@@ -14,7 +14,7 @@
     {
       "tur": "canli",
       "kaynak": "Rüzgar",
-      "kayit": 26433
+      "kayit": 26436
     },
     {
       "tur": "canli",
@@ -70,12 +70,12 @@
     },
     {
       "tur": "canli",
-      "kaynak": "falcon",
-      "hata": "Kaynak boyut sınırını aştı"
+      "kaynak": "Mekan",
+      "hata": "<urlopen error [Errno 113] No route to host>"
     },
     {
       "tur": "canli",
-      "kaynak": "Mekan",
+      "kaynak": "falcon",
       "hata": "Kaynak boyut sınırını aştı"
     }
   ],
