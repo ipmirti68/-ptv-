@@ -84,12 +84,12 @@ SPORT = [
 NEWS = [
     "haber",
     "news",
-    "【entity-cnn¦canonical_name=cnn】",
-    "【entity-ntv¦canonical_name=ntv】",
-    "【entity-habertürk¦canonical_name=habertürk】",
-    "【entity-haberturk¦canonical_name=haberturk】",
-    "【entity-tvnet¦canonical_name=tvnet】",
-    "【entity-bloomberg¦canonical_name=bloomberg】",
+    "cnn",
+    "ntv",
+    "habertürk",
+    "haberturk",
+    "tvnet",
+    "bloomberg",
     "ekotürk",
     "ekoturk",
 ]
@@ -108,7 +108,7 @@ DOC = [
     "discovery",
     "nature",
     "history",
-    "【entity-national geographic¦canonical_name=national geographic】",
+    "national geographic",
 ]
 
 KIDS = [
@@ -119,7 +119,7 @@ KIDS = [
     "minika",
     "baby",
     "nick",
-    "【entity-disney¦canonical_name=disney】",
+    "disney",
 ]
 
 MUSIC = [
@@ -127,7 +127,7 @@ MUSIC = [
     "muzik",
     "music",
     "power",
-    "【entity-kral pop¦canonical_name=kral pop】",
+    "kral pop",
     "number1",
     "dream türk",
     "dream turk",
