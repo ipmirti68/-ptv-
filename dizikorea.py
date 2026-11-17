@@ -838,3 +838,189 @@ def save_m3u(new_entries, successful_items):
 
     # Güvenli yazım: önce geçici dosya
     temp_file = OUTPUT_FILE + ".tmp"
+    with open(
+        temp_file,
+        "w",
+        encoding="utf-8",
+        newline="\n",
+    ) as file:
+
+        file.write(header + "\n")
+
+        for record in unique_records:
+            for line in record:
+                file.write(line + "\n")
+
+    os.replace(temp_file, OUTPUT_FILE)
+
+    log.info(
+        "M3U kaydedildi: %s | Toplam kayıt: %s",
+        OUTPUT_FILE,
+        len(unique_records),
+    )
+
+
+# ==========================================================
+# İÇERİKLERİ TARA VE M3U KAYITLARINI OLUŞTUR
+# ==========================================================
+
+def scan_category(category):
+    new_entries = []
+    successful_items = []
+
+    cards = get_content_cards(category)
+
+    log.info(
+        "%s kategorisinde %s içerik bulundu.",
+        category["name"],
+        len(cards),
+    )
+
+    for index, item in enumerate(cards, 1):
+        title = item["title"]
+        content_url = item["url"]
+        kind = item["kind"]
+
+        log.info(
+            "[%s/%s] İçerik: %s",
+            index,
+            len(cards),
+            title,
+        )
+
+        detail = get_page(content_url)
+        poster = get_detail_poster(
+            detail,
+            item.get("poster"),
+        )
+
+        content_entries = []
+
+        if kind == "series":
+            episodes = get_series_episodes(content_url)
+
+            log.info(
+                "%s | %s bölüm bulundu.",
+                title,
+                len(episodes),
+            )
+
+            for episode_index, episode in enumerate(episodes, 1):
+                episode_title = episode.get("title") or ""
+
+                episode_number = episode.get("number")
+
+                if episode_number is None:
+                    episode_number = episode_index
+
+                streams = get_streams_from_page(
+                    episode["url"]
+                )
+
+                for stream in streams:
+                    content_entries.append(
+                        make_m3u_entry(
+                            title=title,
+                            stream_url=stream,
+                            group=category["name"],
+                            poster=poster,
+                            season=episode.get("season"),
+                            episode=episode_number,
+                            episode_title=episode_title,
+                        )
+                    )
+
+                time.sleep(SLEEP_SECONDS)
+
+        else:
+            streams = get_streams_from_page(content_url)
+
+            for stream in streams:
+                content_entries.append(
+                    make_m3u_entry(
+                        title=title,
+                        stream_url=stream,
+                        group=category["name"],
+                        poster=poster,
+                    )
+                )
+
+        if content_entries:
+            new_entries.extend(content_entries)
+
+            successful_items.append({
+                "title": title,
+                "kind": kind,
+            })
+
+            log.info(
+                "BAŞARILI: %s | %s yayın",
+                title,
+                len(content_entries),
+            )
+
+        else:
+            log.warning(
+                "Yayın bulunamadı, eski kayıt korunacak: %s",
+                title,
+            )
+
+        time.sleep(SLEEP_SECONDS)
+
+    return new_entries, successful_items
+
+
+# ==========================================================
+# ANA PROGRAM
+# ==========================================================
+
+def main():
+    log.info("=" * 60)
+    log.info("MIRTI68 DIZIKOREA GUNCELLEYICI BASLADI")
+    log.info("=" * 60)
+
+    all_entries = []
+    all_successful_items = []
+
+    for category in CATEGORIES:
+        try:
+            entries, successful = scan_category(category)
+
+            all_entries.extend(entries)
+            all_successful_items.extend(successful)
+
+            log.info(
+                "Kategori tamamlandı: %s | Yeni kayıt: %s",
+                category["name"],
+                len(entries),
+            )
+
+        except Exception:
+            log.exception(
+                "Kategori taranırken hata oluştu: %s",
+                category["name"],
+            )
+
+        time.sleep(SLEEP_SECONDS)
+
+    log.info("-" * 60)
+    log.info("Toplam yeni yayın: %s", len(all_entries))
+    log.info(
+        "Başarıyla güncellenen içerik: %s",
+        len(all_successful_items),
+    )
+
+    save_m3u(
+        all_entries,
+        all_successful_items,
+    )
+
+    log.info("DIZIKOREA GUNCELLEME TAMAMLANDI")
+
+
+# ==========================================================
+# ÇALIŞTIR
+# ==========================================================
+
+if __name__ == "__main__":
+    main()
