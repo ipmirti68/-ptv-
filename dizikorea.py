@@ -848,4 +848,4 @@ def save_m3u(new_entries, successful_items):
 
         file.write(header + "\n")
 
-        for record in unique_
+        for record in unique_records:
