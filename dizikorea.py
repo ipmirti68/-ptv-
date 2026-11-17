@@ -838,14 +838,3 @@ def save_m3u(new_entries, successful_items):
 
     # Güvenli yazım: önce geçici dosya
     temp_file = OUTPUT_FILE + ".tmp"
-
-    with open(
-        temp_file,
-        "w",
-        encoding="utf-8",
-        newline="\n",
-    ) as file:
-
-        file.write(header + "\n")
-
-        for record in unique_records:
