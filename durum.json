@@ -1,7 +1,7 @@
 {
-  "guncellendi_utc": "2026-11-19T07:42:29.717890+00:00",
+  "guncellendi_utc": "2026-11-19T20:51:47.098012+00:00",
   "aday_sayilari": {
-    "canli": 26517,
+    "canli": 26616,
     "filmler": 0,
     "diziler": 0
   },
@@ -14,7 +14,7 @@
     {
       "tur": "canli",
       "kaynak": "Rüzgar",
-      "kayit": 26517
+      "kayit": 26616
     }
   ],
   "hatalar": [
@@ -76,7 +76,7 @@
     {
       "tur": "canli",
       "kaynak": "Mekan",
-      "hata": "<urlopen error timed out>"
+      "hata": "Kaynak boyut sınırını aştı"
     }
   ],
   "yalnizca_tr": true,
