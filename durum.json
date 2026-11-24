@@ -1,7 +1,7 @@
 {
-  "guncellendi_utc": "2026-11-24T19:16:19.651555+00:00",
+  "guncellendi_utc": "2026-11-24T22:38:52.250703+00:00",
   "aday_sayilari": {
-    "canli": 26615,
+    "canli": 26631,
     "filmler": 0,
     "diziler": 0
   },
@@ -14,7 +14,7 @@
     {
       "tur": "canli",
       "kaynak": "Rüzgar",
-      "kayit": 26615
+      "kayit": 26631
     }
   ],
   "hatalar": [
@@ -65,13 +65,13 @@
     },
     {
       "tur": "canli",
-      "kaynak": "Tom",
-      "hata": "HTTP Error 401: Unauthorized"
+      "kaynak": "falcon",
+      "hata": "HTTP Error 403: Forbidden"
     },
     {
       "tur": "canli",
-      "kaynak": "falcon",
-      "hata": "HTTP Error 403: Forbidden"
+      "kaynak": "Tom",
+      "hata": "HTTP Error 401: Unauthorized"
     },
     {
       "tur": "canli",
