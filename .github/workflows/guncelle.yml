@@ -1,4 +1,3 @@
-
 name: Medya Havuzu - TV Film Dizi
 
 on:
@@ -41,10 +40,8 @@ jobs:
 
           test -f guncelle.py
           test -f kaynaklar.json
-          test -f dizikorea.py
 
           python -m py_compile guncelle.py
-          python -m py_compile dizikorea.py
           python -m json.tool kaynaklar.json > /dev/null
 
           echo "Python ve JSON kontrolleri basarili."
@@ -52,11 +49,6 @@ jobs:
       - name: Listeleri guncelle
         run: |
           python -u guncelle.py
-
-      - name: DiziKorea listesini guncelle
-        continue-on-error: true
-        run: |
-          python -u dizikorea.py
 
       - name: Uretilen dosyalari goster
         if: always()
@@ -66,9 +58,7 @@ jobs:
             filmler.m3u \
             diziler.m3u \
             tum_icerikler.m3u \
-            durum.json \
-            dizikorea.m3u \
-            dizikorea.m3u.bak
+            durum.json
           do
             if [ -f "$file" ]; then
               echo "[VAR] $file"
@@ -90,9 +80,7 @@ jobs:
             filmler.m3u \
             diziler.m3u \
             tum_icerikler.m3u \
-            durum.json \
-            dizikorea.m3u \
-            dizikorea.m3u.bak
+            durum.json
           do
             if [ -f "$file" ]; then
               git add -- "$file"
@@ -104,8 +92,7 @@ jobs:
             exit 0
           fi
 
-          git commit -m "Medya havuzu ve DiziKorea listeleri guncellendi"
+          git commit -m "Medya havuzu listeleri guncellendi"
 
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-          
