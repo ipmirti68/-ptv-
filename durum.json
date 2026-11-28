@@ -1,7 +1,7 @@
 {
-  "guncellendi_utc": "2026-11-27T21:30:13.921078+00:00",
+  "guncellendi_utc": "2026-11-28T08:12:35.954387+00:00",
   "aday_sayilari": {
-    "canli": 26655,
+    "canli": 26656,
     "filmler": 0,
     "diziler": 0
   },
@@ -14,7 +14,7 @@
     {
       "tur": "canli",
       "kaynak": "Rüzgar",
-      "kayit": 26655
+      "kayit": 26656
     }
   ],
   "hatalar": [
